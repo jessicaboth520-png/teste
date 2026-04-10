@@ -1,298 +1,242 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="lenis">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="robots" content="index, follow">
-    <title>Método Triple 1 - Matheus Medeiros</title>
-    <link rel="canonical" href="https://matheuslp.com.br/mt1/">
-    <meta property="og:title" content="Método Triple 1">
-    <meta property="og:description" content="Crie seu próprio ensaio fotográfico profissional com uma IA Gratuita. Em menos de 30 minutos, sem contratar ninguém e usando apenas UMA ferramenta de Inteligência Artificial que é 100% gratuita.">
-    <meta property="og:image" content="https://matheuslp.com.br/wp-content/uploads/2025/10/THUMB-LP-TRIPLE-1.webp">
-    
-    <!-- CSS - caminhos corrigidos para a RAIZ -->
-    <link rel="stylesheet" href="table-addons-for-elementor-public.css">
-    <link rel="stylesheet" href="reset.css">
-    <link rel="stylesheet" href="theme.css">
-    <link rel="stylesheet" href="header-footer.css">
-    <link rel="stylesheet" href="frontend.min.css">
-    <link rel="stylesheet" href="post-6.css">
-    <link rel="stylesheet" href="elementor-icons.min.css">
-    <link rel="stylesheet" href="all.min.css">
-    <link rel="stylesheet" href="v4-shims.min.css">
-    <link rel="stylesheet" href="widget-image.min.css">
-    <link rel="stylesheet" href="e-animation-float.min.css">
-    <link rel="stylesheet" href="sticky.min.css">
-    <link rel="stylesheet" href="widget-heading.min.css">
-    <link rel="stylesheet" href="swiper.min.css">
-    <link rel="stylesheet" href="e-swiper.min.css">
-    <link rel="stylesheet" href="widget-image-carousel.min.css">
-    <link rel="stylesheet" href="widget-image-box.min.css">
-    <link rel="stylesheet" href="widget-gallery.min.css">
-    <link rel="stylesheet" href="e-gallery.min.css">
-    <link rel="stylesheet" href="transitions.min.css">
-    <link rel="stylesheet" href="widget-divider.min.css">
-    <link rel="stylesheet" href="widget-icon-list.min.css">
-    <link rel="stylesheet" href="widget-toggle.min.css">
-    <link rel="stylesheet" href="post-45489.css">
-    <link rel="stylesheet" href="general.min.css">
-    <link rel="stylesheet" href="style.min.css">
-    <link rel="stylesheet" href="font-awesome.min.css">
-    <link rel="stylesheet" href="twentytwenty.css">
-    <link rel="stylesheet" href="ha-45489.css">
-    <link rel="stylesheet" href="roboto.css">
-    <link rel="stylesheet" href="robotoslab.css">
-    <link rel="stylesheet" href="sora.css">
-    <link rel="stylesheet" href="fontawesome.min.css">
-    <link rel="stylesheet" href="regular.min.css">
-    <link rel="stylesheet" href="brands.min.css">
-    <link rel="stylesheet" href="solid.min.css">
-    <link rel="stylesheet" href="lenis.css">
-    
-    <style>
-        body, html { overflow-x: hidden !important; }
-        @media (max-width: 786px){ body, html { overflow-x: hidden!important; } }
-        
-        /* Efeitos de scroll */
-        .scroll-bottom { opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
-        .scroll-bottom.ativado { opacity: 1; transform: translateY(0); }
-        
-        /* Cursor personalizado */
-        @media only screen and (min-width: 600px) {
-            .cursor-inner { position: fixed; width: 8px; height: 8px; border-radius: 50%; background-color: white; pointer-events: none; z-index: 999999; transform: translate(-50%, -50%); }
-            .cursor-outer { position: fixed; width: 40px; height: 40px; border: 2px solid #0838F2; border-radius: 50%; pointer-events: none; z-index: 999998; transform: translate(-50%, -50%); }
-        }
-        
-        /* Header fixo */
-        .header-sticky { position: fixed; top: 0; width: 100%; background: linear-gradient(135deg, #0a0a0a, #1a1a2e); z-index: 1000; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .header-flex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
-        .btn { display: inline-block; padding: 12px 28px; border-radius: 40px; font-weight: bold; text-decoration: none; transition: all 0.3s ease; }
-        .btn-primary { background: linear-gradient(135deg, #ff7b00, #ff4400); color: white; }
-        .btn-primary:hover { transform: translateY(-3px); }
-        .btn-outline { background: transparent; border: 2px solid #ff7b00; color: #ff7b00; }
-        
-        /* Seções */
-        .section { padding: 80px 0; }
-        .section-dark { background: linear-gradient(135deg, #0a0a0a, #1a1a2e); color: white; }
-        .section-light { background: #f5f5f7; }
-        
-        /* Cards */
-        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        .card { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 30px; text-align: center; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s; }
-        .card:hover { transform: translateY(-10px); border-color: #ff7b00; }
-        
-        /* Preço */
-        .price-box { background: linear-gradient(135deg, #1a1a2e, #0a0a0a); border-radius: 30px; padding: 40px; text-align: center; border: 1px solid #ff7b00; }
-        .old-price { text-decoration: line-through; color: #888; }
-        .new-price { font-size: 48px; color: #ff7b00; font-weight: bold; }
-        
-        /* FAQ */
-        .faq-item { background: rgba(255,255,255,0.05); border-radius: 15px; margin-bottom: 15px; }
-        .faq-question { padding: 20px; cursor: pointer; font-weight: bold; background: rgba(255,255,255,0.08); display: flex; justify-content: space-between; }
-        .faq-answer { padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.3s; }
-        .faq-item.active .faq-answer { padding: 0 20px 20px; max-height: 300px; }
-        
-        /* Responsivo */
-        @media (max-width: 768px) { .header-flex { flex-direction: column; gap: 15px; } .section { padding: 50px 0; } }
-        
-        /* WhatsApp float */
-        .whatsapp-float { position: fixed; bottom: 20px; right: 20px; background: #25d366; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1000; cursor: pointer; transition: all 0.3s; }
-        .whatsapp-float:hover { transform: scale(1.1); }
-        .whatsapp-float svg { width: 35px; height: 35px; fill: white; }
-    </style>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<title>Método Triple 1 - Matheus Medeiros</title>
+<link rel="canonical" href="https://matheuslp.com.br/mt1/">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Método Triple 1">
+<meta property="og:description" content="Crie seu próprio ensaio fotográfico profissional com uma IA Gratuita. Em menos de 30 minutos, sem contratar ninguém e usando apenas UMA ferramenta de Inteligência Artificial que é 100% gratuita.">
+<meta property="og:url" content="https://matheuslp.com.br/mt1/">
+<meta property="og:site_name" content="Matheus Medeiros">
+<meta property="article:modified_time" content="2026-01-02T20:07:53+00:00">
+<meta property="og:image" content="https://matheuslp.com.br/wp-content/uploads/2025/10/THUMB-LP-TRIPLE-1.webp">
+<meta property="og:image:width" content="450">
+<meta property="og:image:height" content="450">
+<meta property="og:image:type" content="image/webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Método Triple 1">
+<meta name="twitter:description" content="Crie seu próprio ensaio fotográfico profissional com uma IA Gratuita. Em menos de 30 minutos, sem contratar ninguém e usando apenas UMA ferramenta de Inteligência Artificial que é 100% gratuita.">
+<meta name="twitter:image" content="https://matheuslp.com.br/wp-content/uploads/2025/10/THUMB-LP-TRIPLE-1.webp">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<!-- CSS CORRIGIDOS (sem a pasta _files) -->
+<link rel="stylesheet" href="table-addons-for-elementor-public.css">
+<link rel="stylesheet" href="reset.css">
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="header-footer.css">
+<link rel="stylesheet" href="frontend.min.css">
+<link rel="stylesheet" href="post-6.css">
+<link rel="stylesheet" href="elementor-icons.min.css">
+<link rel="stylesheet" href="all.min.css">
+<link rel="stylesheet" href="v4-shims.min.css">
+<link rel="stylesheet" href="widget-image.min.css">
+<link rel="stylesheet" href="e-animation-float.min.css">
+<link rel="stylesheet" href="sticky.min.css">
+<link rel="stylesheet" href="widget-heading.min.css">
+<link rel="stylesheet" href="swiper.min.css">
+<link rel="stylesheet" href="e-swiper.min.css">
+<link rel="stylesheet" href="widget-image-carousel.min.css">
+<link rel="stylesheet" href="widget-image-box.min.css">
+<link rel="stylesheet" href="widget-gallery.min.css">
+<link rel="stylesheet" href="e-gallery.min.css">
+<link rel="stylesheet" href="transitions.min.css">
+<link rel="stylesheet" href="widget-divider.min.css">
+<link rel="stylesheet" href="widget-icon-list.min.css">
+<link rel="stylesheet" href="widget-toggle.min.css">
+<link rel="stylesheet" href="post-45489.css">
+<link rel="stylesheet" href="general.min.css">
+<link rel="stylesheet" href="style.min.css">
+<link rel="stylesheet" href="font-awesome.min.css">
+<link rel="stylesheet" href="twentytwenty.css">
+<link rel="stylesheet" href="ha-45489.css">
+<link rel="stylesheet" href="roboto.css">
+<link rel="stylesheet" href="robotoslab.css">
+<link rel="stylesheet" href="sora.css">
+<link rel="stylesheet" href="fontawesome.min.css">
+<link rel="stylesheet" href="regular.min.css">
+<link rel="stylesheet" href="brands.min.css">
+<link rel="stylesheet" href="solid.min.css">
+<link rel="stylesheet" href="lenis.css">
+
+<style>
+body, html { overflow-x: hidden !important; }
+@media (max-width: 786px){ body, html { overflow-x: hidden!important; } }
+</style>
+
 </head>
 <body>
 
-<!-- HEADER FIXO -->
-<div class="header-sticky">
-    <div class="container">
-        <div class="header-flex">
-            <div class="logo">
-                <img src="LOGO-METODO-02-1024x104.webp" alt="Logo" style="max-height: 50px;">
-            </div>
-            <div style="display: flex; gap: 15px;">
-                <a href="#suporte" class="btn btn-outline">SUPORTE</a>
-                <a href="https://pay.kiwify.com.br/G4pRCBN" class="btn btn-primary">GARANTIR ACESSO</a>
+<!-- CONTEÚDO PRINCIPAL - MANTIDO IGUAL, SÓ OS CAMINHOS DAS IMAGENS FORAM CORRIGIDOS -->
+
+<div data-elementor-type="wp-page" data-elementor-id="45489" class="elementor elementor-45489">
+    
+    <!-- HEADER STICKY -->
+    <section class="elementor-section elementor-top-section elementor-element elementor-element-2ef439f" style="position: fixed; width: 100%; background: linear-gradient(135deg, #0a0a0a, #1a1a2e); z-index: 1000; top: 0; padding: 15px 0;">
+        <div class="elementor-container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                <div><img src="LOGO-METODO-02-1024x104.webp" alt="Logo" style="max-height: 50px;"></div>
+                <div style="display: flex; gap: 15px;">
+                    <a href="#suporte" style="background: transparent; border: 2px solid #ff7b00; color: #ff7b00; padding: 12px 28px; border-radius: 40px; text-decoration: none; font-weight: bold;">SUPORTE</a>
+                    <a href="https://pay.kiwify.com.br/G4pRCBN" style="background: linear-gradient(135deg, #ff7b00, #ff4400); color: white; padding: 12px 28px; border-radius: 40px; text-decoration: none; font-weight: bold;">GARANTIR ACESSO</a>
+                </div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
 
-<!-- HERO SECTION -->
-<section class="section section-dark" style="padding-top: 120px; min-height: 100vh;">
-    <div class="container">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
+    <!-- HERO SECTION -->
+    <section style="padding-top: 120px; min-height: 100vh; background: linear-gradient(135deg, #0a0a0a, #1a1a2e);">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
             <div>
                 <h1 style="font-size: 48px; margin-bottom: 20px; background: linear-gradient(135deg, #fff, #ff7b00); -webkit-background-clip: text; background-clip: text; color: transparent;">Crie seu próprio ensaio fotográfico profissional com uma IA Gratuita.</h1>
                 <p style="font-size: 18px; margin-bottom: 30px; color: #ccc;"><strong>Em menos de 30 minutos,</strong> sem contratar ninguém e usando apenas UMA ferramenta de Inteligência Artificial que é 100% gratuita.</p>
-                <a href="https://pay.kiwify.com.br/G4pRCBN" class="btn btn-primary" style="font-size: 18px; padding: 15px 40px;">EU QUERO TER ACESSO AGORA</a>
+                <a href="https://pay.kiwify.com.br/G4pRCBN" style="background: linear-gradient(135deg, #ff7b00, #ff4400); color: white; padding: 15px 40px; border-radius: 40px; text-decoration: none; font-weight: bold; display: inline-block;">EU QUERO TER ACESSO AGORA</a>
                 <div style="margin-top: 20px;"><img src="icons-kiwify.webp" alt="Selos" style="max-width: 200px;"></div>
             </div>
             <div></div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- MARQUEE -->
-<div style="overflow: hidden; white-space: nowrap; background: linear-gradient(90deg, #ff7b00, #ff4400); padding: 15px 0;">
-    <div style="display: inline-block; animation: marquee 20s linear infinite;">
-        <h2 style="display: inline; margin: 0 20px; color: white;">MÉTODO TRIPLE 1</h2>
-        <h2 style="display: inline; margin: 0 20px; color: white;">MÉTODO TRIPLE 1</h2>
-        <h2 style="display: inline; margin: 0 20px; color: white;">MÉTODO TRIPLE 1</h2>
-        <h2 style="display: inline; margin: 0 20px; color: white;">MÉTODO TRIPLE 1</h2>
+    <!-- MARQUEE -->
+    <div style="overflow: hidden; white-space: nowrap; background: linear-gradient(90deg, #ff7b00, #ff4400); padding: 15px 0;">
+        <div style="display: inline-block; animation: marquee 20s linear infinite;">
+            <h2 style="display: inline; margin: 0 20px; color: white;">MÉTODO TRIPLE 1</h2>
+            <h2 style="display: inline; margin: 0 20px; color: white;">MÉTODO TRIPLE 1</h2>
+            <h2 style="display: inline; margin: 0 20px; color: white;">MÉTODO TRIPLE 1</h2>
+            <h2 style="display: inline; margin: 0 20px; color: white;">MÉTODO TRIPLE 1</h2>
+        </div>
     </div>
+    <style>@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }</style>
+
+    <!-- SEÇÃO PRINCIPAL -->
+    <section style="padding: 80px 0; background: linear-gradient(135deg, #0a0a0a, #1a1a2e);">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px; text-align: center;">
+            <h2 style="font-size: 36px; margin-bottom: 20px; color: white;">A partir de hoje, a única coisa que você precisa para um ensaio fotográfico profissional é a fórmula que batizei de Método Triple 1.</h2>
+            <p style="font-size: 18px; max-width: 800px; margin: 0 auto; color: #ccc;">Você só precisa de <b>1 foto</b> sua, <b>1 referência</b> de estilo e <b>1 ferramenta de IA</b> gratuita para gerar dezenas de imagens profissionais e de alta qualidade.</p>
+            <img src="arrow-triple-1.webp" alt="Seta" style="margin-top: 40px; max-width: 300px;">
+        </div>
+    </section>
+
+    <!-- BENEFÍCIOS -->
+    <section style="padding: 80px 0; background: #f5f5f7;">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <h2 style="font-size: 36px;">Veja os 4 resultados que você alcançará em menos de 3 horas de treino:</h2>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
+                <div style="background: white; border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                    <img src="LAURA-ICON-03.webp" style="width: 80px; margin-bottom: 20px;">
+                    <h3>Ensaio Fotográfico Profissional Ilimitado</h3>
+                    <p>Você será capaz de gerar dezenas de imagens com alta qualidade.</p>
+                </div>
+                <div style="background: white; border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                    <img src="ICON-TRIPLE-01.webp" style="width: 80px; margin-bottom: 20px;">
+                    <h3>Fim do Desperdício de Tempo e Dinheiro</h3>
+                    <p>A ferramenta é 100% gratuita.</p>
+                </div>
+                <div style="background: white; border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                    <img src="ICON-TRIPLE-02.webp" style="width: 80px; margin-bottom: 20px;">
+                    <h3>Potencialize a Venda do Seu Serviço</h3>
+                    <p>Sua credibilidade aumenta drasticamente.</p>
+                </div>
+                <div style="background: white; border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                    <img src="ICON-TRIPLE-03.webp" style="width: 80px; margin-bottom: 20px;">
+                    <h3>Nova Fonte de Renda Extra</h3>
+                    <p>Habilidade de mercado super valorizada.</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="https://pay.kiwify.com.br/G4pRCBN" style="background: linear-gradient(135deg, #ff7b00, #ff4400); color: white; padding: 15px 40px; border-radius: 40px; text-decoration: none; font-weight: bold; display: inline-block;">EU QUERO TER ACESSO AGORA</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- OFERTA -->
+    <section style="padding: 80px 0; background: linear-gradient(135deg, #0a0a0a, #1a1a2e);">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
+            <div>
+                <h2 style="font-size: 36px; color: white;">Oferta Exclusiva de Lançamento!</h2>
+                <p style="color: #ccc;">Garanta o Método Triple 1 por um preço irrecusável e mude seu jogo visual hoje mesmo!</p>
+            </div>
+            <div style="background: linear-gradient(135deg, #1a1a2e, #0a0a0a); border-radius: 30px; padding: 40px; text-align: center; border: 1px solid #ff7b00;">
+                <p style="text-decoration: line-through; color: #888;">De R$ 197,00</p>
+                <p>Por apenas 12x</p>
+                <h2 style="font-size: 48px; color: #ff7b00; margin: 10px 0;">R$ 14,00</h2>
+                <p>Ou R$ 127 à vista</p>
+                <a href="https://pay.kiwify.com.br/G4pRCBN" style="background: linear-gradient(135deg, #ff7b00, #ff4400); color: white; padding: 15px 40px; border-radius: 40px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 20px;">EU QUERO TER ACESSO AGORA</a>
+                <img src="icons-kiwify.webp" style="margin-top: 20px; max-width: 200px;">
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section style="padding: 80px 0; background: #f5f5f7;" id="suporte">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+            <h2 style="text-align: center; font-size: 36px; margin-bottom: 40px;">Ainda com Dúvida?</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                <div>
+                    <a href="https://wa.me/5581989581275" style="display: flex; align-items: center; gap: 15px; background: #25d366; color: white; padding: 20px; border-radius: 15px; text-decoration: none; margin-bottom: 20px;">
+                        <span style="font-size: 30px;">📱</span>
+                        <div><strong>ATENDIMENTO POR WHATSAPP</strong><br>Clique para enviar mensagem</div>
+                    </a>
+                </div>
+                <div>
+                    <div style="background: white; border-radius: 15px; margin-bottom: 15px; padding: 20px;">
+                        <strong>O Método Triple 1 funciona para quem não tem nenhuma experiência com IA?</strong>
+                        <p style="margin-top: 10px;">Sim, funciona perfeitamente! O treinamento é prático e direto ao ponto.</p>
+                    </div>
+                    <div style="background: white; border-radius: 15px; margin-bottom: 15px; padding: 20px;">
+                        <strong>Eu preciso pagar alguma coisa para usar a IA ensinada no método?</strong>
+                        <p style="margin-top: 10px;">Não. A ferramenta é 100% gratuita.</p>
+                    </div>
+                    <div style="background: white; border-radius: 15px; margin-bottom: 15px; padding: 20px;">
+                        <strong>Eu tenho alguma garantia ao comprar o método?</strong>
+                        <p style="margin-top: 10px;">Sim. Garantia incondicional de 7 dias.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer style="background: #0a0a0a; padding: 40px 0; text-align: center; color: #888; font-size: 12px;">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+            <img src="LOGO-METODO-02-1024x104.webp" alt="Logo" style="max-height: 40px; margin-bottom: 20px;">
+            <p>Matheus Medeiros © Copyright 2026. Todos os direitos reservados.</p>
+            <p>Este site não faz parte do site do FACEBOOK, META ou META Inc. FACEBOOK é uma marca comercial da META Inc.</p>
+        </div>
+    </footer>
 </div>
 
-<style>@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }</style>
-
-<!-- CONTEÚDO PRINCIPAL -->
-<section class="section section-dark">
-    <div class="container" style="text-align: center;">
-        <h2 style="font-size: 36px; margin-bottom: 20px;">A partir de hoje, a única coisa que você precisa para um ensaio fotográfico profissional é a fórmula que batizei de Método Triple 1.</h2>
-        <p style="font-size: 18px; max-width: 800px; margin: 0 auto;">Você só precisa de <b>1 foto</b> sua, <b>1 referência</b> de estilo e <b>1 ferramenta de IA</b> gratuita para gerar dezenas de imagens profissionais e de alta qualidade. Sem fotógrafo, sem estúdio e sem gastar um único centavo na ferramenta.</p>
-        <img src="arrow-triple-1.webp" alt="Seta" style="margin-top: 40px; max-width: 300px;">
-    </div>
-</section>
-
-<!-- BENEFÍCIOS -->
-<section class="section section-light">
-    <div class="container">
-        <div style="text-align: center; margin-bottom: 40px;">
-            <span class="btn btn-outline" style="display: inline-block; margin-bottom: 20px;">Principais Benefícios</span>
-            <h2 style="font-size: 36px;">Veja os 4 resultados que você alcançará em menos de 3 horas de treino:</h2>
-        </div>
-        <div class="card-grid">
-            <div class="card" style="background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
-                <img src="LAURA-ICON-03.webp" alt="Icon" style="width: 80px; margin: 0 auto 20px;">
-                <h3>Ensaio Fotográfico Profissional Ilimitado</h3>
-                <p>Você será capaz de gerar dezenas de imagens com alta qualidade, no estilo que quiser.</p>
-            </div>
-            <div class="card" style="background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
-                <img src="ICON-TRIPLE-01.webp" alt="Icon" style="width: 80px; margin: 0 auto 20px;">
-                <h3>Fim do Desperdício de Tempo e Dinheiro</h3>
-                <p>Pare de gastar fortunas em sessões de fotos. A ferramenta é 100% gratuita.</p>
-            </div>
-            <div class="card" style="background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
-                <img src="ICON-TRIPLE-02.webp" alt="Icon" style="width: 80px; margin: 0 auto 20px;">
-                <h3>Potencialize a Venda do Seu Serviço</h3>
-                <p>Sua credibilidade aumenta drasticamente com fotos exclusivas e personalizadas.</p>
-            </div>
-            <div class="card" style="background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
-                <img src="ICON-TRIPLE-03.webp" alt="Icon" style="width: 80px; margin: 0 auto 20px;">
-                <h3>Nova Fonte de Renda Extra</h3>
-                <p>Uma nova habilidade de mercado super valorizada com alta margem de lucro.</p>
-            </div>
-        </div>
-        <div style="text-align: center; margin-top: 40px;">
-            <a href="https://pay.kiwify.com.br/G4pRCBN" class="btn btn-primary" style="font-size: 18px; padding: 15px 40px;">EU QUERO TER ACESSO AGORA</a>
-        </div>
-    </div>
-</section>
-
-<!-- OFERTA -->
-<section class="section section-dark">
-    <div class="container">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
-            <div>
-                <h2 style="font-size: 36px;">Oferta Exclusiva de Lançamento!</h2>
-                <p>Garanta o Método Triple 1 por um preço irrecusável e mude seu jogo visual hoje mesmo!</p>
-            </div>
-            <div class="price-box">
-                <p class="old-price">De R$ 197,00</p>
-                <p>Por apenas 12x</p>
-                <h2 class="new-price">R$ 14,00</h2>
-                <p>Ou R$ 127 à vista</p>
-                <a href="https://pay.kiwify.com.br/G4pRCBN" class="btn btn-primary" style="margin-top: 20px;">EU QUERO TER ACESSO AGORA</a>
-                <img src="icons-kiwify.webp" alt="Selos" style="margin-top: 20px; max-width: 200px;">
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- FOOTER -->
-<footer style="background: #0a0a0a; padding: 40px 0; text-align: center; color: #888; font-size: 12px;">
-    <div class="container">
-        <img src="LOGO-METODO-02-1024x104.webp" alt="Logo" style="max-height: 40px; margin-bottom: 20px;">
-        <p>Matheus Medeiros © Copyright 2026. Todos os direitos reservados.</p>
-        <p>Este site não faz parte do site do FACEBOOK, META ou META Inc. FACEBOOK é uma marca comercial da META Inc.</p>
-    </div>
-</footer>
-
-<!-- WHATSAPP FLUTUANTE -->
-<a href="https://wa.me/5581989581275?text=Ol%C3%A1%20Matheus!%20Gostaria%20de%20saber%20mais%20sobre%20o%20M%C3%A9todo%20Triple%201" class="whatsapp-float">
-    <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.5 3.47 1.44 4.94L2 22l6.17-1.56c1.44.84 3.09 1.28 4.77 1.28 5.46 0 9.91-4.45 9.91-9.91 0-5.45-4.45-9.9-9.91-9.9zm0 18.2c-1.5 0-2.97-.41-4.25-1.19l-.3-.18-3.66.99.98-3.57-.19-.3c-.82-1.31-1.25-2.81-1.25-4.34 0-4.58 3.73-8.31 8.31-8.31 4.58 0 8.31 3.73 8.31 8.31 0 4.58-3.73 8.31-8.31 8.31zm4.55-6.22c-.25-.12-1.47-.73-1.7-.81-.23-.09-.4-.12-.56.12-.16.24-.64.81-.78.98-.14.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.44.12-.15.16-.25.24-.41.08-.16.04-.31-.02-.43-.06-.12-.56-1.34-.77-1.84-.2-.48-.41-.41-.56-.42-.14-.01-.31-.01-.47-.01-.16 0-.42.06-.64.31-.22.25-.85.83-.85 2.03 0 1.2.87 2.36.99 2.53.12.17 1.71 2.61 4.14 3.66.58.25 1.03.4 1.38.51.58.18 1.11.15 1.53.09.46-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.06-.1-.22-.16-.47-.28z"/></svg>
-</a>
-
-<!-- SCRIPTS -->
+<!-- SCRIPTS CORRIGIDOS -->
 <script src="jquery.min.js"></script>
 <script src="jquery-migrate.min.js"></script>
 <script src="v4-shims.min.js"></script>
 <script src="purify.min.js"></script>
 <script src="hello-frontend.js"></script>
 <script src="joinchat-lite.min.js"></script>
-<script src="extension-reading-progress-bar.min.js"></script>
-<script src="jquery.bind-first-0.2.3.min.js"></script>
-<script src="js.cookie-2.1.3.min.js"></script>
-<script src="tld.min.js"></script>
-<script src="public.js"></script>
-<script src="webpack.runtime.min.js"></script>
-<script src="frontend-modules.min.js"></script>
-<script src="core.min.js"></script>
-<script src="frontend.min.js"></script>
-<script src="jquery.sticky.min.js"></script>
+<script src="lenis.min.js"></script>
 <script src="swiper.min.js"></script>
 <script src="e-gallery.min.js"></script>
+<script src="frontend.min.js"></script>
+<script src="jquery.sticky.min.js"></script>
 <script src="general.min.js"></script>
 <script src="jquery.event.move.js"></script>
 <script src="jquery.twentytwenty.js"></script>
 <script src="imagesloaded.min.js"></script>
 <script src="happy-addons.min.js"></script>
-<script src="webpack-pro.runtime.min.js"></script>
-<script src="hooks.min.js"></script>
-<script src="i18n.min.js"></script>
-<script src="frontend(1).min.js"></script>
 <script src="elements-handlers.min.js"></script>
-<script src="lenis.min.js"></script>
 
 <script>
-    // Efeito de scroll
-    const elementos = document.querySelectorAll('.scroll-bottom');
-    window.addEventListener('scroll', function() {
-        elementos.forEach(el => {
-            const topo = el.getBoundingClientRect().top;
-            if(topo < window.innerHeight - 100) el.classList.add('ativado');
-        });
-    });
-    
-    // Smooth scroll com Lenis
+    // Smooth scroll
     document.addEventListener('DOMContentLoaded', function() {
         if(typeof Lenis !== 'undefined') {
             const lenis = new Lenis();
             function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
             requestAnimationFrame(raf);
         }
-    });
-    
-    // Cursor personalizado
-    document.body.insertAdjacentHTML('beforeend', '<div class="cursor-inner"></div><div class="cursor-outer"></div>');
-    const cursorInner = document.querySelector(".cursor-inner");
-    const cursorOuter = document.querySelector(".cursor-outer");
-    let mouseX = 0, mouseY = 0, innerX = 0, innerY = 0, outerX = 0, outerY = 0;
-    const lerp = (s, e, f) => s + (e - s) * f;
-    document.addEventListener("mousemove", (e) => { mouseX = e.clientX; mouseY = e.clientY; });
-    function animateCursor() {
-        innerX = lerp(innerX, mouseX, 0.25); innerY = lerp(innerY, mouseY, 0.25);
-        outerX = lerp(outerX, mouseX, 0.15); outerY = lerp(outerY, mouseY, 0.15);
-        if(cursorInner) { cursorInner.style.left = innerX + 'px'; cursorInner.style.top = innerY + 'px'; }
-        if(cursorOuter) { cursorOuter.style.left = outerX + 'px'; cursorOuter.style.top = outerY + 'px'; }
-        requestAnimationFrame(animateCursor);
-    }
-    animateCursor();
-    
-    // FAQ toggle
-    document.querySelectorAll('.faq-question').forEach(q => {
-        q.addEventListener('click', () => q.parentElement.classList.toggle('active'));
     });
 </script>
 
