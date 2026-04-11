@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Dentalis | Precision Oral Care</title>
-    <!-- Google Fonts Premium -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome 6 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- GSAP + ScrollTrigger -->
+    <title>Ana Beatriz — Psicologia para Mulheres</title>
+    <!-- Google Fonts: Inter (premium global) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <!-- GSAP Core + ScrollTrigger -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <style>
@@ -18,820 +16,597 @@
             box-sizing: border-box;
         }
 
+        /* ========== DESIGN SYSTEM PREMIUM GLOBAL ========== */
+        :root {
+            --primary: #A79277;
+            --primary-soft: rgba(167, 146, 119, 0.12);
+            --background: #FFF2E1;
+            --surface: #FFFFFF;
+            --text-primary: #1C1814;
+            --text-secondary: #7F6E5C;
+            --text-tertiary: #B7A591;
+            --border-subtle: rgba(167, 146, 119, 0.12);
+            --shadow-micro: 0 1px 2px rgba(0, 0, 0, 0.02);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.03);
+            --shadow-hover: 0 20px 35px -14px rgba(0, 0, 0, 0.04), 0 2px 6px rgba(0, 0, 0, 0.02);
+            --radius-card: 24px;
+            --radius-btn: 100px;
+            --space-8: 8px;
+            --space-16: 16px;
+            --space-24: 24px;
+            --space-32: 32px;
+            --space-48: 48px;
+            --space-64: 64px;
+            --space-80: 80px;
+            --space-120: 120px;
+            --transition-macro: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-micro: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
+        }
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background-color: #f9f9fb;
-            color: #1a1a1a;
-            overflow-x: hidden;
+            background-color: var(--background);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+            font-weight: 400;
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Paleta premium refinada */
-        :root {
-            --primary: #6a5cff;
-            --primary-light: #8f7cff;
-            --primary-dark: #5a4ce0;
-            --primary-soft: rgba(106, 92, 255, 0.08);
-            --primary-glow: rgba(106, 92, 255, 0.2);
-            --text: #1a1a1a;
-            --text-light: #555555;
-            --text-muted: #777777;
-            --gray-50: #f9f9fb;
-            --gray-100: #f0f0f4;
-            --gray-200: #e8e8ec;
-            --border-light: rgba(0, 0, 0, 0.06);
-            --shadow-sm: 0 8px 20px rgba(0, 0, 0, 0.04);
-            --shadow-md: 0 15px 35px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.12);
-            --shadow-xl: 0 35px 60px -20px rgba(0, 0, 0, 0.15);
-            --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.12);
-            --transition-smooth: cubic-bezier(0.25, 0.1, 0.2, 1);
-        }
-
-        /* Container profissional com max-width e padding consistente */
+        /* Grid refinado — respiração máxima */
         .container {
-            max-width: 1100px;
+            max-width: 1120px;
             margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Tipografia refinada */
-        h1 {
-            font-size: 48px;
-            font-weight: 700;
-            line-height: 1.1;
-            letter-spacing: -0.03em;
-        }
-
-        h2 {
-            font-size: 32px;
-            font-weight: 600;
-            line-height: 1.2;
-            letter-spacing: -0.02em;
-        }
-
-        h3 {
-            font-size: 20px;
-            font-weight: 600;
-            letter-spacing: -0.01em;
-        }
-
-        p {
-            font-size: 18px;
-            color: #555555;
-            line-height: 1.55;
+            padding: 0 var(--space-32);
         }
 
         section {
-            padding: 100px 0;
+            padding: var(--space-120) 0;
         }
 
-        /* Navbar premium */
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            padding: 20px 0;
-            backdrop-filter: blur(20px);
-            background: rgba(255, 255, 255, 0.92);
-            border-bottom: 1px solid var(--border-light);
-            transition: all 0.4s var(--transition-smooth);
+        @media (max-width: 768px) {
+            section {
+                padding: var(--space-80) 0;
+            }
+            .container {
+                padding: 0 var(--space-24);
+            }
         }
 
-        .nav-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* Tipografia — hierarquia forte e minimalista */
+        h1, h2, h3 {
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
         }
 
-        .logo {
-            font-family: 'Space Grotesk', monospace;
-            font-size: 1.6rem;
-            font-weight: 700;
+        h1 {
+            font-size: 4.8rem;
+            font-weight: 650;
             letter-spacing: -0.03em;
-            background: linear-gradient(135deg, #1a1a1a 0%, #6a5cff 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            line-height: 1.1;
+            margin-bottom: var(--space-24);
+            color: var(--text-primary);
+            max-width: 900px;
         }
 
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
+        h2 {
+            font-size: 2.8rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: var(--space-16);
+            color: var(--text-primary);
         }
 
-        .nav-links a {
-            text-decoration: none;
+        h3 {
+            font-size: 1.35rem;
             font-weight: 500;
-            font-size: 0.9rem;
+            margin-bottom: var(--space-12);
             letter-spacing: -0.01em;
-            color: #777777;
-            transition: color 0.3s var(--transition-smooth);
         }
 
-        .nav-links a:hover {
-            color: var(--primary);
+        .text-lead {
+            font-size: 1.25rem;
+            line-height: 1.5;
+            color: var(--text-secondary);
+            font-weight: 400;
+            max-width: 620px;
         }
 
-        /* Botões com hover elegante - transições refinadas */
+        .text-body {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: var(--text-secondary);
+        }
+
+        .text-small {
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+            letter-spacing: 0.01em;
+        }
+
+        /* Botões — hierarquia clara, transição ultra-suave */
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-16);
+            margin-top: var(--space-32);
+        }
+
         .btn-primary {
             background: var(--primary);
             color: white;
             border: none;
-            padding: 12px 28px;
-            border-radius: 48px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            letter-spacing: -0.01em;
+            padding: 12px 32px;
+            border-radius: var(--radius-btn);
+            font-weight: 500;
+            font-size: 0.95rem;
             cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .btn-primary:hover::before {
-            left: 100%;
+            transition: var(--transition-micro);
+            letter-spacing: -0.01em;
+            backdrop-filter: blur(0px);
+            box-shadow: var(--shadow-micro);
         }
 
         .btn-primary:hover {
-            transform: translateY(-3px) scale(1.04);
-            box-shadow: 0 20px 40px rgba(106, 92, 255, 0.3);
-            background: var(--primary-light);
+            background: #917A60;
+            transform: scale(1.02);
+            box-shadow: var(--shadow-hover);
         }
 
-        .btn-outline {
+        .btn-secondary {
             background: transparent;
-            border: 1.5px solid rgba(0,0,0,0.12);
-            color: var(--text);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-primary);
             padding: 12px 28px;
-            border-radius: 48px;
+            border-radius: var(--radius-btn);
             font-weight: 500;
-            font-size: 0.9rem;
-            text-decoration: none;
-            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition-micro);
         }
 
-        .btn-outline:hover {
-            transform: translateY(-2px) scale(1.02);
+        .btn-secondary:hover {
             border-color: var(--primary);
             background: var(--primary-soft);
-            color: var(--primary);
-            box-shadow: 0 10px 25px rgba(106, 92, 255, 0.1);
+            transform: scale(1.01);
         }
 
-        /* Hero Section */
-        .hero {
-            padding-top: 140px;
-            padding-bottom: 100px;
-            background: #f9f9fb;
-            position: relative;
-        }
-
-        .hero-grid {
+        /* Cards — extremamente limpos, espaço como separador */
+        .grid-benefits, .grid-signs, .grid-steps, .grid-testimonials {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--space-48);
+            margin-top: var(--space-64);
         }
 
-        .hero-badge {
-            display: inline-block;
-            background: var(--primary-soft);
-            padding: 6px 16px;
-            border-radius: 100px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: -0.2px;
-            color: var(--primary);
-            margin-bottom: 24px;
-        }
-
-        .hero h1 {
-            margin-bottom: 24px;
-        }
-
-        .hero p {
-            margin-bottom: 32px;
-            max-width: 90%;
-        }
-
-        .hero-actions {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-
-        .hero-image img {
-            width: 100%;
-            border-radius: 32px;
-            box-shadow: var(--shadow-xl);
-            transition: all 0.5s var(--transition-smooth);
-        }
-
-        .hero-image img:hover {
-            transform: scale(1.02);
-            box-shadow: 0 45px 70px -25px rgba(0,0,0,0.2);
-        }
-
-        /* Seção Label e Títulos */
-        .section-label {
-            text-align: center;
-            margin-bottom: 16px;
-        }
-
-        .section-label span {
-            background: var(--primary-soft);
-            padding: 6px 16px;
-            border-radius: 100px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--primary);
-            letter-spacing: -0.2px;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 16px;
-        }
-
-        .section-subtitle {
-            text-align: center;
-            color: #777777;
-            max-width: 600px;
-            margin: 0 auto 56px auto;
-            font-size: 18px;
-        }
-
-        /* Grid de Benefícios */
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-            margin-top: 20px;
-        }
-
-        .benefit-card {
-            text-align: center;
-            padding: 32px 24px;
-            background: white;
-            border-radius: 28px;
-            transition: all 0.4s ease;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border-light);
-        }
-
-        .benefit-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-lg);
-            border-color: transparent;
-        }
-
-        .benefit-icon {
-            font-size: 2.8rem;
-            color: var(--primary);
-            margin-bottom: 24px;
-            display: inline-block;
-            transition: transform 0.3s ease;
-        }
-
-        .benefit-card:hover .benefit-icon {
-            transform: scale(1.08);
-        }
-
-        .benefit-card h3 {
-            margin-bottom: 12px;
-        }
-
-        .benefit-card p {
-            font-size: 16px;
-            color: #777777;
-        }
-
-        /* Grid de Serviços */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
-        }
-
-        .service-card {
-            background: white;
-            border-radius: 24px;
-            padding: 28px 20px;
-            transition: all 0.4s ease;
-            border: 1px solid var(--border-light);
+        .card-premium {
+            background: var(--surface);
+            border-radius: var(--radius-card);
+            padding: var(--space-32);
+            transition: var(--transition-macro);
+            border: 1px solid var(--border-subtle);
             box-shadow: var(--shadow-sm);
         }
 
-        .service-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-hover);
-            border-color: transparent;
-        }
-
-        .service-icon {
-            font-size: 2.2rem;
-            color: var(--primary);
-            margin-bottom: 20px;
-            display: block;
-            transition: transform 0.3s ease;
-        }
-
-        .service-card:hover .service-icon {
-            transform: scale(1.05);
-        }
-
-        .service-card h3 {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-
-        .service-card p {
-            font-size: 14px;
-            color: #777777;
-            line-height: 1.5;
-        }
-
-        /* Depoimentos */
-        .testimonials {
-            background: white;
-        }
-
-        .testimonial-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-        }
-
-        .testimonial-card {
-            background: #f9f9fb;
-            border-radius: 28px;
-            padding: 32px;
-            transition: all 0.4s ease;
-            border: 1px solid var(--border-light);
-        }
-
-        .testimonial-card:hover {
+        .card-premium:hover {
             transform: translateY(-6px);
-            box-shadow: var(--shadow-md);
-            background: white;
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(167, 146, 119, 0.2);
         }
 
-        .testimonial-rating {
-            margin-bottom: 20px;
+        .icon-symbol {
+            font-size: 2rem;
+            margin-bottom: var(--space-24);
+            opacity: 0.7;
+            letter-spacing: 0;
         }
 
-        .testimonial-rating i {
-            color: #ffb800;
-            font-size: 14px;
-            margin-right: 3px;
+        /* Depoimentos refinados */
+        .testimonial-card {
+            background: var(--surface);
+            border-radius: var(--radius-card);
+            padding: var(--space-40) var(--space-36);
+            border: 1px solid var(--border-subtle);
+            transition: var(--transition-micro);
         }
 
         .testimonial-text {
-            font-size: 16px;
-            line-height: 1.55;
-            color: #555555;
-            margin-bottom: 24px;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            color: var(--text-primary);
+            font-weight: 450;
+            margin-bottom: var(--space-24);
         }
 
         .testimonial-author {
-            font-weight: 700;
-            font-size: 15px;
-            color: #1a1a1a;
+            font-weight: 500;
+            color: var(--primary);
+            font-size: 0.9rem;
         }
 
-        .testimonial-role {
-            font-size: 13px;
-            color: #777777;
-            margin-top: 4px;
+        /* Separadores invisíveis — espaço puro */
+        hr {
+            border: none;
+            height: 1px;
+            background: var(--border-subtle);
+            margin: 0;
         }
 
-        /* CTA Premium */
-        .cta-premium {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2e 100%);
-            border-radius: 48px;
-            padding: 64px 56px;
-            text-align: center;
+        /* Trust bar minimal */
+        .trust-strip {
+            padding: var(--space-48) 0 var(--space-32);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        .trust-items {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: var(--space-32);
+            opacity: 0.55;
+        }
+        .trust-item {
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-secondary);
+        }
+
+        /* Rodapé ultra minimal */
+        footer {
+            padding: var(--space-64) 0 var(--space-48);
+            border-top: 1px solid var(--border-subtle);
+        }
+        .footer-inner {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: var(--space-48);
+        }
+        .footer-col p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-8);
+        }
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+        .footer-link:hover {
+            color: var(--primary);
+        }
+
+        /* Hero com parallax ultra sutil */
+        .hero-section {
             position: relative;
             overflow: hidden;
-            transition: all 0.4s ease;
         }
-
-        .cta-premium::before {
-            content: '';
+        .hero-visual {
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 50%, rgba(106, 92, 255, 0.12), transparent 70%);
+            top: -5%;
+            right: -5%;
+            width: 55%;
+            height: 110%;
+            background-image: url('https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=1200&auto=format');
+            background-size: cover;
+            background-position: center 25%;
+            opacity: 0.07;
+            filter: blur(3px);
             pointer-events: none;
+            border-radius: 56px;
         }
 
-        .cta-premium h2 {
-            color: white;
-            margin-bottom: 16px;
-        }
-
-        .cta-premium p {
-            color: rgba(255,255,255,0.75);
-            margin-bottom: 32px;
-        }
-
-        .cta-premium .btn-primary {
-            background: white;
-            color: #1a1a1a;
-            box-shadow: none;
-        }
-
-        .cta-premium .btn-primary:hover {
-            transform: translateY(-3px) scale(1.04);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            background: white;
-        }
-
-        /* WhatsApp Float */
-        .btn-whatsapp-float {
-            position: fixed;
-            bottom: 28px;
-            right: 28px;
-            background: #25D366;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.6rem;
-            color: white;
-            box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35);
-            z-index: 100;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .btn-whatsapp-float:hover {
-            transform: translateY(-3px) scale(1.08);
-            background: #20b359;
-            box-shadow: 0 15px 35px rgba(37, 211, 102, 0.45);
-        }
-
-        /* Footer */
-        footer {
-            border-top: 1px solid var(--border-light);
-            padding: 48px 0;
-            text-align: center;
-            color: #777777;
-            font-size: 14px;
-            background: #f9f9fb;
-        }
-
-        /* Responsivo */
-        @media (max-width: 1024px) {
-            .services-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-            }
-            .benefits-grid {
-                gap: 30px;
-            }
-            h1 { font-size: 40px; }
-            h2 { font-size: 28px; }
-            section { padding: 80px 0; }
-        }
-
+        /* Responsividade elegante */
         @media (max-width: 860px) {
-            .hero-grid {
-                grid-template-columns: 1fr;
+            h1 { font-size: 3.5rem; }
+            h2 { font-size: 2.3rem; }
+            .text-lead { font-size: 1.1rem; }
+            .grid-benefits, .grid-signs, .grid-steps, .grid-testimonials {
+                gap: var(--space-32);
+            }
+        }
+        @media (max-width: 600px) {
+            h1 { font-size: 2.6rem; }
+            h2 { font-size: 2rem; }
+            .btn-group {
+                flex-direction: column;
+                width: 100%;
+            }
+            .btn-primary, .btn-secondary {
                 text-align: center;
-                gap: 48px;
+                width: 100%;
             }
-            .hero p {
-                max-width: 100%;
+            .card-premium {
+                padding: var(--space-24);
             }
-            .hero-actions {
-                justify-content: center;
+            .testimonial-card {
+                padding: var(--space-28);
             }
-            .nav-links {
-                display: none;
-            }
-            .navbar .btn-primary {
-                display: none;
-            }
-            .benefits-grid, .testimonial-grid {
-                grid-template-columns: 1fr;
-            }
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-            .cta-premium {
-                padding: 48px 32px;
-            }
-            .cta-premium h2 {
-                font-size: 28px;
-            }
-            section {
-                padding: 60px 0;
-            }
-            .hero {
-                padding-top: 120px;
+            .hero-visual {
+                opacity: 0.04;
+                width: 80%;
             }
         }
 
-        @media (max-width: 580px) {
-            .container {
-                padding: 0 20px;
-            }
-            h1 { font-size: 32px; }
-            h2 { font-size: 24px; }
-            p { font-size: 16px; }
-            .cta-premium {
-                padding: 40px 24px;
-            }
+        /* reveal classes para scroll (performance pura) */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(24px);
+            will-change: transform, opacity;
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <div class="logo">dentalis</div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#beneficios">Benefits</a></li>
-                <li><a href="#servicos">Services</a></li>
-                <li><a href="#depoimentos">Testimonials</a></li>
-            </ul>
-            <a href="#contato" class="btn-primary" style="padding: 10px 24px;">Book now <i class="fas fa-arrow-right"></i></a>
+<main>
+    <!-- Hero Section — Cinematográfico premium -->
+    <section class="hero-section" style="padding-bottom: var(--space-80); padding-top: 100px;">
+        <div class="hero-visual"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 id="hero-title">Você não precisa enfrentar seus desafios sozinha.</h1>
+                <div class="text-lead" id="hero-sub" style="margin-bottom: 12px;">Acolhimento psicológico para mulheres que buscam se reconectar com seu bem-estar emocional.</div>
+                <div class="text-body" id="hero-desc" style="color: var(--text-tertiary); margin-top: 8px;">Atendimento online e presencial com sigilo, empatia e embasamento científico.</div>
+                <div class="btn-group" id="hero-cta">
+                    <button class="btn-primary" onclick="handleWhatsApp()">Conversa gratuita</button>
+                    <button class="btn-secondary" onclick="handleWhatsApp()">WhatsApp</button>
+                </div>
+            </div>
         </div>
-    </nav>
+    </section>
 
-    <a href="https://wa.me/5511999999999?text=Hello%2C%20I%27d%20like%20to%20schedule%20a%20consultation" class="btn-whatsapp-float" target="_blank" rel="noopener">
-        <i class="fab fa-whatsapp"></i>
-    </a>
+    <!-- Trust / credibilidade — sem ruído visual -->
+    <div class="container trust-strip">
+        <div class="trust-items">
+            <span class="trust-item">CRP 00.000</span>
+            <span class="trust-item">+8 anos experiência</span>
+            <span class="trust-item">TCC especializada</span>
+            <span class="trust-item">Sigilo absoluto</span>
+            <span class="trust-item">Atendimento humanizado</span>
+        </div>
+    </div>
 
-    <main>
-        <!-- Hero Section -->
-        <section id="home" class="hero">
-            <div class="container hero-grid">
-                <div class="hero-content">
-                    <div class="hero-badge">Precision oral care</div>
-                    <h1>Where technology meets your smile</h1>
-                    <p>Premium dental clinic with digital intelligence, absolute comfort, and life-changing results.</p>
-                    <div class="hero-actions">
-                        <a href="#contato" class="btn-primary">Free consultation <i class="fas fa-calendar-week"></i></a>
-                        <a href="#servicos" class="btn-outline">Explore services</a>
-                    </div>
+    <!-- Quem sou eu — tom íntimo e elegante -->
+    <section>
+        <div class="container">
+            <div class="fade-up" style="max-width: 780px;">
+                <h2>Dra. Ana Beatriz</h2>
+                <div class="text-lead" style="margin-bottom: var(--space-24); font-weight: 450;">Psicóloga clínica, especialista em saúde da mulher, ansiedade e autoestima.</div>
+                <div class="text-body" style="border-left: 2px solid var(--primary); padding-left: var(--space-24); font-style: normal; margin-bottom: var(--space-32);">
+                    “Acredito que cada mulher tem dentro de si uma força imensa, mas às vezes precisamos de ajuda para enxergá-la. Meu papel é caminhar ao seu lado, com ferramentas reais para transformar sua relação com você mesma.”
                 </div>
-                <div class="hero-image">
-                    <img src="https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=600&h=500&fit=crop" alt="Modern dental clinic" style="object-fit:cover; width:100%; height:auto;">
+                <div style="display: flex; flex-wrap: wrap; gap: var(--space-32);">
+                    <div><span style="font-weight: 500;">—</span> Terapia Cognitivo-Comportamental</div>
+                    <div><span style="font-weight: 500;">—</span> Atendimento personalizado</div>
+                    <div><span style="font-weight: 500;">—</span> Abordagem sem julgamentos</div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Benefícios -->
-        <section id="beneficios">
-            <div class="container">
-                <div class="section-label">
-                    <span>Why choose us</span>
+    <!-- Para quem é essa terapia (sinais) -->
+    <section style="background: rgba(167, 146, 119, 0.02);">
+        <div class="container">
+            <div class="fade-up" style="text-align: center; max-width: 680px; margin: 0 auto var(--space-48);">
+                <h2>Isso soa como você?</h2>
+                <div class="text-body" style="color: var(--text-secondary);">Se identificou com ao menos dois pontos, a terapia pode transformar seu momento.</div>
+            </div>
+            <div class="grid-signs">
+                <div class="card-premium fade-up">Sente-se sobrecarregada com a rotina e cobranças diárias</div>
+                <div class="card-premium fade-up">Dificuldade para lidar com ansiedade ou crises de pânico</div>
+                <div class="card-premium fade-up">Repete padrões que machucam em relacionamentos</div>
+                <div class="card-premium fade-up">Autoestima abalada e dificuldade de reconstrução</div>
+                <div class="card-premium fade-up">Choro frequente sem entender o motivo</div>
+                <div class="card-premium fade-up">Desejo de se conhecer melhor, mas sem saber por onde</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefícios (cards clean) -->
+    <section>
+        <div class="container">
+            <div class="fade-up" style="text-align: center; margin-bottom: var(--space-48);">
+                <h2>Benefícios da terapia</h2>
+                <div class="text-body">Transformação real com consistência e acolhimento</div>
+            </div>
+            <div class="grid-benefits">
+                <div class="card-premium fade-up"><div class="icon-symbol">✧</div><h3>Compreensão de si</h3><div class="text-body">Entender o que te leva a sentir e agir como você age</div></div>
+                <div class="card-premium fade-up"><div class="icon-symbol">✧</div><h3>Redução da ansiedade</h3><div class="text-body">Técnicas práticas para o dia a dia</div></div>
+                <div class="card-premium fade-up"><div class="icon-symbol">✧</div><h3>Relacionamentos saudáveis</h3><div class="text-body">Limites e comunicação clara</div></div>
+                <div class="card-premium fade-up"><div class="icon-symbol">✧</div><h3>Equilíbrio emocional</h3><div class="text-body">Menos sofrimento, mais presença</div></div>
+                <div class="card-premium fade-up"><div class="icon-symbol">✧</div><h3>Autoconfiança real</h3><div class="text-body">Deixar a autossabotagem</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Como funciona (passos fluidos) -->
+    <section style="background: var(--background);">
+        <div class="container">
+            <div class="fade-up" style="text-align: center; margin-bottom: var(--space-48);">
+                <h2>Como funciona</h2>
+                <div class="text-body">Estrutura leve, sem burocracia</div>
+            </div>
+            <div class="grid-steps">
+                <div class="card-premium fade-up"><div class="icon-symbol">01</div><h3>Primeiro contato</h3><div class="text-body">15 minutos gratuitos para alinharmos expectativas</div></div>
+                <div class="card-premium fade-up"><div class="icon-symbol">02</div><h3>Avaliação inicial</h3><div class="text-body">Entendemos seus objetivos e plano terapêutico</div></div>
+                <div class="card-premium fade-up"><div class="icon-symbol">03</div><h3>Acompanhamento</h3><div class="text-body">Sessões semanais ou quinzenais, online ou presencial</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Depoimentos (prova social premium) -->
+    <section>
+        <div class="container">
+            <div class="fade-up" style="text-align: center; margin-bottom: var(--space-64);">
+                <h2>Vozes reais</h2>
+                <div class="text-body">Quem já viveu a experiência</div>
+            </div>
+            <div class="grid-testimonials">
+                <div class="testimonial-card fade-up">
+                    <div class="testimonial-text">“Nunca imaginei que falar com uma psicóloga pudesse ser tão leve. A Ana me ajudou a sair de uma crise severa. Hoje me sinto outra pessoa.”</div>
+                    <div class="testimonial-author">— Mariana, 32</div>
                 </div>
-                <h2 class="section-title">Design, science & care</h2>
-                <div class="benefits-grid">
-                    <div class="benefit-card">
-                        <div class="benefit-icon"><i class="fas fa-microscope"></i></div>
-                        <h3>3D Technology</h3>
-                        <p>Intraoral scanning and digital planning with microscopic precision.</p>
-                    </div>
-                    <div class="benefit-card">
-                        <div class="benefit-icon"><i class="fas fa-clock"></i></div>
-                        <h3>Humanized care</h3>
-                        <p>Stress-free appointments, zen environment, and exclusive attention.</p>
-                    </div>
-                    <div class="benefit-card">
-                        <div class="benefit-icon"><i class="fas fa-gem"></i></div>
-                        <h3>Premium materials</h3>
-                        <p>Swiss porcelain ceramics for perfect aesthetics and durability.</p>
-                    </div>
+                <div class="testimonial-card fade-up">
+                    <div class="testimonial-text">“Tinha medo de julgamento. Com a Ana me senti acolhida pela primeira vez. Terapia mudou minha vida.”</div>
+                    <div class="testimonial-author">— Carla, 28</div>
+                </div>
+                <div class="testimonial-card fade-up">
+                    <div class="testimonial-text">“Profissional incrível, abordagem ética e calorosa. Meu equilíbrio emocional nunca esteve tão bem.”</div>
+                    <div class="testimonial-author">— Juliana, 35</div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Serviços -->
-        <section id="servicos" style="background: white;">
-            <div class="container">
-                <div class="section-label">
-                    <span>Signature treatments</span>
-                </div>
-                <h2 class="section-title">Complete oral health solutions</h2>
-                <div class="services-grid">
-                    <div class="service-card">
-                        <i class="fas fa-smile service-icon"></i>
-                        <h3>Dental veneers</h3>
-                        <p>Instant transformation with minimal intervention and absolute naturalness.</p>
-                    </div>
-                    <div class="service-card">
-                        <i class="fas fa-tooth service-icon"></i>
-                        <h3>3D implants</h3>
-                        <p>CT-guided surgery, fast recovery, and high predictability.</p>
-                    </div>
-                    <div class="service-card">
-                        <i class="fas fa-sparkle service-icon"></i>
-                        <h3>Facial harmonization</h3>
-                        <p>Fillers and botox for facial balance and smile rejuvenation.</p>
-                    </div>
-                    <div class="service-card">
-                        <i class="fas fa-brush service-icon"></i>
-                        <h3>VIP whitening</h3>
-                        <p>Next-gen LED treatment, visible results in just one hour.</p>
-                    </div>
+    <!-- CTA final forte, minimal e direto -->
+    <section style="padding: var(--space-80) 0; background: var(--surface); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
+        <div class="container" style="text-align: center;">
+            <div class="fade-up">
+                <h2 style="max-width: 700px; margin: 0 auto var(--space-16);">Você merece se sentir bem consigo mesma.</h2>
+                <div class="text-body" style="margin-bottom: var(--space-32);">Agende sua conversa gratuita de 15 minutos. Sem compromisso e 100% sigiloso.</div>
+                <div class="btn-group" style="justify-content: center;">
+                    <button class="btn-primary" onclick="handleWhatsApp()">Quero me conhecer melhor</button>
+                    <button class="btn-secondary" onclick="handleWhatsApp()">Falar via WhatsApp</button>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Depoimentos -->
-        <section id="depoimentos" class="testimonials">
-            <div class="container">
-                <div class="section-label">
-                    <span>Social proof</span>
-                </div>
-                <h2 class="section-title">What our patients say</h2>
-                <div class="testimonial-grid">
-                    <div class="testimonial-card">
-                        <div class="testimonial-rating">
-                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                        </div>
-                        <p class="testimonial-text">"Extraordinary environment, attentive team, and cutting-edge technology. My smile is more beautiful than I imagined."</p>
-                        <div class="testimonial-author">Camila Mendes</div>
-                        <div class="testimonial-role">Patient for 6 months</div>
-                    </div>
-                    <div class="testimonial-card">
-                        <div class="testimonial-rating">
-                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                        </div>
-                        <p class="testimonial-text">"Implant done masterfully, painless, and perfect result. Highly recommend Dentalis, international level."</p>
-                        <div class="testimonial-author">Rafael Almeida</div>
-                        <div class="testimonial-role">Dental implant</div>
-                    </div>
-                    <div class="testimonial-card">
-                        <div class="testimonial-rating">
-                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                        </div>
-                        <p class="testimonial-text">"Veneers changed my self-esteem. 5-star service, beautiful clinic, and great comfort."</p>
-                        <div class="testimonial-author">Juliana Costa</div>
-                        <div class="testimonial-role">Dental veneers</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CTA final -->
-        <section id="contato">
-            <div class="container">
-                <div class="cta-premium">
-                    <h2>Your new smile starts today</h2>
-                    <p>Schedule a complete evaluation with our specialized team.</p>
-                    <a href="https://wa.me/5511999999999?text=I%20want%20to%20schedule%20my%20appointment" class="btn-primary" target="_blank"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
-                </div>
-                <div style="text-align: center; margin-top: 48px; color: #777777; font-size: 15px;">
-                    <p><i class="fas fa-map-pin"></i> Av. Brigadeiro Faria Lima, 4500 - São Paulo, SP</p>
-                    <p style="margin-top: 8px;"><i class="fas fa-phone-alt"></i> +55 (11) 4000-1234 | hello@dentalis.com</p>
-                </div>
-            </div>
-        </section>
-    </main>
-
+    <!-- Footer refinado -->
     <footer>
         <div class="container">
-            <p>© 2025 Dentalis — Precision Oral Care. All rights reserved.</p>
+            <div class="footer-inner">
+                <div class="footer-col">
+                    <p style="font-weight: 500; color: var(--text-primary); margin-bottom: 12px;">Ana Beatriz · Psicóloga</p>
+                    <p>Atendimento presencial em São Paulo e online para todo o Brasil</p>
+                    <p>📞 (11) 91234-5678</p>
+                    <p>✉️ contato@psicologaana.com.br</p>
+                    <p class="text-small" style="margin-top: 8px;">CRP 00.000</p>
+                </div>
+                <div class="footer-col">
+                    <p style="font-weight: 500; margin-bottom: 12px;">Acompanhe</p>
+                    <a href="#" class="footer-link">Instagram @psicologaana</a>
+                    <p style="margin-top: 12px;" class="text-small">Conteúdo gratuito sobre saúde mental</p>
+                </div>
+                <div class="footer-col">
+                    <p class="text-small">© 2025 · Acolhimento e ciência</p>
+                </div>
+            </div>
         </div>
     </footer>
+</main>
 
-    <script>
-        gsap.registerPlugin(ScrollTrigger);
+<script>
+    // Função CTA WhatsApp
+    function handleWhatsApp() {
+        const phone = "5511912345678";
+        const msg = "Olá, Dra. Ana! Gostaria de agendar minha conversa gratuita de 15 minutos.";
+        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
 
-        // Navbar entrance
-        gsap.from(".navbar", {
-            y: -60,
-            opacity: 0,
-            duration: 1,
-            ease: "power3.out",
-            delay: 0.1
+    // Inicialização GSAP e ScrollTrigger com timings cinematográficos
+    gsap.registerPlugin(ScrollTrigger);
+    
+    window.addEventListener("DOMContentLoaded", () => {
+        // --- HERO CINEMATOGRÁFICO refinado: fade + translate Y + blur suave, easing natural
+        const heroTitle = document.querySelector("#hero-title");
+        const heroSub = document.querySelector("#hero-sub");
+        const heroDesc = document.querySelector("#hero-desc");
+        const heroCta = document.querySelector("#hero-cta");
+        
+        gsap.set([heroTitle, heroSub, heroDesc, heroCta], { opacity: 0, y: 28, filter: "blur(5px)" });
+        
+        const tlHero = gsap.timeline({ defaults: { ease: "power3.out", duration: 1.1 } });
+        tlHero.to(heroTitle, { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.2, delay: 0.1 })
+              .to(heroSub, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.9 }, "-=0.7")
+              .to(heroDesc, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8 }, "-=0.5")
+              .to(heroCta, { opacity: 1, y: 0, filter: "blur(0px)", scale: 1, duration: 0.8, ease: "back.out(0.2)" }, "-=0.3");
+        
+        // --- STAGGER SYSTEM: cards com delay progressivo natural (não linear)
+        const allCards = document.querySelectorAll(".card-premium, .testimonial-card, .grid-signs .card-premium");
+        gsap.fromTo(allCards,
+            { opacity: 0, y: 28, filter: "blur(3px)" },
+            {
+                opacity: 1,
+                y: 0,
+                filter: "blur(0px)",
+                duration: 0.9,
+                stagger: { amount: 0.5, from: "start", ease: "power1.out" },
+                ease: "expo.out",
+                scrollTrigger: {
+                    trigger: "body",
+                    start: "top 88%",
+                    toggleActions: "play none none reset"
+                }
+            }
+        );
+        
+        // --- REVEAL SECTIONS (fade-up elegante, cada bloco de texto)
+        const fadeElements = document.querySelectorAll(".fade-up");
+        fadeElements.forEach((el, index) => {
+            gsap.fromTo(el,
+                { opacity: 0, y: 24 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.85,
+                    delay: index * 0.02,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: el,
+                        start: "top 90%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            );
         });
-
-        // Hero timeline
-        const heroTimeline = gsap.timeline({ defaults: { ease: "power3.out" } });
-        heroTimeline.from(".hero-badge", { opacity: 0, y: 30, duration: 0.6 })
-            .from(".hero h1", { opacity: 0, y: 50, duration: 0.9, ease: "back.out(0.4)" }, "-=0.4")
-            .from(".hero p", { opacity: 0, y: 30, duration: 0.7 }, "-=0.5")
-            .from(".hero-actions a", { opacity: 0, scale: 0.95, stagger: 0.1, duration: 0.6 }, "-=0.3")
-            .from(".hero-image", { opacity: 0, x: 60, duration: 1, ease: "power2.out" }, "-=0.6");
-
-        // Benefits stagger
-        gsap.from(".benefit-card", {
-            scrollTrigger: { trigger: "#beneficios", start: "top 75%", toggleActions: "play none none reverse" },
-            opacity: 0,
-            y: 50,
-            stagger: 0.12,
-            duration: 0.8,
-            ease: "power2.out"
-        });
-
-        // Services stagger
-        gsap.from(".service-card", {
-            scrollTrigger: { trigger: "#servicos", start: "top 70%", toggleActions: "play none none reverse" },
-            opacity: 0,
-            y: 45,
-            stagger: { amount: 0.35, from: "start" },
-            duration: 0.7,
-            ease: "back.out(0.3)"
-        });
-
-        // Testimonials stagger
-        gsap.from(".testimonial-card", {
-            scrollTrigger: { trigger: "#depoimentos", start: "top 75%", toggleActions: "play none none reverse" },
-            opacity: 0,
-            x: -35,
-            stagger: 0.13,
-            duration: 0.7,
-            ease: "power2.out"
-        });
-
-        // Section titles
-        gsap.utils.toArray(".section-title, .section-label").forEach(el => {
-            gsap.from(el, {
-                scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none reverse" },
-                opacity: 0,
-                y: 35,
-                duration: 0.6,
-                ease: "power2.out"
-            });
-        });
-
-        // CTA animation
-        gsap.from(".cta-premium", {
-            scrollTrigger: { trigger: "#contato", start: "top 80%", toggleActions: "play none none reverse" },
-            opacity: 0,
-            scale: 0.96,
-            y: 30,
-            duration: 0.9,
-            ease: "back.out(0.4)"
-        });
-
-        // Footer
-        gsap.from("footer", {
-            scrollTrigger: { trigger: "footer", start: "top 90%", toggleActions: "play none none reverse" },
-            opacity: 0,
-            y: 20,
-            duration: 0.6,
-            ease: "power2.out"
-        });
-
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target && this.getAttribute('href') !== '#') {
-                    e.preventDefault();
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        
+        // --- Parallax ultra sutil: hero visual com movimento lentíssimo e cinematográfico
+        const heroVisual = document.querySelector(".hero-visual");
+        if (heroVisual) {
+            gsap.to(heroVisual, {
+                y: 70,
+                scale: 1.02,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".hero-section",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: 0.7,
                 }
             });
-        });
-
-        // Navbar scroll effect
-        window.addEventListener('scroll', () => {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 40) {
-                gsap.to(navbar, { background: "rgba(255,255,255,0.96)", boxShadow: "0 2px 12px rgba(0,0,0,0.04)", duration: 0.3 });
-            } else {
-                gsap.to(navbar, { background: "rgba(255,255,255,0.92)", boxShadow: "none", duration: 0.3 });
+        }
+        
+        // --- Trust strip micro-animação
+        const trustItems = document.querySelectorAll(".trust-item");
+        gsap.fromTo(trustItems,
+            { opacity: 0, x: -12 },
+            {
+                opacity: 0.55,
+                x: 0,
+                duration: 0.7,
+                stagger: 0.06,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: ".trust-strip",
+                    start: "top 85%",
+                }
             }
+        );
+        
+        // --- Micro interações suaves adicionais via CSS já estão aplicadas, garantindo que haja fluidez
+        // Prevenir qualquer repaint pesado
+        gsap.config({ nullTargetWarn: false });
+        
+        // Ajuste de responsividade para performance
+        window.addEventListener("resize", () => {
+            ScrollTrigger.refresh();
         });
-    </script>
+    });
+</script>
 </body>
 </html>
