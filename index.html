@@ -3,19 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
-    <title>Ana Beatriz · Psicologia Clínica | Experiência WebGL Premium</title>
+    <title>Ana Beatriz · Psicologia Clínica | Performance Refinada</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Core Libraries (ordem correta de carregamento) -->
-    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.9/dist/lenis.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/CustomEase.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/SplitText.min.js"></script>
     
     <style>
         * {
@@ -31,7 +22,7 @@
             overflow-x: hidden;
         }
 
-        /* FALLBACK: conteúdo visível mesmo com problemas de JS */
+        /* Fallback para conteúdo sem JS ou durante carregamento */
         .reveal-item {
             opacity: 0;
             transform: translateY(40px);
@@ -46,7 +37,7 @@
             filter: blur(0);
         }
 
-        /* ===== CURSOR ===== */
+        /* Cursor custom otimizado */
         .cursor-dot {
             width: 8px;
             height: 8px;
@@ -55,7 +46,7 @@
             position: fixed;
             pointer-events: none;
             z-index: 10000;
-            transition: transform 0.1s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            will-change: transform;
         }
         .cursor-ring {
             width: 48px;
@@ -65,8 +56,9 @@
             position: fixed;
             pointer-events: none;
             z-index: 9999;
-            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.2);
             backdrop-filter: blur(4px);
+            will-change: transform;
+            transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
         .cursor-dot.hover-active { transform: scale(0.3); background: #FFF2E1; }
         .cursor-ring.hover-active { transform: scale(2.4); border-color: #A79277; background: rgba(167, 146, 119, 0.15); }
@@ -75,12 +67,11 @@
             .cursor-dot, .cursor-ring { display: none; } 
         }
 
-        /* ===== SCROLLBAR ===== */
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: #0f0e0e; }
         ::-webkit-scrollbar-thumb { background: #A79277; border-radius: 10px; }
 
-        /* ===== CANVAS ===== */
+        /* Canvas WebGL */
         #webgl-canvas {
             position: fixed;
             top: 0;
@@ -118,7 +109,6 @@
             100% { opacity: 0.7; transform: scale(1.1); }
         }
 
-        /* ===== HEADER ===== */
         .glass-header {
             position: fixed;
             top: 0;
@@ -128,7 +118,7 @@
             backdrop-filter: blur(24px);
             border-bottom: 1px solid rgba(167,146,119,0.12);
             z-index: 100;
-            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            transition: background 0.3s ease, backdrop-filter 0.3s ease;
         }
         .header-inner {
             max-width: 1200px;
@@ -158,7 +148,6 @@
         }
         .nav-links a:hover { opacity: 1; }
 
-        /* ===== LAYOUT ===== */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -169,7 +158,6 @@
         section { padding: 120px 0 100px; position: relative; }
         .hero-section { min-height: 90vh; display: flex; align-items: center; padding-top: 140px; }
 
-        /* ===== TIPOGRAFIA ===== */
         h1 {
             font-size: clamp(2.8rem, 7vw, 5.2rem);
             font-weight: 700;
@@ -199,7 +187,6 @@
             margin-bottom: 28px;
         }
 
-        /* ===== CARDS ===== */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -213,6 +200,7 @@
             padding: 28px 24px;
             border: 1px solid rgba(167,146,119,0.2);
             transition: all 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+            will-change: transform;
         }
         .benefit-card:hover {
             transform: scale(1.04) translateY(-8px);
@@ -223,7 +211,6 @@
         .benefit-card h3 { font-size: 1.5rem; margin-bottom: 12px; font-weight: 600; }
         .benefit-card p { color: #DFD6C9; line-height: 1.5; font-size: 0.95rem; }
 
-        /* ===== BOTÕES ===== */
         .btn-shine, .btn-outline { cursor: pointer; transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.2); }
         .btn-shine {
             background: linear-gradient(100deg, #A79277, #E5D5BE, #A79277);
@@ -267,7 +254,6 @@
         .btn-outline:hover { background: rgba(167,146,119,0.2); transform: translateY(-2px); }
         .flex-cta { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 28px; }
 
-        /* ===== SWIPER ===== */
         .swiper-marquee { width: 100%; overflow: hidden; padding: 40px 0; }
         .swiper-slide {
             background: rgba(20, 18, 18, 0.6);
@@ -355,82 +341,76 @@
     <footer class="footer"><div class="container"><p>Atendimento presencial em São Paulo e online para todo o Brasil</p><p style="margin:10px 0;">📞 (11) 91234-5678 | ✉️ contato@psicologaana.com.br | CRP 00.000</p><p>📸 @psicologaana · conteúdo gratuito sobre saúde mental</p><p style="margin-top:28px;">© 2025 · Ana Beatriz Psicologia</p></div></footer>
 </main>
 
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.9/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/SplitText.min.js"></script>
+
 <script>
     (function() {
         "use strict";
         
         // ============================================
-        // DIAGNÓSTICO: Garantir que tudo seja executado após DOM pronto
+        // CONTROLE DE ESTADO E PERFORMANCE
         // ============================================
+        let lenis = null;
+        let threeAnimationId = null;
+        let cursorRafId = null;
+        let isPageVisible = true;
+        let threeInstance = null;
         
-        let lenisInstance = null;
-        let swiperInstance = null;
-        
-        // Função para inicializar tudo após carregamento completo
-        function initAll() {
-            // 1. THREE.JS - WebGL Canvas (sistema de partículas interativo)
-            initThreeJS();
-            
-            // 2. LENIS + GSAP ScrollTrigger (configuração correta e sincronizada)
-            initLenisAndScroll();
-            
-            // 3. SPLITTEXT + HERO ANIMATION (com verificação de existência)
-            initHeroAnimation();
-            
-            // 4. STAGGER CARDS (ScrollTrigger)
-            initCardAnimations();
-            
-            // 5. PARALLAX SECTIONS
-            initParallaxSections();
-            
-            // 6. SWIPER CAROUSEL
-            initSwiper();
-            
-            // 7. INTERSECTION OBSERVER (reveal items - fallback garantido)
-            initIntersectionObserver();
-            
-            // 8. CURSOR PERSONALIZADO
-            initCustomCursor();
-            
-            // 9. BOTÕES CTA
-            initCtaButtons();
-            
-            // 10. HEADER DINÂMICO
-            initDynamicHeader();
-        }
+        // Gerenciamento de visibilidade da aba (economia de CPU)
+        document.addEventListener('visibilitychange', () => {
+            isPageVisible = !document.hidden;
+            if (!isPageVisible && threeAnimationId) {
+                cancelAnimationFrame(threeAnimationId);
+                threeAnimationId = null;
+            } else if (isPageVisible && threeInstance && !threeAnimationId) {
+                startThreeAnimation(threeInstance);
+            }
+        });
         
         // ============================================
-        // THREE.JS: Sistema de partículas interativo
+        // THREE.JS OTIMIZADO (com throttling e debounce)
         // ============================================
         function initThreeJS() {
             if (typeof THREE === 'undefined') {
                 console.warn('Three.js não carregado');
-                return;
+                return null;
             }
             
             const canvas = document.getElementById('webgl-canvas');
-            if (!canvas) return;
+            if (!canvas) return null;
             
+            const isMobile = window.innerWidth < 768;
             const scene = new THREE.Scene();
             const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+            const renderer = new THREE.WebGLRenderer({ 
+                canvas, 
+                alpha: true, 
+                antialias: !isMobile,
+                powerPreference: "low-power" 
+            });
             
             let width = window.innerWidth;
             let height = window.innerHeight;
             
             renderer.setSize(width, height);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.2 : 1.5));
             
-            // Partículas flutuantes
-            const particleCount = window.innerWidth < 768 ? 800 : 1800;
+            // Redução drástica de partículas em mobile
+            const particleCount = isMobile ? 350 : 1000;
+            
             const geometry = new THREE.BufferGeometry();
             const positions = new Float32Array(particleCount * 3);
             const colors = new Float32Array(particleCount * 3);
             
             for (let i = 0; i < particleCount; i++) {
-                positions[i*3] = (Math.random() - 0.5) * 40;
-                positions[i*3+1] = (Math.random() - 0.5) * 25;
-                positions[i*3+2] = (Math.random() - 0.5) * 30 - 15;
+                positions[i*3] = (Math.random() - 0.5) * 45;
+                positions[i*3+1] = (Math.random() - 0.5) * 28;
+                positions[i*3+2] = (Math.random() - 0.5) * 35 - 15;
                 
                 const color = new THREE.Color().setHSL(0.09, 0.6, 0.55 + Math.random() * 0.25);
                 colors[i*3] = color.r;
@@ -441,71 +421,106 @@
             geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
             geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
             
-            const particleMat = new THREE.PointsMaterial({ size: 0.07, vertexColors: true, transparent: true, opacity: 0.6, blending: THREE.AdditiveBlending });
+            const particleMat = new THREE.PointsMaterial({ 
+                size: isMobile ? 0.045 : 0.065, 
+                vertexColors: true, 
+                transparent: true, 
+                opacity: 0.5, 
+                blending: THREE.AdditiveBlending 
+            });
             const particles = new THREE.Points(geometry, particleMat);
             scene.add(particles);
             
             camera.position.z = 14;
             
             let mouseX = 0, mouseY = 0;
-            document.addEventListener('mousemove', (event) => {
+            let targetRotY = 0, targetRotX = 0;
+            let currentRotY = 0, currentRotX = 0;
+            
+            const handleMouseMove = (event) => {
                 mouseX = (event.clientX / width) * 2 - 1;
                 mouseY = (event.clientY / height) * 2 - 1;
-            });
+                targetRotY = mouseX * 0.12;
+                targetRotX = mouseY * 0.08;
+            };
+            document.addEventListener('mousemove', handleMouseMove);
             
-            function animate() {
-                requestAnimationFrame(animate);
-                particles.rotation.y += 0.002;
-                particles.rotation.x += 0.001;
-                particles.rotation.z += 0.0005;
+            // Debounce para resize
+            let resizeTimeout;
+            const handleResize = () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    width = window.innerWidth;
+                    height = window.innerHeight;
+                    camera.aspect = width / height;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(width, height);
+                    renderer.setPixelRatio(Math.min(window.devicePixelRatio, window.innerWidth < 768 ? 1.2 : 1.5));
+                }, 100);
+            };
+            window.addEventListener('resize', handleResize);
+            
+            const animate = () => {
+                if (!isPageVisible) return;
                 
-                // Reação sutil ao mouse
-                particles.rotation.y += mouseX * 0.008;
-                particles.rotation.x += mouseY * 0.006;
+                // Suavização da rotação (lerp)
+                currentRotY += (targetRotY - currentRotY) * 0.08;
+                currentRotX += (targetRotX - currentRotX) * 0.08;
+                
+                particles.rotation.y = currentRotY;
+                particles.rotation.x = currentRotX;
+                particles.rotation.z += 0.0008;
                 
                 renderer.render(scene, camera);
+            };
+            
+            const instance = { animate, cleanup: () => {
+                document.removeEventListener('mousemove', handleMouseMove);
+                window.removeEventListener('resize', handleResize);
+                renderer.dispose();
+                geometry.dispose();
+            }};
+            
+            return instance;
+        }
+        
+        function startThreeAnimation(instance) {
+            if (!instance) return;
+            function loop() {
+                if (!isPageVisible) {
+                    threeAnimationId = null;
+                    return;
+                }
+                instance.animate();
+                threeAnimationId = requestAnimationFrame(loop);
             }
-            
-            animate();
-            
-            window.addEventListener('resize', () => {
-                width = window.innerWidth;
-                height = window.innerHeight;
-                camera.aspect = width / height;
-                camera.updateProjectionMatrix();
-                renderer.setSize(width, height);
-            });
+            threeAnimationId = requestAnimationFrame(loop);
         }
         
         // ============================================
-        // LENIS + GSAP SCROLLTRIGGER (sincronização crítica)
+        // LENIS + SCROLLTRIGGER (configuração robusta)
         // ============================================
         function initLenisAndScroll() {
             if (typeof Lenis === 'undefined' || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
                 console.warn('Lenis/GSAP não disponível');
-                return;
+                return null;
             }
             
-            // Configurar Lenis
-            lenisInstance = new Lenis({
+            lenis = new Lenis({
                 duration: 1.2,
                 easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
                 smoothWheel: true,
-                smoothTouch: false
+                smoothTouch: false,
+                gestureOrientation: 'vertical'
             });
             
-            // Sincronizar ScrollTrigger com Lenis (CRÍTICO)
-            lenisInstance.on('scroll', () => {
-                ScrollTrigger.update();
-            });
-            
-            // Configurar scroller proxy para ScrollTrigger
+            // ScrollerProxy deve ser configurado antes de qualquer ScrollTrigger
             ScrollTrigger.scrollerProxy(document.body, {
                 scrollTop(value) {
                     if (arguments.length) {
-                        lenisInstance.scrollTo(value);
+                        lenis.scrollTo(value);
                     }
-                    return lenisInstance ? lenisInstance.scroll : window.scrollY;
+                    return lenis.scroll;
                 },
                 getBoundingClientRect() {
                     return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
@@ -513,120 +528,103 @@
                 fixedMarkers: true
             });
             
-            // Atualizar ScrollTrigger no frame da animação
-            function raf(time) {
-                lenisInstance.raf(time);
+            lenis.on('scroll', () => {
                 ScrollTrigger.update();
-                requestAnimationFrame(raf);
-            }
-            requestAnimationFrame(raf);
+            });
             
-            // Refresh após carregamento
-            setTimeout(() => {
-                ScrollTrigger.refresh();
-            }, 100);
+            // Loop do Lenis (separado do Three.js)
+            function lenisRaf(time) {
+                if (!lenis) return;
+                lenis.raf(time);
+                requestAnimationFrame(lenisRaf);
+            }
+            requestAnimationFrame(lenisRaf);
+            
+            return lenis;
         }
         
         // ============================================
-        // HERO ANIMATION COM SPLITTEXT
+        // HERO ANIMATION (SplitText com fallback seguro)
         // ============================================
         function initHeroAnimation() {
+            const heroHeading = document.getElementById("heroHeading");
+            if (!heroHeading) return;
+            
+            // Garantir visibilidade base
+            const heroContent = document.querySelector(".hero-content");
+            if (heroContent) heroContent.style.opacity = "1";
+            
             if (typeof gsap === 'undefined' || typeof SplitText === 'undefined') {
                 console.warn('GSAP/SplitText não disponível');
                 return;
             }
             
-            const heroHeading = document.getElementById("heroHeading");
-            if (!heroHeading) return;
-            
             try {
                 const split = new SplitText(heroHeading, { type: "words,chars" });
                 
-                const masterTL = gsap.timeline({ defaults: { ease: "power3.out", duration: 1 } });
-                masterTL.fromTo(".hero-content", { scale: 0.96, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.1 })
-                    .fromTo(split.chars, { y: 80, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.018, duration: 0.8 }, "-=0.8")
-                    .fromTo("#heroSubhead", { y: 45, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, "-=0.4")
+                const masterTL = gsap.timeline({ defaults: { ease: "power3.out", duration: 0.9 } });
+                masterTL.fromTo(".hero-content", { scale: 0.96, opacity: 0 }, { scale: 1, opacity: 1, duration: 1 })
+                    .fromTo(split.chars, { y: 80, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.015, duration: 0.7 }, "-=0.8")
+                    .fromTo("#heroSubhead", { y: 45, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 }, "-=0.4")
                     .fromTo("#heroDesc", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, "-=0.3")
-                    .fromTo("#heroCta", { scale: 0.92, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6 }, "-=0.2");
+                    .fromTo("#heroCta", { scale: 0.92, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5 }, "-=0.2");
+                
+                // Não reverter o SplitText para manter os spans, mas sem vazamento
+                // O SplitText será limpo apenas se a página for descarregada (opcional)
             } catch(e) {
-                console.warn('Erro no SplitText:', e);
-                // Fallback: mostrar conteúdo mesmo sem animação
-                document.querySelectorAll(".hero-content").forEach(el => el.style.opacity = "1");
+                console.warn('SplitText error:', e);
+                document.querySelectorAll(".hero-content h1, .hero-content .subhead, .hero-content p, .hero-content .flex-cta")
+                    .forEach(el => el.style.opacity = "1");
             }
         }
         
         // ============================================
-        // STAGGER CARDS (ScrollTrigger)
+        // SCROLLTRIGGER ANIMATIONS (otimizado)
         // ============================================
-        function initCardAnimations() {
+        function initScrollAnimations() {
             if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
             
+            // Cards stagger - usando ScrollTrigger.batch para melhor performance
             const cards = document.querySelectorAll(".benefit-card");
-            if (!cards.length) return;
-            
-            cards.forEach((card, i) => {
-                gsap.fromTo(card, { y: 60, opacity: 0 }, {
-                    y: 0, opacity: 1, duration: 0.75, delay: 0.1 + (i * 0.07),
-                    scrollTrigger: {
-                        trigger: "#benefitsGrid",
-                        start: "top 85%",
-                        toggleActions: "play none none none"
+            if (cards.length) {
+                gsap.fromTo(cards, 
+                    { y: 50, opacity: 0 },
+                    {
+                        y: 0, opacity: 1, duration: 0.6, stagger: 0.06,
+                        scrollTrigger: {
+                            trigger: "#benefitsGrid",
+                            start: "top 85%",
+                            toggleActions: "play none none none",
+                            once: true
+                        }
                     }
-                });
-            });
-        }
-        
-        // ============================================
-        // PARALLAX SECTIONS
-        // ============================================
-        function initParallaxSections() {
-            if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-            
-            const sections = document.querySelectorAll("section");
-            if (!sections.length) return;
-            
-            sections.forEach((section, idx) => {
-                gsap.fromTo(section, { y: 0 }, {
-                    y: idx % 2 === 0 ? -25 : -15,
-                    scrollTrigger: {
-                        trigger: section,
-                        start: "top bottom",
-                        end: "bottom top",
-                        scrub: 1.3
-                    }
-                });
-            });
-        }
-        
-        // ============================================
-        // SWIPER CAROUSEL
-        // ============================================
-        function initSwiper() {
-            if (typeof Swiper === 'undefined') return;
-            
-            const swiperEl = document.querySelector(".mySwiper");
-            if (!swiperEl) return;
-            
-            swiperInstance = new Swiper(".mySwiper", {
-                slidesPerView: "auto",
-                spaceBetween: 24,
-                loop: true,
-                speed: 4800,
-                autoplay: { delay: 0, disableOnInteraction: false, pauseOnMouseEnter: false },
-                breakpoints: {
-                    320: { slidesPerView: 1.2, spaceBetween: 14 },
-                    768: { slidesPerView: 2.2, spaceBetween: 20 },
-                    1024: { slidesPerView: 3.2, spaceBetween: 24 }
-                }
-            });
-            
-            if (swiperInstance && swiperInstance.autoplay) {
-                swiperInstance.autoplay.start();
+                );
             }
+            
+            // Parallax sections (apenas desktop para performance)
+            const isMobile = window.innerWidth < 768;
+            if (!isMobile) {
+                const sections = document.querySelectorAll("section");
+                sections.forEach((section, idx) => {
+                    gsap.fromTo(section, { y: 0 }, {
+                        y: idx % 2 === 0 ? -20 : -12,
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top bottom",
+                            end: "bottom top",
+                            scrub: 0.8,
+                            invalidateOnRefresh: true
+                        }
+                    });
+                });
+            }
+            
+            // Único refresh após criação
+            ScrollTrigger.refresh();
         }
         
         // ============================================
-        // INTERSECTION OBSERVER (REVEAL)
+        // INTERSECTION OBSERVER (fallback)
         // ============================================
         function initIntersectionObserver() {
             const revealItems = document.querySelectorAll(".reveal-item");
@@ -639,29 +637,65 @@
                         observer.unobserve(entry.target);
                     }
                 });
-            }, { threshold: 0.2, rootMargin: "0px 0px -30px 0px" });
+            }, { threshold: 0.2, rootMargin: "0px 0px -20px 0px" });
             
             revealItems.forEach(el => observer.observe(el));
         }
         
         // ============================================
-        // CURSOR PERSONALIZADO
+        // SWIPER (configuração econômica)
         // ============================================
-        function initCustomCursor() {
-            const cursorDot = document.getElementById("cursorDot");
-            const cursorRing = document.getElementById("cursorRing");
+        function initSwiper() {
+            if (typeof Swiper === 'undefined') return;
+            const swiperEl = document.querySelector(".mySwiper");
+            if (!swiperEl) return;
             
-            if (!cursorDot || !cursorRing) return;
-            
-            document.addEventListener("mousemove", (e) => {
-                if (typeof gsap !== 'undefined') {
-                    gsap.to(cursorDot, { x: e.clientX - 4, y: e.clientY - 4, duration: 0.05 });
-                    gsap.to(cursorRing, { x: e.clientX - 24, y: e.clientY - 24, duration: 0.18 });
-                } else {
-                    cursorDot.style.transform = `translate(${e.clientX - 4}px, ${e.clientY - 4}px)`;
-                    cursorRing.style.transform = `translate(${e.clientX - 24}px, ${e.clientY - 24}px)`;
+            const isMobile = window.innerWidth < 768;
+            return new Swiper(".mySwiper", {
+                slidesPerView: "auto",
+                spaceBetween: isMobile ? 14 : 24,
+                loop: true,
+                speed: 3000, // Reduzido para menor consumo
+                autoplay: { delay: 0, disableOnInteraction: false, pauseOnMouseEnter: true },
+                freeMode: false,
+                allowTouchMove: true,
+                breakpoints: {
+                    320: { slidesPerView: 1.2, spaceBetween: 14 },
+                    768: { slidesPerView: 2.2, spaceBetween: 20 },
+                    1024: { slidesPerView: 3.2, spaceBetween: 24 }
                 }
             });
+        }
+        
+        // ============================================
+        // CURSOR SMOOTH (com RAF dedicado)
+        // ============================================
+        function initCursor() {
+            const cursorDot = document.getElementById("cursorDot");
+            const cursorRing = document.getElementById("cursorRing");
+            if (!cursorDot || !cursorRing) return;
+            
+            let mouseX = 0, mouseY = 0;
+            let ringX = 0, ringY = 0;
+            let dotX = 0, dotY = 0;
+            
+            document.addEventListener("mousemove", (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+            
+            function updateCursor() {
+                dotX += (mouseX - dotX) * 0.2;
+                dotY += (mouseY - dotY) * 0.2;
+                ringX += (mouseX - ringX) * 0.12;
+                ringY += (mouseY - ringY) * 0.12;
+                
+                cursorDot.style.transform = `translate(${dotX - 4}px, ${dotY - 4}px)`;
+                cursorRing.style.transform = `translate(${ringX - 24}px, ${ringY - 24}px)`;
+                
+                cursorRafId = requestAnimationFrame(updateCursor);
+            }
+            updateCursor();
             
             const interactive = document.querySelectorAll(".btn-shine, .btn-outline, .benefit-card, .cta-btn");
             interactive.forEach(el => {
@@ -692,28 +726,66 @@
         }
         
         // ============================================
-        // HEADER DINÂMICO
+        // HEADER DINÂMICO (throttled)
         // ============================================
         function initDynamicHeader() {
             const header = document.querySelector(".glass-header");
             if (!header) return;
             
+            let ticking = false;
             window.addEventListener("scroll", () => {
-                if (window.scrollY > 30) {
-                    header.style.backdropFilter = "blur(32px)";
-                    header.style.background = "rgba(11,10,10,0.6)";
-                } else {
-                    header.style.backdropFilter = "blur(24px)";
-                    header.style.background = "rgba(11,10,10,0.35)";
+                if (!ticking) {
+                    requestAnimationFrame(() => {
+                        const scrollY = window.scrollY;
+                        if (scrollY > 30) {
+                            header.style.backdropFilter = "blur(32px)";
+                            header.style.background = "rgba(11,10,10,0.6)";
+                        } else {
+                            header.style.backdropFilter = "blur(24px)";
+                            header.style.background = "rgba(11,10,10,0.35)";
+                        }
+                        ticking = false;
+                    });
+                    ticking = true;
                 }
             });
         }
         
-        // Inicializar tudo após DOM pronto
+        // ============================================
+        // INICIALIZAÇÃO PRINCIPAL
+        // ============================================
+        function init() {
+            // Inicializar Three.js e seu loop
+            threeInstance = initThreeJS();
+            if (threeInstance) startThreeAnimation(threeInstance);
+            
+            // Inicializar Lenis e ScrollTrigger
+            initLenisAndScroll();
+            
+            // Demais inicializações
+            initHeroAnimation();
+            initScrollAnimations();
+            initIntersectionObserver();
+            initSwiper();
+            initCursor();
+            initCtaButtons();
+            initDynamicHeader();
+            
+            // Fallback final: garantir que elementos visíveis na viewport recebam classe
+            setTimeout(() => {
+                document.querySelectorAll(".reveal-item").forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight - 100) {
+                        el.classList.add("revealed");
+                    }
+                });
+            }, 300);
+        }
+        
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initAll);
+            document.addEventListener('DOMContentLoaded', init);
         } else {
-            initAll();
+            init();
         }
     })();
 </script>
