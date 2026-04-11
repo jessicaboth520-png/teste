@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Ana Beatriz · Psicologia Clínica | Experiência Premium</title>
+    <title>Ana Beatriz · Psicologia Clínica | Experiência Imersiva</title>
     
-    <!-- Google Fonts: Sora (tipografia refinada) -->
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Bibliotecas core -->
+    <!-- Core Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.9/dist/lenis.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -18,7 +17,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/SplitText.min.js"></script>
 
     <style>
-        /* ===== RESET & BASE ===== */
         * {
             margin: 0;
             padding: 0;
@@ -33,42 +31,32 @@
             cursor: none;
         }
 
-        /* ===== CUSTOM CURSOR (Nível Linear) ===== */
-        .cursor {
-            width: 12px;
-            height: 12px;
+        /* ===== ADVANCED CURSOR SYSTEM ===== */
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
             background: #A79277;
             border-radius: 50%;
             position: fixed;
             pointer-events: none;
-            z-index: 9999;
-            mix-blend-mode: difference;
-            transition: transform 0.05s linear;
+            z-index: 10000;
+            transition: transform 0.08s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
-        .cursor-follower {
-            width: 40px;
-            height: 40px;
-            border: 1.5px solid rgba(167, 146, 119, 0.5);
+        .cursor-ring {
+            width: 44px;
+            height: 44px;
+            border: 1.5px solid rgba(167, 146, 119, 0.4);
             border-radius: 50%;
             position: fixed;
             pointer-events: none;
-            z-index: 9998;
-            transition: transform 0.15s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            z-index: 9999;
+            transition: all 0.18s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+            backdrop-filter: blur(2px);
         }
-        .cursor-active {
-            transform: scale(0.4);
-            background: #FFF2E1;
-        }
-        .cursor-follower-active {
-            transform: scale(2.2);
-            border-color: #A79277;
-            background: rgba(167, 146, 119, 0.15);
-        }
+        .cursor-dot.hover-active { transform: scale(0.4); background: #FFF2E1; }
+        .cursor-ring.hover-active { transform: scale(2.4); border-color: #A79277; background: rgba(167, 146, 119, 0.12); border-width: 2px; }
 
-        @media (max-width: 768px) {
-            body { cursor: auto; }
-            .cursor, .cursor-follower { display: none; }
-        }
+        @media (max-width: 768px) { body { cursor: auto; } .cursor-dot, .cursor-ring { display: none; } }
 
         /* ===== SCROLLBAR PREMIUM ===== */
         ::-webkit-scrollbar { width: 5px; }
@@ -76,8 +64,8 @@
         ::-webkit-scrollbar-thumb { background: #2d8f8f; border-radius: 10px; transition: background 0.3s; }
         ::-webkit-scrollbar-thumb:hover { background: #5fe0e0; }
 
-        /* ===== PARTICLES LAYERS (Depth System Avançado) ===== */
-        .particles-canvas {
+        /* ===== ADVANCED BACKGROUND SYSTEM ===== */
+        #canvas-bg {
             position: fixed;
             top: 0;
             left: 0;
@@ -86,49 +74,42 @@
             z-index: 0;
             pointer-events: none;
         }
-        canvas {
-            display: block;
-            width: 100%;
-            height: 100%;
-        }
-
-        /* ===== TEXTURE + GRADIENT MOTION ===== */
-        .noise-overlay {
+        .noise-layer {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: repeating-radial-gradient(circle at 20% 30%, rgba(0,0,0,0) 0px, rgba(0,0,0,0.02) 2px, rgba(0,0,0,0.01) 4px);
+            background: repeating-radial-gradient(circle at 20% 30%, rgba(0,0,0,0) 0px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.01) 4px);
             pointer-events: none;
             z-index: 1;
-            opacity: 0.4;
+            opacity: 0.5;
         }
-        .gradient-motion {
+        .gradient-ambient {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 50% 50%, rgba(167,146,119,0.08), transparent 70%);
+            background: radial-gradient(circle at 40% 50%, rgba(167,146,119,0.06), transparent 70%);
             pointer-events: none;
             z-index: 0;
-            animation: subtleBreathing 12s ease-in-out infinite alternate;
+            animation: ambientMove 16s ease-in-out infinite alternate;
         }
-        @keyframes subtleBreathing {
-            0% { opacity: 0.3; transform: scale(1); }
-            100% { opacity: 0.8; transform: scale(1.2); }
+        @keyframes ambientMove {
+            0% { transform: scale(1) translate(0%, 0%); opacity: 0.4; }
+            100% { transform: scale(1.3) translate(5%, -5%); opacity: 0.8; }
         }
 
-        /* ===== GLASS HEADER ===== */
+        /* ===== GLASS HEADER REFINED ===== */
         .glass-header {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            background: rgba(11, 10, 10, 0.45);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(167,146,119,0.12);
+            background: rgba(11, 10, 10, 0.4);
+            backdrop-filter: blur(24px);
+            border-bottom: 1px solid rgba(167,146,119,0.1);
             z-index: 100;
             transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
@@ -160,7 +141,7 @@
         }
         .nav-links a:hover { opacity: 1; }
 
-        /* ===== LAYOUT 8PT GRID ===== */
+        /* ===== LAYOUT PREMIUM ===== */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -168,14 +149,14 @@
             position: relative;
             z-index: 5;
         }
-        section { padding: 128px 0 120px; position: relative; }
+        section { padding: 130px 0 120px; position: relative; }
         .hero-section { min-height: 90vh; display: flex; align-items: center; padding-top: 160px; }
 
-        /* ===== TIPOGRAFIA PREMIUM ===== */
+        /* ===== TYPOGRAPHY ADVANCED ===== */
         h1 {
             font-size: clamp(3.2rem, 7vw, 5.5rem);
             font-weight: 700;
-            line-height: 1.1;
+            line-height: 1.08;
             letter-spacing: -0.025em;
             margin-bottom: 24px;
             background: linear-gradient(135deg, #FFFFFF, #E2D6C4);
@@ -184,7 +165,7 @@
             color: transparent;
         }
         h2 {
-            font-size: 2.2rem;
+            font-size: 2.3rem;
             font-weight: 600;
             letter-spacing: -0.015em;
             margin-bottom: 32px;
@@ -202,42 +183,44 @@
             font-weight: 400;
         }
 
-        /* ===== CARDS + MICROINTERAÇÕES ===== */
+        /* ===== CARDS 3D + DEPTH SYSTEM ===== */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
+            gap: 28px;
             margin-top: 32px;
         }
         .benefit-card {
-            background: rgba(22, 20, 19, 0.6);
-            backdrop-filter: blur(4px);
-            border-radius: 28px;
-            padding: 28px 24px;
+            background: rgba(22, 20, 19, 0.55);
+            backdrop-filter: blur(8px);
+            border-radius: 32px;
+            padding: 32px 28px;
             border: 1px solid rgba(167,146,119,0.2);
-            transition: all 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            transform-style: preserve-3d;
+            perspective: 1000px;
             will-change: transform;
         }
         .cards-grid:hover .benefit-card:not(:hover) {
-            filter: blur(5px) brightness(0.55);
+            filter: blur(6px) brightness(0.5);
             transform: scale(0.94);
         }
         .benefit-card:hover {
-            transform: scale(1.03) translateY(-8px);
-            background: rgba(35, 30, 27, 0.85);
+            transform: scale(1.04) translateY(-12px) rotateX(2deg);
+            background: rgba(40, 35, 32, 0.9);
             border-color: rgba(167,146,119,0.7);
-            box-shadow: 0 32px 48px -24px rgba(0,0,0,0.6);
+            box-shadow: 0 40px 56px -28px rgba(0,0,0,0.7);
         }
-        .benefit-card h3 { font-size: 1.6rem; margin-bottom: 12px; font-weight: 600; }
+        .benefit-card h3 { font-size: 1.65rem; margin-bottom: 14px; font-weight: 600; }
         .benefit-card p { color: #DFD6C9; line-height: 1.5; }
 
-        /* ===== BOTÕES REFINADOS ===== */
+        /* ===== BUTTONS WITH TACTILE FEEDBACK ===== */
         .btn-shine {
             background: linear-gradient(100deg, #A79277, #E5D5BE, #A79277);
             background-size: 200% auto;
             color: #0B0A0A;
             font-weight: 700;
-            padding: 14px 34px;
+            padding: 14px 36px;
             border-radius: 60px;
             border: none;
             font-family: 'Sora', sans-serif;
@@ -245,66 +228,74 @@
             transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.2);
             animation: shineMove 3.2s linear infinite;
             box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
         }
         @keyframes shineMove {
             0% { background-position: 0% 50%; }
             100% { background-position: 200% 50%; }
         }
-        .btn-shine:hover {
-            transform: scale(1.04);
-            box-shadow: 0 20px 32px rgba(167,146,119,0.35);
+        .btn-shine::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
         }
+        .btn-shine:hover::before { left: 100%; }
+        .btn-shine:active { transform: scale(0.97); transition: 0.05s; }
+        
         .btn-outline {
             background: transparent;
             border: 1.5px solid rgba(167,146,119,0.7);
             color: #FFF2E1;
-            padding: 12px 30px;
+            padding: 12px 32px;
             border-radius: 60px;
             font-weight: 600;
-            transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            position: relative;
+            overflow: hidden;
         }
-        .btn-outline:hover {
-            background: rgba(167,146,119,0.18);
-            transform: scale(1.02);
-        }
-        .flex-cta { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 32px; }
+        .btn-outline:active { transform: scale(0.98); }
+        .btn-outline:hover { background: rgba(167,146,119,0.18); transform: translateY(-2px); }
+        
+        .flex-cta { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 32px; }
 
-        /* ===== SWIPER MARQUEE PERFEITO ===== */
-        .swiper-marquee { width: 100%; overflow: hidden; padding: 40px 0; }
+        /* ===== SWIPER MARQUEE PREMIUM ===== */
+        .swiper-marquee { width: 100%; overflow: visible; padding: 48px 0; }
         .swiper-slide {
-            background: rgba(20, 18, 18, 0.7);
-            backdrop-filter: blur(12px);
-            border-radius: 32px;
-            padding: 24px 28px;
+            background: rgba(20, 18, 18, 0.65);
+            backdrop-filter: blur(16px);
+            border-radius: 36px;
+            padding: 28px 32px;
             width: auto;
             border: 1px solid rgba(167,146,119,0.25);
             font-weight: 450;
+            transition: all 0.3s ease;
         }
+        .swiper-slide:hover { transform: scale(1.02); border-color: rgba(167,146,119,0.5); }
 
         /* ===== REVEAL SYSTEM ===== */
-        .reveal-item {
-            opacity: 0;
-            transform: translateY(40px);
-            filter: blur(12px);
-        }
-        .reveal-item.revealed {
-            animation: cinematicReveal 0.9s cubic-bezier(0.15, 0.85, 0.35, 1.02) forwards;
-        }
+        .reveal-item { opacity: 0; transform: translateY(50px); filter: blur(12px); }
+        .reveal-item.revealed { animation: cinematicReveal 0.9s cubic-bezier(0.15, 0.85, 0.35, 1.02) forwards; }
         @keyframes cinematicReveal {
-            0% { opacity: 0; transform: translateY(40px); filter: blur(12px); }
+            0% { opacity: 0; transform: translateY(50px); filter: blur(12px); }
             100% { opacity: 1; transform: translateY(0); filter: blur(0); }
         }
 
-        /* ===== STAT BADGES ===== */
         .stat-badge {
-            background: rgba(167,146,119,0.15);
+            background: rgba(167,146,119,0.12);
             border-radius: 40px;
-            padding: 8px 20px;
+            padding: 8px 22px;
             font-size: 0.85rem;
-            backdrop-filter: blur(2px);
+            backdrop-filter: blur(4px);
+            transition: all 0.2s;
         }
         .footer {
-            border-top: 1px solid rgba(167,146,119,0.15);
+            border-top: 1px solid rgba(167,146,119,0.12);
             padding: 56px 0;
             text-align: center;
             color: #B9AFA0;
@@ -315,18 +306,17 @@
             .hero-section { padding-top: 180px; }
             h2 { font-size: 1.8rem; }
             .btn-shine, .btn-outline { padding: 10px 24px; }
-            .cards-grid { gap: 16px; }
         }
     </style>
 </head>
 <body>
 
-<div class="noise-overlay"></div>
-<div class="gradient-motion"></div>
-<canvas class="particles-canvas" id="particleCanvas"></canvas>
+<canvas id="canvas-bg"></canvas>
+<div class="noise-layer"></div>
+<div class="gradient-ambient"></div>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-follower" id="cursorFollower"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
 
 <header class="glass-header">
     <div class="header-inner">
@@ -362,11 +352,11 @@
 
     <section><div class="container"><div class="reveal-item"><h2>Benefícios da terapia</h2></div><div class="cards-grid" id="benefitsGrid"><div class="benefit-card reveal-item"><h3>🧠 Autocompreensão</h3><p>Entenda suas emoções profundas</p></div><div class="benefit-card reveal-item"><h3>🌿 Redução da ansiedade</h3><p>Técnicas práticas diárias</p></div><div class="benefit-card reveal-item"><h3>💞 Relacionamentos</h3><p>Limites e comunicação clara</p></div><div class="benefit-card reveal-item"><h3>⚖️ Equilíbrio</h3><p>Menos sofrimento, mais presença</p></div><div class="benefit-card reveal-item"><h3>✨ Autoconfiança</h3><p>Pare de se sabotar</p></div></div></div></section>
 
-    <section><div class="container"><div class="reveal-item"><h2>Como funciona</h2><div style="display:flex; flex-wrap:wrap; gap:24px;"><div style="flex:1; background:rgba(30,28,26,0.5); border-radius:32px; padding:28px;"><span style="font-size:2rem;">1️⃣</span><h3 style="margin:12px 0">Primeiro contato</h3><p>15min gratuitos para alinhamento</p></div><div style="flex:1; background:rgba(30,28,26,0.5); border-radius:32px; padding:28px;"><span style="font-size:2rem;">2️⃣</span><h3 style="margin:12px 0">Avaliação inicial</h3><p>Plano terapêutico personalizado</p></div><div style="flex:1; background:rgba(30,28,26,0.5); border-radius:32px; padding:28px;"><span style="font-size:2rem;">3️⃣</span><h3 style="margin:12px 0">Acompanhamento</h3><p>Sessões online ou presencial</p></div></div></div></div></section>
+    <section><div class="container"><div class="reveal-item"><h2>Como funciona</h2><div style="display:flex; flex-wrap:wrap; gap:24px;"><div style="flex:1; background:rgba(30,28,26,0.5); border-radius:32px; padding:28px; transition:transform 0.3s;"><span style="font-size:2rem;">1️⃣</span><h3 style="margin:12px 0">Primeiro contato</h3><p>15min gratuitos para alinhamento</p></div><div style="flex:1; background:rgba(30,28,26,0.5); border-radius:32px; padding:28px;"><span style="font-size:2rem;">2️⃣</span><h3 style="margin:12px 0">Avaliação inicial</h3><p>Plano terapêutico personalizado</p></div><div style="flex:1; background:rgba(30,28,26,0.5); border-radius:32px; padding:28px;"><span style="font-size:2rem;">3️⃣</span><h3 style="margin:12px 0">Acompanhamento</h3><p>Sessões online ou presencial</p></div></div></div></div></section>
 
     <section style="padding:40px 0;"><div class="container"><div class="reveal-item"><h2 style="text-align:center">Experiências reais</h2></div></div><div class="swiper-marquee"><div class="swiper mySwiper"><div class="swiper-wrapper"><div class="swiper-slide">“A Ana me ajudou a sair da ansiedade severa. Hoje me sinto outra pessoa.” – Mariana</div><div class="swiper-slide">“Me senti acolhida pela primeira vez. Terapia mudou minha vida.” – Carla</div><div class="swiper-slide">“Profissional incrível, acolhimento e embasamento científico.” – Juliana</div><div class="swiper-slide">“Aprendi a me priorizar. Sou grata demais.” – Rafaela</div><div class="swiper-slide">“Ambiente seguro e transformador.” – Lívia</div></div></div></div></section>
 
-    <section style="padding:60px 0 100px;"><div class="container"><div class="reveal-item" style="text-align:center; background:linear-gradient(135deg,rgba(25,22,20,0.9),rgba(12,11,11,0.95)); border-radius:56px; padding:80px 24px; backdrop-filter:blur(8px);"><h2 style="font-size:2.4rem;">Você merece se sentir bem</h2><p style="margin:24px 0;">Agende sua conversa gratuita de 15 minutos. Sem compromisso.</p><div class="flex-cta" style="justify-content:center;"><button class="btn-shine cta-btn">QUERO ME CONHECER MELHOR</button><button class="btn-outline cta-btn">FALAR PELO WHATSAPP</button></div></div></div></section>
+    <section style="padding:60px 0 100px;"><div class="container"><div class="reveal-item" style="text-align:center; background:linear-gradient(135deg,rgba(25,22,20,0.9),rgba(12,11,11,0.95)); border-radius:56px; padding:80px 24px; backdrop-filter:blur(12px);"><h2 style="font-size:2.4rem;">Você merece se sentir bem</h2><p style="margin:24px 0;">Agende sua conversa gratuita de 15 minutos. Sem compromisso.</p><div class="flex-cta" style="justify-content:center;"><button class="btn-shine cta-btn">QUERO ME CONHECER MELHOR</button><button class="btn-outline cta-btn">FALAR PELO WHATSAPP</button></div></div></div></section>
 
     <footer class="footer"><div class="container"><p>Atendimento presencial em São Paulo e online para todo o Brasil</p><p style="margin:12px 0;">📞 (11) 91234-5678 | ✉️ contato@psicologaana.com.br | CRP 00.000</p><p>📸 @psicologaana · conteúdo gratuito sobre saúde mental</p><p style="margin-top:32px;">© 2025 · Ana Beatriz Psicologia</p></div></footer>
 </main>
@@ -374,163 +364,166 @@
 <script>
     (function() {
         // ============================================
-        // 1. ENGINE DE MOTION GLOBAL (Sistema reutilizável)
+        // 1. ADVANCED MOTION SYSTEM (GSAP + ScrollTrigger)
         // ============================================
-        const MotionSystem = {
-            defaults: { duration: 0.9, ease: "power3.out", staggerFactor: 0.08 },
-            animateIn: (element, customConfig = {}) => {
-                const config = { ...MotionSystem.defaults, ...customConfig };
-                return gsap.fromTo(element, 
-                    { y: 48, opacity: 0, filter: "blur(12px)" },
-                    { y: 0, opacity: 1, filter: "blur(0px)", duration: config.duration, ease: config.ease, delay: config.delay || 0 }
-                );
-            },
-            staggerSystem: (elements, baseDelay = 0.1, factor = 0.07) => {
-                elements.forEach((el, idx) => {
-                    gsap.fromTo(el,
-                        { y: 55, opacity: 0, filter: "blur(10px)" },
-                        { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.8, ease: "expo.out", delay: baseDelay + (idx * factor), scrollTrigger: { trigger: el.parentElement, start: "top 85%", toggleActions: "play none none none" } }
-                    );
+        gsap.registerPlugin(ScrollTrigger, SplitText);
+        CustomEase.create("premiumEase", "0.25, 0.1, 0.2, 1");
+        CustomEase.create("elasticPremium", "0.6, 1.2, 0.4, 1.02");
+        
+        // Motion Engine reutilizável
+        const MotionEngine = {
+            fadeInUp: (el, delay = 0) => gsap.fromTo(el, { y: 60, opacity: 0, filter: "blur(10px)" }, { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.9, ease: "premiumEase", delay }),
+            staggerCards: (elements, baseDelay = 0.1) => {
+                elements.forEach((el, i) => {
+                    gsap.fromTo(el, { y: 70, opacity: 0, filter: "blur(12px)" }, {
+                        y: 0, opacity: 1, filter: "blur(0px)", duration: 0.8, ease: "premiumEase", delay: baseDelay + (i * 0.08),
+                        scrollTrigger: { trigger: el.parentElement, start: "top 85%", toggleActions: "play none none none" }
+                    });
                 });
             }
         };
 
         // ============================================
-        // 2. CUSTOM EASING PREMIUM
+        // 2. HERO CINEMATOGRAPHIC TIMELINE (SplitText + palavras/letras)
         // ============================================
-        CustomEase.create("customOut", "0.33, 1, 0.68, 1");
-        CustomEase.create("softBounce", "0.25, 1.1, 0.45, 1.05");
-
-        // ============================================
-        // 3. LENIS (SCROLL SMOOTH)
-        // ============================================
-        const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
-        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-        requestAnimationFrame(raf);
-
-        // ============================================
-        // 4. HERO MASTER TIMELINE (SplitText + Cinematic)
-        // ============================================
-        gsap.registerPlugin(SplitText);
         const heroHeading = document.getElementById("heroHeading");
         const split = new SplitText(heroHeading, { type: "words,chars", wordsClass: "hero-word" });
         
-        const heroTimeline = gsap.timeline({ defaults: { ease: "customOut", duration: 1.1 } });
-        heroTimeline.fromTo(".hero-content", { scale: 0.96, opacity: 0, filter: "blur(8px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 1.2 })
-            .fromTo(split.chars, { y: 70, opacity: 0, rotationX: -15, filter: "blur(8px)" }, { y: 0, opacity: 1, rotationX: 0, filter: "blur(0px)", stagger: 0.025, duration: 0.8, ease: "back.out(0.8)" }, "-=0.7")
-            .fromTo("#heroSubhead", { y: 40, opacity: 0, filter: "blur(6px)" }, { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.8, ease: "softBounce" }, "-=0.4")
+        const masterTimeline = gsap.timeline({ defaults: { ease: "premiumEase", duration: 1.1 } });
+        masterTimeline.fromTo(".hero-content", { scale: 0.96, opacity: 0, filter: "blur(8px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 1.2 })
+            .fromTo(split.chars, { y: 80, opacity: 0, rotationX: -20, filter: "blur(10px)" }, 
+                { y: 0, opacity: 1, rotationX: 0, filter: "blur(0px)", stagger: 0.022, duration: 0.85, ease: "elasticPremium" }, "-=0.8")
+            .fromTo("#heroSubhead", { y: 45, opacity: 0, filter: "blur(8px)" }, { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.7, ease: "premiumEase" }, "-=0.4")
             .fromTo("#heroDesc", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 }, "-=0.3")
-            .fromTo("#heroCta", { scale: 0.94, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.7, ease: "elastic.out(1, 0.5)" }, "-=0.2");
+            .fromTo("#heroCta", { scale: 0.92, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.7, ease: "back.out(0.6)" }, "-=0.2");
 
         // ============================================
-        // 5. STAGGER SYSTEM (CARDS)
+        // 3. STAGGER SYSTEM FOR CARDS
         // ============================================
-        const benefitCards = gsap.utils.toArray(".benefit-card");
-        MotionSystem.staggerSystem(benefitCards, 0.12, 0.09);
+        const cards = gsap.utils.toArray(".benefit-card");
+        MotionEngine.staggerCards(cards, 0.12);
 
         // ============================================
-        // 6. PARALLAX MULTI-DEPTH REAL (3 camadas + mouse)
+        // 4. SCROLL-DRIVEN ANIMATIONS + SCENE TRANSITIONS
         // ============================================
-        gsap.utils.toArray("section").forEach((section, i) => {
+        // Parallax multi-camadas (background, sections, elements)
+        gsap.utils.toArray("section").forEach((section, idx) => {
             gsap.fromTo(section, { y: 0 }, {
-                y: i % 2 === 0 ? -22 : -14,
-                scrollTrigger: { trigger: section, start: "top bottom", end: "bottom top", scrub: 1.3, ease: "power1.inOut" }
+                y: idx % 2 === 0 ? -28 : -18,
+                scrollTrigger: { trigger: section, start: "top bottom", end: "bottom top", scrub: 1.4, ease: "power1.inOut" }
             });
         });
-        // Mouse parallax sutil
-        document.addEventListener("mousemove", (e) => {
-            const x = (e.clientX / window.innerWidth - 0.5) * 12;
-            const y = (e.clientY / window.innerHeight - 0.5) * 8;
-            gsap.to(".gradient-motion", { duration: 1.2, x: x, y: y, ease: "power2.out" });
+        
+        // Lag effect: elementos seguem o scroll com atraso
+        gsap.utils.toArray(".benefit-card, .stat-badge").forEach(el => {
+            gsap.fromTo(el, { y: 0 }, {
+                y: -12,
+                scrollTrigger: { trigger: el, start: "top 85%", end: "bottom 15%", scrub: 1.2 }
+            });
+        });
+
+        // Progress-based reveals (camada adicional)
+        ScrollTrigger.create({
+            trigger: "body",
+            start: "top top",
+            end: "bottom bottom",
+            onUpdate: (self) => {
+                const progress = self.progress;
+                gsap.to(".gradient-ambient", { scale: 1 + progress * 0.3, opacity: 0.6 + progress * 0.3, duration: 0.1 });
+            }
         });
 
         // ============================================
-        // 7. PARTÍCULAS NÍVEL AVANÇADO (Bezier, vetorial, 3 camadas)
+        // 5. CANVAS BACKGROUND INTERATIVO (Shader-like + partículas avançadas)
         // ============================================
-        const canvas = document.getElementById("particleCanvas");
+        const canvas = document.getElementById("canvas-bg");
         const ctx = canvas.getContext("2d");
-        let width = window.innerWidth, height = window.innerHeight;
+        let w = window.innerWidth, h = window.innerHeight;
         let particles = [];
-        const PARTICLE_COUNT = 110;
+        const PARTICLE_COUNT = 140;
         
-        class AdvancedParticle {
+        class FlowParticle {
             constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.size = Math.random() * 3.5 + 1.2;
-                this.speedX = (Math.random() - 0.5) * 0.35;
-                this.speedY = (Math.random() - 0.5) * 0.25;
-                this.opacity = Math.random() * 0.4 + 0.2;
+                this.x = Math.random() * w;
+                this.y = Math.random() * h;
+                this.size = Math.random() * 3.5 + 1;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.4;
+                this.alpha = Math.random() * 0.35 + 0.1;
                 this.layer = Math.random() > 0.7 ? "front" : (Math.random() > 0.5 ? "mid" : "deep");
-                this.hue = 180 + Math.random() * 30;
             }
             update() {
-                this.x += this.speedX * (this.layer === "deep" ? 0.5 : this.layer === "front" ? 1.3 : 0.9);
-                this.y += this.speedY * (this.layer === "deep" ? 0.6 : 1.1);
-                if (this.x < -50) this.x = width + 50;
-                if (this.x > width + 50) this.x = -50;
-                if (this.y < -50) this.y = height + 50;
-                if (this.y > height + 50) this.y = -50;
+                this.x += this.vx * (this.layer === "deep" ? 0.4 : this.layer === "front" ? 1.2 : 0.8);
+                this.y += this.vy * (this.layer === "deep" ? 0.5 : 1);
+                if (this.x < -50) this.x = w + 50;
+                if (this.x > w + 50) this.x = -50;
+                if (this.y < -50) this.y = h + 50;
+                if (this.y > h + 50) this.y = -50;
             }
             draw() {
                 ctx.beginPath();
-                const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 2);
-                gradient.addColorStop(0, `rgba(0, 200, 240, ${this.opacity * (this.layer === 'front' ? 0.9 : 0.5)})`);
-                gradient.addColorStop(1, `rgba(0, 100, 150, 0)`);
-                ctx.fillStyle = gradient;
+                const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 2.2);
+                grad.addColorStop(0, `rgba(80, 200, 230, ${this.alpha * (this.layer === 'front' ? 0.9 : 0.5)})`);
+                grad.addColorStop(1, `rgba(0, 100, 150, 0)`);
+                ctx.fillStyle = grad;
                 ctx.arc(this.x, this.y, this.size * (this.layer === 'front' ? 1.3 : 0.9), 0, Math.PI * 2);
                 ctx.fill();
             }
         }
         
-        function initParticles() {
-            for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(new AdvancedParticle());
+        function initCanvasParticles() {
+            for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(new FlowParticle());
         }
-        function animateParticles() {
-            ctx.clearRect(0, 0, width, height);
+        
+        function animateCanvas() {
+            ctx.clearRect(0, 0, w, h);
             particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animateParticles);
+            requestAnimationFrame(animateCanvas);
         }
+        
         function resizeCanvas() {
-            width = window.innerWidth; height = window.innerHeight;
-            canvas.width = width; canvas.height = height;
+            w = window.innerWidth; h = window.innerHeight;
+            canvas.width = w; canvas.height = h;
         }
+        
         window.addEventListener("resize", () => { resizeCanvas(); });
         resizeCanvas();
-        initParticles();
-        animateParticles();
+        initCanvasParticles();
+        animateCanvas();
 
         // ============================================
-        // 8. CURSOR CUSTOM + MAGNETISMO
+        // 6. CURSOR MAGNÉTICO + ESTADOS CONTEXTUAIS
         // ============================================
-        const cursor = document.getElementById("cursor");
-        const follower = document.getElementById("cursorFollower");
+        const cursorDot = document.getElementById("cursorDot");
+        const cursorRing = document.getElementById("cursorRing");
         let mouseX = 0, mouseY = 0;
+        
         document.addEventListener("mousemove", (e) => {
             mouseX = e.clientX; mouseY = e.clientY;
-            gsap.to(cursor, { x: mouseX - 6, y: mouseY - 6, duration: 0.05 });
-            gsap.to(follower, { x: mouseX - 20, y: mouseY - 20, duration: 0.2, ease: "power2.out" });
+            gsap.to(cursorDot, { x: mouseX - 4, y: mouseY - 4, duration: 0.05 });
+            gsap.to(cursorRing, { x: mouseX - 22, y: mouseY - 22, duration: 0.18, ease: "power2.out" });
         });
-        const btns = document.querySelectorAll(".btn-shine, .btn-outline, .cta-btn");
-        btns.forEach(btn => {
-            btn.addEventListener("mouseenter", () => {
-                cursor.classList.add("cursor-active");
-                follower.classList.add("cursor-follower-active");
+        
+        const interactiveElements = document.querySelectorAll(".btn-shine, .btn-outline, .benefit-card, .cta-btn, .swiper-slide");
+        interactiveElements.forEach(el => {
+            el.addEventListener("mouseenter", () => {
+                cursorDot.classList.add("hover-active");
+                cursorRing.classList.add("hover-active");
             });
-            btn.addEventListener("mouseleave", () => {
-                cursor.classList.remove("cursor-active");
-                follower.classList.remove("cursor-follower-active");
+            el.addEventListener("mouseleave", () => {
+                cursorDot.classList.remove("hover-active");
+                cursorRing.classList.remove("hover-active");
             });
         });
 
         // ============================================
-        // 9. SWIPER MARQUEE INFINITO PERFEITO (sem aceleração)
+        // 7. SWIPER INFINITO (FLUIDO + ALTA PERFORMANCE)
         // ============================================
         const swiper = new Swiper(".mySwiper", {
             slidesPerView: "auto",
             spaceBetween: 28,
             loop: true,
-            speed: 4500,
+            speed: 4800,
             autoplay: { delay: 0, disableOnInteraction: false, pauseOnMouseEnter: false, stopOnLastSlide: false },
             freeMode: false,
             allowTouchMove: true,
@@ -539,30 +532,45 @@
         swiper.autoplay.start();
 
         // ============================================
-        // 10. INTERSECTION OBSERVER (REVEAL SYSTEM)
+        // 8. INTERSECTION OBSERVER (REVEAL)
         // ============================================
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add("revealed"); });
-        }, { threshold: 0.2, rootMargin: "0px 0px -50px 0px" });
+        }, { threshold: 0.2, rootMargin: "0px 0px -40px 0px" });
         document.querySelectorAll(".reveal-item").forEach(el => observer.observe(el));
 
         // ============================================
-        // 11. MICROINTERAÇÕES + CTA CONVERSÃO
+        // 9. LENIS SMOOTH SCROLL
+        // ============================================
+        const lenis = new Lenis({ duration: 1.25, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -12 * t)), smoothWheel: true });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        // ============================================
+        // 10. CTA + MICROINTERAÇÕES TÁTEIS
         // ============================================
         document.querySelectorAll(".cta-btn").forEach(btn => {
             btn.addEventListener("click", (e) => {
                 e.preventDefault();
-                gsap.to(btn, { scale: 0.96, duration: 0.1, yoyo: true, repeat: 1, ease: "power1.inOut" });
-                setTimeout(() => alert("✨ Agende sua conversa gratuita: (11) 91234-5678 ou WhatsApp"), 50);
+                gsap.to(btn, { scale: 0.94, duration: 0.08, yoyo: true, repeat: 1, ease: "power1.inOut" });
+                setTimeout(() => alert("✨ Agende sua conversa gratuita: (11) 91234-5678 ou WhatsApp"), 40);
             });
         });
         
-        // Header dynamic blur
+        // Header glass dinâmico
         window.addEventListener("scroll", () => {
             const header = document.querySelector(".glass-header");
-            if (window.scrollY > 30) gsap.to(header, { backdropFilter: "blur(28px)", background: "rgba(11,10,10,0.75)", duration: 0.3 });
-            else gsap.to(header, { backdropFilter: "blur(20px)", background: "rgba(11,10,10,0.45)", duration: 0.3 });
+            if (window.scrollY > 30) gsap.to(header, { backdropFilter: "blur(32px)", background: "rgba(11,10,10,0.7)", duration: 0.3 });
+            else gsap.to(header, { backdropFilter: "blur(24px)", background: "rgba(11,10,10,0.4)", duration: 0.3 });
         });
+        
+        // 3D hover nas etapas (efeito depth)
+        document.querySelectorAll("div[style*='border-radius:32px']").forEach(el => {
+            el.addEventListener("mouseenter", () => gsap.to(el, { y: -6, scale: 1.01, duration: 0.3, ease: "power2.out" }));
+            el.addEventListener("mouseleave", () => gsap.to(el, { y: 0, scale: 1, duration: 0.3 }));
+        });
+        
+        console.log("✨ Experiência premium ativada — motion design nível Apple/Stripe");
     })();
 </script>
 </body>
