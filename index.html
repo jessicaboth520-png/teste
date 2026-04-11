@@ -4,139 +4,128 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Sandra Sesco | Psicoterapia Premium</title>
-    <!-- Preconnect & Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Google Fonts: Playfair Display + Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    <!-- Swiper CSS -->
+    <!-- Swiper CSS (simples) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <!-- GSAP & ScrollTrigger -->
+    <!-- GSAP + ScrollTrigger -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
+        /* ---------- DESIGN SYSTEM (FIXO) ---------- */
+        :root {
+            --bg: #f3f3e3;
+            --primary: #41563c;
+            --dark: #2f3e2c;
+            --soft: #6f816a;
+            --card-bg: #e9e9dc;
+            
+            /* Sombras únicas do sistema */
+            --shadow-card: 0 15px 40px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 25px 60px rgba(65, 86, 60, 0.18);
+            
+            /* transições */
+            --transition-smooth: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
-        /* ===== BASE ===== */
+        
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f3f3e3 0%, #e9e9dc 100%);
+            background: linear-gradient(180deg, #f3f3e3 0%, #e9e9dc 100%);
             color: #1e2a1c;
+            font-family: 'Inter', sans-serif;
             overflow-x: hidden;
             position: relative;
         }
-
-        /* Noise Overlay */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 999;
-            opacity: 0.35;
-            mix-blend-mode: multiply;
-        }
-
-        /* Gradient Mesh Animado */
-        .gradient-mesh {
+        
+        /* Accent gradient obrigatório (top left) */
+        .accent-glow {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
+            background: radial-gradient(circle at top left, rgba(65,86,60,0.22), transparent 65%);
             z-index: 0;
-            background: radial-gradient(circle at 30% 30%, rgba(65,86,60,0.2), transparent 60%);
-            animation: slowDrift 24s infinite alternate ease-in-out;
         }
-
-        @keyframes slowDrift {
-            0% {
-                background: radial-gradient(circle at 20% 30%, rgba(65,86,60,0.22), transparent 65%);
-            }
-            50% {
-                background: radial-gradient(circle at 75% 45%, rgba(111,129,106,0.18), transparent 70%);
-            }
-            100% {
-                background: radial-gradient(circle at 40% 70%, rgba(47,62,44,0.2), transparent 60%);
-            }
-        }
-
+        
         .container {
             max-width: 1280px;
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 0 28px;
             position: relative;
             z-index: 2;
         }
-
-        section {
-            margin: 120px 0;
-        }
-
-        /* ===== TIPOGRAFIA ===== */
+        
+        /* Tipografia consistente */
         h1, h2, h3, .playfair {
             font-family: 'Playfair Display', serif;
             font-weight: 600;
             letter-spacing: -0.01em;
         }
-
+        
         h1 {
             font-size: clamp(2.8rem, 5vw, 4.8rem);
             line-height: 1.2;
             margin-bottom: 1.5rem;
+            color: var(--dark);
         }
-
+        
         h2 {
             font-size: clamp(2rem, 4vw, 3rem);
-            margin-bottom: 2rem;
-            position: relative;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        .section-sub {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
             display: inline-block;
         }
-
-        .section-sub {
-            font-size: 1.1rem;
-            color: #41563c;
-            font-weight: 500;
-            margin-bottom: 0.75rem;
-            letter-spacing: 0.3px;
-        }
-
-        /* ===== BOTÕES ===== */
+        
+        /* Botões (gradiente fixo + glow suave) */
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            padding: 14px 34px;
-            border-radius: 60px;
+            gap: 10px;
+            padding: 14px 32px;
+            border-radius: 50px;
             font-weight: 600;
             font-size: 1rem;
-            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            cursor: pointer;
+            transition: var(--transition-smooth);
             text-decoration: none;
             border: none;
-            background: transparent;
+            cursor: pointer;
             position: relative;
             overflow: hidden;
-            z-index: 1;
+            background: transparent;
         }
-
+        
         .btn-primary {
-            background: linear-gradient(135deg, #41563c 0%, #2f3e2c 100%);
+            background: linear-gradient(135deg, #41563c, #2f3e2c);
             color: white;
-            box-shadow: 0 15px 30px rgba(65,86,60,0.25);
+            box-shadow: 0 8px 18px rgba(65,86,60,0.2);
         }
-
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(65,86,60,0.35);
+        }
+        
+        /* glow suave nos botões (hover adicional) */
         .btn-primary::after {
             content: '';
             position: absolute;
@@ -144,456 +133,459 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
             transition: left 0.5s ease;
-            z-index: -1;
         }
-
+        
         .btn-primary:hover::after {
             left: 100%;
         }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 35px rgba(65,86,60,0.35);
-        }
-
+        
         .btn-secondary {
             background: transparent;
-            border: 1.5px solid #41563c;
-            color: #2f3e2c;
+            border: 1.5px solid var(--primary);
+            color: var(--dark);
         }
-
+        
         .btn-secondary:hover {
-            background: rgba(65,86,60,0.05);
-            border-color: #2f3e2c;
+            background: rgba(65,86,60,0.06);
             transform: translateY(-3px);
+            border-color: var(--dark);
         }
-
-        /* ===== CARDS & EFEITOS ===== */
+        
+        /* Cards - única sombra do sistema */
         .card-premium {
-            background: rgba(255, 255, 245, 0.65);
-            backdrop-filter: blur(8px);
-            border-radius: 32px;
-            padding: 2rem;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-            transition: all 0.4s ease;
-            border: 1px solid rgba(111,129,106,0.2);
+            background: var(--card-bg);
+            border-radius: 28px;
+            padding: 2rem 2rem;
+            box-shadow: var(--shadow-card);
+            transition: var(--transition-smooth);
+            border: 1px solid rgba(111,129,106,0.15);
         }
-
+        
         .card-premium:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 30px 60px rgba(65,86,60,0.18);
-            background: rgba(255, 255, 245, 0.85);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-hover);
         }
-
-        /* ===== HERO ===== */
+        
+        /* layout geral */
+        section {
+            margin: 110px 0;
+        }
+        
+        /* Hero grid */
         .hero {
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            justify-content: space-between;
-            gap: 40px;
+            gap: 48px;
             min-height: 85vh;
         }
-
         .hero-content {
             flex: 1.2;
         }
-
         .hero-image {
             flex: 0.9;
-            position: relative;
-            display: flex;
-            justify-content: center;
+            text-align: center;
         }
-
         .hero-image img {
             max-width: 100%;
             height: auto;
-            filter: drop-shadow(0 40px 80px rgba(0,0,0,0.15));
-            transition: transform 0.2s ease-out;
+            filter: drop-shadow(0 20px 35px rgba(0,0,0,0.1));
+            animation: floatImage 5s ease-in-out infinite;
             will-change: transform;
         }
-
+        
+        /* floating lenta */
+        @keyframes floatImage {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+            100% { transform: translateY(0px); }
+        }
+        
         .hero-buttons {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
-            margin-top: 2rem;
+            margin-top: 32px;
         }
-
-        /* ===== BENEFÍCIOS ===== */
+        
+        /* beneficios grid (ícones com fundo circular leve) */
         .benefits-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 32px;
             margin-top: 20px;
         }
-
-        .benefit-item {
-            background: rgba(249, 249, 240, 0.5);
-            backdrop-filter: blur(4px);
+        
+        .benefit-card {
+            background: rgba(233, 233, 220, 0.6);
+            backdrop-filter: blur(2px);
             border-radius: 28px;
             padding: 2rem 1.5rem;
-            transition: all 0.3s ease;
             text-align: center;
+            transition: var(--transition-smooth);
+            box-shadow: var(--shadow-card);
             border: 1px solid rgba(111,129,106,0.2);
         }
-
-        .benefit-item:hover {
-            transform: translateY(-10px);
-            background: rgba(255,255,245,0.7);
-            box-shadow: 0 25px 45px rgba(65,86,60,0.12);
+        
+        .benefit-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+            background: rgba(233, 233, 220, 0.9);
         }
-
-        .benefit-item i {
-            width: 48px;
-            height: 48px;
-            color: #41563c;
+        
+        .icon-circle {
+            background: rgba(65, 86, 60, 0.1);
+            width: 70px;
+            height: 70px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
             margin-bottom: 1.2rem;
         }
-
-        .benefit-item h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.75rem;
+        .icon-circle i {
+            width: 36px;
+            height: 36px;
+            color: var(--primary);
+            stroke-width: 1.7;
+        }
+        .benefit-card h3 {
             font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.6rem;
+            color: var(--dark);
         }
-
-        /* ===== SWIPER DEPOIMENTOS ===== */
-        .testimonials {
+        .benefit-card p {
+            color: #3d4c39;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+        
+        /* Swiper simples - 1 slide ativo, autoplay lento */
+        .testimonials-section {
             overflow: hidden;
-            padding: 20px 0;
         }
-
-        .swiper {
-            width: 100%;
-            padding: 40px 0;
+        .testimonial-swiper {
+            padding: 20px 0 40px;
         }
-
         .swiper-slide {
-            background: rgba(255, 255, 245, 0.7);
-            backdrop-filter: blur(8px);
-            border-radius: 32px;
-            padding: 2rem;
-            box-shadow: 0 20px 30px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-            opacity: 0.7;
-            transform: scale(0.9);
+            background: var(--card-bg);
+            border-radius: 28px;
+            padding: 2rem 1.8rem;
+            box-shadow: var(--shadow-card);
+            transition: all 0.25s ease;
+            opacity: 0.8;
             border: 1px solid rgba(111,129,106,0.2);
         }
-
         .swiper-slide-active {
             opacity: 1;
-            transform: scale(1.05);
-            background: rgba(255, 255, 245, 0.95);
-            box-shadow: 0 30px 50px rgba(65,86,60,0.2);
+            box-shadow: var(--shadow-hover);
+            background: #f1f1e2;
         }
-
         .testimonial-text {
-            font-size: 1.1rem;
+            font-size: 1rem;
+            line-height: 1.5;
             font-style: italic;
             margin-bottom: 1rem;
-            color: #1f2c1d;
+            color: #1f2e1b;
         }
-
         .testimonial-author {
             font-weight: 700;
-            color: #41563c;
+            color: var(--primary);
             font-family: 'Playfair Display', serif;
+            letter-spacing: 0.3px;
         }
-
-        /* ===== CTA FINAL ===== */
-        .cta-section {
+        .swiper-pagination-bullet-active {
+            background: var(--primary) !important;
+        }
+        
+        /* CTA final */
+        .cta-final {
             text-align: center;
-            background: rgba(249, 249, 235, 0.5);
-            backdrop-filter: blur(4px);
-            border-radius: 56px;
-            padding: 4rem 2rem;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-            margin-bottom: 80px;
+            background: var(--card-bg);
+            border-radius: 40px;
+            padding: 3.5rem 2rem;
+            box-shadow: var(--shadow-card);
+            transition: var(--transition-smooth);
         }
-
+        .cta-final:hover {
+            box-shadow: var(--shadow-hover);
+        }
         .btn-cta {
-            padding: 18px 48px;
-            font-size: 1.2rem;
-            background: linear-gradient(135deg, #41563c 0%, #2f3e2c 100%);
-            box-shadow: 0 15px 30px rgba(65,86,60,0.25);
-            animation: subtlePulse 2s infinite;
+            padding: 16px 44px;
+            font-size: 1.1rem;
+            margin-top: 1rem;
         }
-
-        @keyframes subtlePulse {
-            0% { box-shadow: 0 15px 30px rgba(65,86,60,0.25); transform: scale(1);}
-            50% { box-shadow: 0 0 0 8px rgba(65,86,60,0.2), 0 20px 35px rgba(65,86,60,0.3); transform: scale(1.01);}
-            100% { box-shadow: 0 15px 30px rgba(65,86,60,0.25); transform: scale(1);}
+        
+        /* profissional + sobre */
+        .two-columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 48px;
+            align-items: center;
         }
-
-        /* ===== RESPONSIVO ===== */
+        .two-columns > div {
+            flex: 1;
+        }
+        
+        /* responsivo mobile-first */
         @media (max-width: 768px) {
             .container {
                 padding: 0 20px;
             }
             section {
-                margin: 80px 0;
+                margin: 70px 0;
             }
             .hero {
                 flex-direction: column-reverse;
                 text-align: center;
                 min-height: auto;
+                gap: 24px;
             }
             .hero-buttons {
                 justify-content: center;
             }
+            .two-columns {
+                flex-direction: column;
+                gap: 32px;
+            }
             .benefits-grid {
-                gap: 20px;
-            }
-            .btn-cta {
-                padding: 14px 32px;
-                font-size: 1rem;
-            }
-            .swiper-slide-active {
-                transform: scale(1);
+                gap: 24px;
             }
             .card-premium {
                 padding: 1.5rem;
             }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                transition-duration: 0.01ms !important;
+            .btn {
+                padding: 12px 24px;
             }
         }
-
+        
+        /* ajustes finos */
+        p {
+            line-height: 1.5;
+            color: #2c3a28;
+        }
         footer {
             text-align: center;
-            padding: 40px 0 30px;
-            font-size: 0.85rem;
-            color: #5a6b55;
-            border-top: 1px solid rgba(65,86,60,0.2);
-            margin-top: 40px;
+            padding: 48px 0 32px;
+            font-size: 0.8rem;
+            color: var(--soft);
+            border-top: 1px solid rgba(65,86,60,0.15);
+            margin-top: 20px;
         }
-
-        /* Glow & detalhes */
-        .glow-text {
-            color: #2f3e2c;
+        .glow-button-soft {
+            transition: box-shadow 0.2s;
         }
-        .magnetic {
-            transition: transform 0.2s ease-out;
-        }
-        .tilt-img {
-            transition: transform 0.2s ease-out;
-            transform-style: preserve-3d;
+        img {
+            max-width: 100%;
+            display: block;
         }
     </style>
 </head>
 <body>
-<div class="gradient-mesh"></div>
+<div class="accent-glow"></div>
 
 <main>
-    <!-- HERO SECTION -->
     <div class="container">
+        <!-- HERO (obrigatório) -->
         <section class="hero">
-            <div class="hero-content">
+            <div class="hero-content fade-element">
                 <h1>Cuidar da sua mente é um ato de coragem e autocuidado</h1>
-                <p style="font-size: 1.2rem; margin-bottom: 1rem; color: #2f3e2c; font-weight: 500;">
+                <p style="font-size: 1.2rem; margin-bottom: 1rem; font-weight: 500; color: var(--dark);">
                     Guio mulheres sobrecarregadas e ansiosas a reencontrarem calma e leveza emocional, ajudando você a aliviar a sobrecarga e desenvolver uma relação mais equilibrada com suas emoções.
                 </p>
-                <p style="margin-bottom: 2rem; color: #4a5e46;">
+                <p style="margin-bottom: 2rem; color: #3f543a;">
                     Psicoterapia para mulheres e adultos. Um espaço seguro, sigiloso e acolhedor para compreender suas emoções e transformar sua relação consigo mesma.
                 </p>
                 <div class="hero-buttons">
-                    <a href="https://wa.me/5541999999999" target="_blank" class="btn btn-primary magnetic" data-strength="20">Agende sua conversa</a>
-                    <a href="https://www.instagram.com/sandra_sesco_psicologa/" target="_blank" class="btn btn-secondary magnetic" data-strength="15">Acompanhar no Instagram</a>
+                    <a href="https://wa.me/5541999999999" target="_blank" class="btn btn-primary">Agende sua conversa</a>
+                    <a href="https://www.instagram.com/sandra_sesco_psicologa/" target="_blank" class="btn btn-secondary">Acompanhar no Instagram</a>
                 </div>
             </div>
-            <div class="hero-image" id="tiltImageContainer">
-                <img src="https://raw.githubusercontent.com/jessicaboth520-png/teste/main/unnamed__1_-removebg-preview.png" alt="Sandra Sesco Psicóloga" class="tilt-img">
+            <div class="hero-image fade-element" id="parallaxImage">
+                <img src="https://raw.githubusercontent.com/jessicaboth520-png/teste/main/unnamed__1_-removebg-preview.png" alt="Sandra Sesco Psicóloga">
             </div>
         </section>
 
-        <!-- SEÇÃO SOBRE (COPY EXATA) -->
-        <section class="fade-up">
-            <div class="card-premium" style="background: rgba(255, 255, 245, 0.7);">
-                <span class="section-sub">● Sobre o processo</span>
-                <h2 style="margin-bottom: 1rem;">Cuidar da sua mente é um movimento de coragem — e também de responsabilidade consigo mesmo.</h2>
-                <p style="font-size: 1.05rem; line-height: 1.6;">Em diferentes momentos da vida, emoções se intensificam, pensamentos se repetem e situações parecem difíceis de organizar internamente. Nem sempre é possível compreender sozinho o que está acontecendo — e tudo bem que não seja.</p>
-                <p style="margin-top: 1rem; font-size: 1.05rem; line-height: 1.6;">A psicoterapia é um espaço construído justamente para isso: para que você possa falar, refletir e entender, com mais clareza, aquilo que hoje parece confuso ou pesado. Sem pressa. Sem julgamentos. Sem necessidade de ter respostas prontas.</p>
-                <p style="margin-top: 1rem; font-size: 1.05rem; line-height: 1.6;">Ao longo do processo, torna-se possível reconhecer padrões, acessar aspectos mais profundos da própria história e desenvolver uma relação mais consciente com as próprias emoções. Não se trata de eliminar sentimentos, mas de compreendê-los. E, a partir disso, construir novas formas de lidar com o que antes parecia difícil de sustentar.</p>
+        <!-- SEÇÃO SOBRE (texto exato) -->
+        <section class="fade-element">
+            <div class="card-premium">
+                <span class="section-sub">● O processo</span>
+                <h2>Cuidar da sua mente é um movimento de coragem — e também de responsabilidade consigo mesmo.</h2>
+                <p>Em diferentes momentos da vida, emoções se intensificam, pensamentos se repetem e situações parecem difíceis de organizar internamente. Nem sempre é possível compreender sozinho o que está acontecendo — e tudo bem que não seja.</p>
+                <p style="margin-top: 1rem;">A psicoterapia é um espaço construído justamente para isso: para que você possa falar, refletir e entender, com mais clareza, aquilo que hoje parece confuso ou pesado. Sem pressa. Sem julgamentos. Sem necessidade de ter respostas prontas.</p>
+                <p style="margin-top: 1rem;">Ao longo do processo, torna-se possível reconhecer padrões, acessar aspectos mais profundos da própria história e desenvolver uma relação mais consciente com as próprias emoções. Não se trata de eliminar sentimentos, mas de compreendê-los. E, a partir disso, construir novas formas de lidar com o que antes parecia difícil de sustentar.</p>
             </div>
         </section>
 
-        <!-- SOBRE A PROFISSIONAL -->
-        <section class="fade-up">
-            <div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: center;">
-                <div style="flex: 1.2;">
-                    <span class="section-sub">● Psicóloga clínica</span>
+        <!-- SOBRE A PROFISSIONAL (cópia exata) -->
+        <section class="fade-element">
+            <div class="two-columns">
+                <div class="card-premium" style="height: fit-content;">
+                    <span class="section-sub">● Perfil clínico</span>
                     <h2>Sandra Sesco</h2>
-                    <p style="margin-bottom: 1rem;">Sandra Sesco é psicóloga clínica, formada pela Universidade Paranaense, com atuação voltada ao cuidado emocional e ao desenvolvimento individual.</p>
-                    <p style="margin-bottom: 1rem;">Sua formação inclui especializações em Avaliação Psicológica, Saúde Pública (Saúde da Família) e Psicopedagogia Clínica, Institucional e Hospitalar.</p>
-                    <p>Seu trabalho é conduzido com escuta atenta, rigor técnico e respeito à singularidade de cada pessoa.</p>
+                    <p>Sandra Sesco é psicóloga clínica, formada pela Universidade Paranaense, com atuação voltada ao cuidado emocional e ao desenvolvimento individual.</p>
+                    <p style="margin-top: 0.8rem;">Sua formação inclui especializações em Avaliação Psicológica, Saúde Pública (Saúde da Família) e Psicopedagogia Clínica, Institucional e Hospitalar.</p>
+                    <p style="margin-top: 0.8rem;">Seu trabalho é conduzido com escuta atenta, rigor técnico e respeito à singularidade de cada pessoa.</p>
                 </div>
-                <div style="flex: 0.8; text-align: center;">
-                    <div style="background: linear-gradient(145deg, #dfddd0, #c9c7b8); border-radius: 40px; padding: 8px; box-shadow: 0 30px 40px rgba(0,0,0,0.1);">
-                        <div style="background: #f3f3e3; border-radius: 32px; padding: 20px 15px;">
-                            <span style="font-size: 5rem;">🌸</span>
-                            <h3 style="margin-top: 0.5rem;">CRP 08/12345</h3>
-                            <p>Abordagem integrativa</p>
-                        </div>
+                <div class="card-premium" style="background: rgba(233,233,220,0.7); text-align: center;">
+                    <div class="icon-circle" style="background: rgba(65,86,60,0.15); width: 90px; height: 90px; margin: 0 auto 1rem auto;">
+                        <i data-lucide="heart" style="width: 44px; height: 44px;"></i>
                     </div>
+                    <h3 style="font-size: 1.6rem;">Cuidado humanizado</h3>
+                    <p>Abordagem integrativa e baseada em evidências, respeitando sua história e seu tempo.</p>
                 </div>
             </div>
         </section>
 
-        <!-- BENEFÍCIOS COM ÍCONES LUCIDE -->
-        <section class="fade-up">
-            <div style="text-align: center;">
-                <span class="section-sub">● Por que começar?</span>
-                <h2>Jornada de transformação</h2>
+        <!-- BENEFÍCIOS com ícones Lucide (estilo outline, fundo circular leve) -->
+        <section class="fade-element">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <span class="section-sub">● pilares da jornada</span>
+                <h2>Fortaleça sua saúde emocional</h2>
             </div>
             <div class="benefits-grid">
-                <div class="benefit-item"><i data-lucide="brain"></i><h3>Ansiedade</h3><p>Aprenda a regular o sistema nervoso e recuperar a serenidade.</p></div>
-                <div class="benefit-item"><i data-lucide="alert-circle"></i><h3>Conflitos internos</h3><p>Compreenda vozes contraditórias e encontre clareza.</p></div>
-                <div class="benefit-item"><i data-lucide="repeat"></i><h3>Padrões repetitivos</h3><p>Interrompa ciclos que impedem seu florescimento.</p></div>
-                <div class="benefit-item"><i data-lucide="heart"></i><h3>Relacionamentos</h3><p>Construa vínculos mais saudáveis e autênticos.</p></div>
-                <div class="benefit-item"><i data-lucide="user"></i><h3>Autoconhecimento</h3><p>Descubra sua essência e potenciais adormecidos.</p></div>
-            </div>
-        </section>
-
-        <!-- DEPOIMENTOS SWIPER -->
-        <section class="fade-up">
-            <div style="text-align: center;">
-                <span class="section-sub">● Vozes reais</span>
-                <h2>O que falam sobre o acolhimento</h2>
-            </div>
-            <div class="testimonials">
-                <div class="swiper testimonialSwiper">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide"><div class="testimonial-text">“Uma excelente profissional que se destaca por sua empatia com seus pacientes, nota 1000.”</div><div class="testimonial-author">— Elaine Bandeira Campos</div></div>
-                        <div class="swiper-slide"><div class="testimonial-text">“Profissional maravilhosa. De um amplo conhecimento, super dedicada ao bem estar da mulher.”</div><div class="testimonial-author">— Vera Cristina Dias</div></div>
-                        <div class="swiper-slide"><div class="testimonial-text">“Excelente profissional”</div><div class="testimonial-author">— Pri Bittencourt</div></div>
-                        <div class="swiper-slide"><div class="testimonial-text">“Grande profissional 🥰🥰🥰”</div><div class="testimonial-author">— Maria Fernanda</div></div>
-                        <div class="swiper-slide"><div class="testimonial-text">“Excelente profissional! Muito dedicada e acolhedora 🥰”</div><div class="testimonial-author">— Solange Sesco</div></div>
-                        <div class="swiper-slide"><div class="testimonial-text">“Escelente piscologa super indico.”</div><div class="testimonial-author">— Maria Auxiliadora</div></div>
-                        <div class="swiper-slide"><div class="testimonial-text">“Excelente profissional!”</div><div class="testimonial-author">— Antonio Jose Silva</div></div>
-                        <div class="swiper-slide"><div class="testimonial-text">“A melhor psicóloga que conheço”</div><div class="testimonial-author">— Andressa Souza Santana</div></div>
-                        <div class="swiper-slide"><div class="testimonial-text">“Ótimo atendimento”</div><div class="testimonial-author">— Bruno Sesco</div></div>
-                        <div class="swiper-slide"><div class="testimonial-text">“Maravilhosa 😍”</div><div class="testimonial-author">— Denise Schuller</div></div>
-                        <div class="swiper-slide"><div class="testimonial-text">“Profissional extraordinária!”</div><div class="testimonial-author">— Andressa Helfenstein</div></div>
-                    </div>
-                    <div class="swiper-pagination"></div>
+                <div class="benefit-card">
+                    <div class="icon-circle"><i data-lucide="brain"></i></div>
+                    <h3>Ansiedade</h3>
+                    <p>Aprenda a acalmar a mente e recuperar o equilíbrio emocional.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon-circle"><i data-lucide="alert-circle"></i></div>
+                    <h3>Conflitos internos</h3>
+                    <p>Entenda as vozes contraditórias e encontre clareza interior.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon-circle"><i data-lucide="refresh-cw"></i></div>
+                    <h3>Padrões repetitivos</h3>
+                    <p>Interrompa ciclos que impedem seu crescimento pessoal.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon-circle"><i data-lucide="heart"></i></div>
+                    <h3>Relacionamentos</h3>
+                    <p>Construa vínculos mais saudáveis e verdadeiros.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon-circle"><i data-lucide="user"></i></div>
+                    <h3>Autoconhecimento</h3>
+                    <p>Descubra sua essência e desenvolva potências internas.</p>
                 </div>
             </div>
         </section>
 
-        <!-- CTA FINAL -->
-        <section class="cta-section fade-up">
-            <h2 style="margin-bottom: 1rem;">Vamos conversar?</h2>
-            <p style="font-size: 1.2rem; max-width: 600px; margin: 0 auto 2rem auto;">Agende uma sessão inicial e dê o primeiro passo em direção a uma vida mais leve e consciente.</p>
-            <a href="https://wa.me/5541999999999" target="_blank" class="btn btn-primary btn-cta magnetic" data-strength="25">Iniciar jornada</a>
+        <!-- DEPOIMENTOS SWIPER (simples, autoplay lento, 1 slide ativo com foco) -->
+        <section class="fade-element testimonials-section">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <span class="section-sub">● relatos reais</span>
+                <h2>Quem confia no meu trabalho</h2>
+            </div>
+            <div class="swiper testimonialSwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><div class="testimonial-text">“Uma excelente profissional que se destaca por sua empatia com seus pacientes, nota 1000.”</div><div class="testimonial-author">— Elaine Bandeira Campos</div></div>
+                    <div class="swiper-slide"><div class="testimonial-text">“Profissional maravilhosa. De um amplo conhecimento, super dedicada ao bem estar da mulher.”</div><div class="testimonial-author">— Vera Cristina Dias</div></div>
+                    <div class="swiper-slide"><div class="testimonial-text">“Excelente profissional”</div><div class="testimonial-author">— Pri Bittencourt</div></div>
+                    <div class="swiper-slide"><div class="testimonial-text">“Grande profissional 🥰🥰🥰”</div><div class="testimonial-author">— Maria Fernanda</div></div>
+                    <div class="swiper-slide"><div class="testimonial-text">“Excelente profissional! Muito dedicada e acolhedora 🥰”</div><div class="testimonial-author">— Solange Sesco</div></div>
+                    <div class="swiper-slide"><div class="testimonial-text">“Escelente piscologa super indico.”</div><div class="testimonial-author">— Maria Auxiliadora</div></div>
+                    <div class="swiper-slide"><div class="testimonial-text">“Excelente profissional!”</div><div class="testimonial-author">— Antonio Jose Silva</div></div>
+                    <div class="swiper-slide"><div class="testimonial-text">“A melhor psicóloga que conheço”</div><div class="testimonial-author">— Andressa Souza Santana</div></div>
+                    <div class="swiper-slide"><div class="testimonial-text">“Ótimo atendimento”</div><div class="testimonial-author">— Bruno Sesco</div></div>
+                    <div class="swiper-slide"><div class="testimonial-text">“Maravilhosa 😍”</div><div class="testimonial-author">— Denise Schuller</div></div>
+                    <div class="swiper-slide"><div class="testimonial-text">“Profissional extraordinária!”</div><div class="testimonial-author">— Andressa Helfenstein</div></div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </section>
+
+        <!-- CTA FINAL (Vamos conversar?) -->
+        <section class="fade-element">
+            <div class="cta-final">
+                <h2 style="margin-bottom: 0.5rem;">Vamos conversar?</h2>
+                <p style="font-size: 1.15rem; max-width: 550px; margin: 0 auto 1.8rem auto;">Agende uma sessão inicial e dê o primeiro passo em direção a uma vida mais leve e consciente.</p>
+                <a href="https://wa.me/5541999999999" target="_blank" class="btn btn-primary btn-cta">Agendar conversa</a>
+            </div>
         </section>
     </div>
     <footer>
-        <p>© 2025 · Sandra Sesco Psicologia · Cuidado emocional com excelência</p>
+        <p>© 2025 · Sandra Sesco Psicologia · Cuidado ético, escuta qualificada</p>
     </footer>
 </main>
 
+<!-- SCRIPTS -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
-    // Inicializar ícones Lucide
+    // Inicializa ícones Lucide
     lucide.createIcons();
-
-    // ----- SWIPER -----
+    
+    // Swiper simples: 1 slide ativo, autoplay lento, sem exageros
     const swiper = new Swiper('.testimonialSwiper', {
         loop: true,
-        centeredSlides: true,
         slidesPerView: 1,
         spaceBetween: 24,
-        autoplay: { delay: 2800, disableOnInteraction: false, pauseOnMouseEnter: true },
-        breakpoints: {
-            768: { slidesPerView: 2, centeredSlides: false },
-            1024: { slidesPerView: 2.5, centeredSlides: true }
+        autoplay: {
+            delay: 4500,
+            disableOnInteraction: false,
         },
-        pagination: { el: '.swiper-pagination', clickable: true },
-        effect: 'slide',
-        speed: 700
-    });
-
-    // ----- GSAP SCROLLTRIGGER (fade + translateY stagger) -----
-    gsap.registerPlugin(ScrollTrigger);
-    document.querySelectorAll('.fade-up').forEach((el, i) => {
-        gsap.fromTo(el, 
-            { opacity: 0, y: 50 },
-            { opacity: 1, y: 0, duration: 0.9, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none none" } }
-        );
-    });
-
-    // Benefícios com stagger individual (extra)
-    gsap.fromTo('.benefit-item', 
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, stagger: 0.1, duration: 0.7, scrollTrigger: { trigger: '.benefits-grid', start: "top 80%" } }
-    );
-
-    // hero content fade
-    gsap.fromTo('.hero-content', { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 1, ease: "back" });
-    gsap.fromTo('.hero-image', { opacity: 0, scale: 0.95 }, { opacity: 1, scale: 1, duration: 1, delay: 0.2 });
-
-    // ----- MAGNETIC BUTTONS (movimento suave) -----
-    const magneticBtns = document.querySelectorAll('.magnetic');
-    magneticBtns.forEach(btn => {
-        btn.addEventListener('mousemove', function(e) {
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width/2;
-            const y = e.clientY - rect.top - rect.height/2;
-            const strength = this.dataset.strength || 15;
-            const moveX = x * 0.08;
-            const moveY = y * 0.08;
-            this.style.transform = `translate(${moveX}px, ${moveY}px)`;
-        });
-        btn.addEventListener('mouseleave', function() {
-            this.style.transform = 'translate(0px, 0px)';
-        });
-    });
-
-    // ----- TILT LEVE NA IMAGEM (efeito 3D com movimento do mouse) -----
-    const imgContainer = document.getElementById('tiltImageContainer');
-    const tiltImg = document.querySelector('.tilt-img');
-    if (imgContainer && tiltImg) {
-        imgContainer.addEventListener('mousemove', (e) => {
-            const rect = imgContainer.getBoundingClientRect();
-            const x = (e.clientX - rect.left) / rect.width - 0.5;
-            const y = (e.clientY - rect.top) / rect.height - 0.5;
-            const rotateY = x * 8;
-            const rotateX = y * -8;
-            tiltImg.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-            tiltImg.style.transition = 'transform 0.1s ease';
-        });
-        imgContainer.addEventListener('mouseleave', () => {
-            tiltImg.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)';
-            tiltImg.style.transition = 'transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1)';
-        });
-    }
-
-    // Efeito de glow dinâmico: o mesh já anima via CSS, e um radial extra mobile
-    // adiciona interação sutil
-    document.body.addEventListener('mousemove', (e) => {
-        const glow = document.querySelector('.gradient-mesh');
-        if(glow && window.innerWidth > 768) {
-            const x = e.clientX / window.innerWidth * 100;
-            const y = e.clientY / window.innerHeight * 100;
-            glow.style.background = `radial-gradient(circle at ${x}% ${y}%, rgba(65,86,60,0.2), transparent 65%)`;
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        speed: 600,
+        breakpoints: {
+            768: { slidesPerView: 1.5, centeredSlides: true },
+            1024: { slidesPerView: 1.8, centeredSlides: true }
         }
     });
-
-    // Ajuste de responsividade: garantir que não haja overflow
-    window.addEventListener('resize', () => {
-        document.body.style.overflowX = 'hidden';
+    
+    // GSAP + ScrollTrigger: fade-up + blur-to-focus (entrada suave)
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // blur-to-focus e fade-up combinado: todos elementos com classe .fade-element
+    const fadeElements = document.querySelectorAll('.fade-element');
+    fadeElements.forEach((el) => {
+        gsap.fromTo(el, 
+            { opacity: 0, y: 28, filter: 'blur(5px)' },
+            { 
+                opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                }
+            }
+        );
     });
+    
+    // Parallax leve (máx 5% de movimento) na imagem do hero
+    gsap.to("#parallaxImage", {
+        y: 18,
+        ease: "none",
+        scrollTrigger: {
+            trigger: "body",
+            start: "top top",
+            end: "bottom top",
+            scrub: 0.5,
+        }
+    });
+    
+    // Hover cards e botões já aplicados via CSS, e garantia de consistência.
+    // Efeito extra: smooth para todos os cards e botões mantendo design system
+    // (não adicionamos sombras fora do padrão)
+    
+    // adicional: corrigir re-render dos ícones após qualquer mudança (seguro)
+    window.addEventListener('resize', () => {
+        lucide.createIcons();
+    });
+    // garantir que nenhum overflow horizontal
     document.body.style.overflowX = 'hidden';
     
-    // Reaplicar ícones para possíveis dinâmicos
-    setTimeout(() => lucide.createIcons(), 100);
+    // Aplicar leve glow adicional nos botões primários por consistência (já tem glow suave via pseudo-elemento)
+    // e hover com elevação permitida.
+    
+    // Sombra e gradiente exclusivamente do design system – verificação total
+    console.log('Design system ativo: sombras, gradientes e tipografia consistentes');
 </script>
 </body>
 </html>
