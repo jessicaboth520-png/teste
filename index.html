@@ -1,612 +1,197 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Ana Beatriz — Psicologia para Mulheres</title>
-    <!-- Google Fonts: Inter (premium global) -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-    <!-- GSAP Core + ScrollTrigger -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dra. Ana Beatriz</title>
 
-        /* ========== DESIGN SYSTEM PREMIUM GLOBAL ========== */
-        :root {
-            --primary: #A79277;
-            --primary-soft: rgba(167, 146, 119, 0.12);
-            --background: #FFF2E1;
-            --surface: #FFFFFF;
-            --text-primary: #1C1814;
-            --text-secondary: #7F6E5C;
-            --text-tertiary: #B7A591;
-            --border-subtle: rgba(167, 146, 119, 0.12);
-            --shadow-micro: 0 1px 2px rgba(0, 0, 0, 0.02);
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.03);
-            --shadow-hover: 0 20px 35px -14px rgba(0, 0, 0, 0.04), 0 2px 6px rgba(0, 0, 0, 0.02);
-            --radius-card: 24px;
-            --radius-btn: 100px;
-            --space-8: 8px;
-            --space-16: 16px;
-            --space-24: 24px;
-            --space-32: 32px;
-            --space-48: 48px;
-            --space-64: 64px;
-            --space-80: 80px;
-            --space-120: 120px;
-            --transition-macro: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            --transition-micro: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
-        }
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-        body {
-            background-color: var(--background);
-            color: var(--text-primary);
-            font-family: 'Inter', -apple-system, system-ui, sans-serif;
-            font-weight: 400;
-            line-height: 1.5;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            overflow-x: hidden;
-        }
+<style>
+:root{
+  --bg:#FFF2E1;
+  --primary:#A79277;
+  --text:#1a1a1a;
+  --text-soft:#6a6a6a;
+  --surface:rgba(255,255,255,0.5);
+}
 
-        /* Grid refinado — respiração máxima */
-        .container {
-            max-width: 1120px;
-            margin: 0 auto;
-            padding: 0 var(--space-32);
-        }
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
 
-        section {
-            padding: var(--space-120) 0;
-        }
+.container{max-width:1120px;margin:auto;padding:0 24px}
 
-        @media (max-width: 768px) {
-            section {
-                padding: var(--space-80) 0;
-            }
-            .container {
-                padding: 0 var(--space-24);
-            }
-        }
+header{
+  position:fixed;width:100%;z-index:20;
+  backdrop-filter:blur(16px);
+  background:rgba(255,255,255,0.4);
+}
 
-        /* Tipografia — hierarquia forte e minimalista */
-        h1, h2, h3 {
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            line-height: 1.2;
-        }
+nav{display:flex;justify-content:space-between;padding:16px 0}
 
-        h1 {
-            font-size: 4.8rem;
-            font-weight: 650;
-            letter-spacing: -0.03em;
-            line-height: 1.1;
-            margin-bottom: var(--space-24);
-            color: var(--text-primary);
-            max-width: 900px;
-        }
+.hero{min-height:100vh;display:flex;align-items:center}
 
-        h2 {
-            font-size: 2.8rem;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            margin-bottom: var(--space-16);
-            color: var(--text-primary);
-        }
+h1{
+  font-size:64px;
+  line-height:1.05;
+  letter-spacing:-1px;
+  background:linear-gradient(to bottom,#fff,#aaa);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
 
-        h3 {
-            font-size: 1.35rem;
-            font-weight: 500;
-            margin-bottom: var(--space-12);
-            letter-spacing: -0.01em;
-        }
+h2{font-weight:400;margin-top:16px;color:var(--text-soft);max-width:520px}
 
-        .text-lead {
-            font-size: 1.25rem;
-            line-height: 1.5;
-            color: var(--text-secondary);
-            font-weight: 400;
-            max-width: 620px;
-        }
+.btn{
+  margin-top:32px;padding:16px 32px;border-radius:14px;border:none;
+  background:var(--primary);color:white;cursor:pointer;position:relative;overflow:hidden;
+  transition:all .3s ease;
+}
 
-        .text-body {
-            font-size: 1rem;
-            line-height: 1.5;
-            color: var(--text-secondary);
-        }
+.btn:hover{transform:scale(1.03)}
 
-        .text-small {
-            font-size: 0.85rem;
-            color: var(--text-tertiary);
-            letter-spacing: 0.01em;
-        }
+.btn::after{
+  content:'';position:absolute;width:200%;height:100%;top:0;left:-100%;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.6),transparent);
+  animation:shine 4s infinite;
+}
 
-        /* Botões — hierarquia clara, transição ultra-suave */
-        .btn-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: var(--space-16);
-            margin-top: var(--space-32);
-        }
+@keyframes shine{to{left:100%}}
 
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px 32px;
-            border-radius: var(--radius-btn);
-            font-weight: 500;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: var(--transition-micro);
-            letter-spacing: -0.01em;
-            backdrop-filter: blur(0px);
-            box-shadow: var(--shadow-micro);
-        }
+.section{padding:120px 0}
 
-        .btn-primary:hover {
-            background: #917A60;
-            transform: scale(1.02);
-            box-shadow: var(--shadow-hover);
-        }
+.grid{display:grid;gap:24px}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
 
-        .btn-secondary {
-            background: transparent;
-            border: 1px solid var(--border-subtle);
-            color: var(--text-primary);
-            padding: 12px 28px;
-            border-radius: var(--radius-btn);
-            font-weight: 500;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: var(--transition-micro);
-        }
+.card{
+  padding:32px;border-radius:16px;background:white;
+  transition:all .35s cubic-bezier(.22,1,.36,1);
+}
 
-        .btn-secondary:hover {
-            border-color: var(--primary);
-            background: var(--primary-soft);
-            transform: scale(1.01);
-        }
+.cards:hover .card{filter:blur(3px);opacity:.7}
+.cards .card:hover{filter:none;opacity:1;transform:scale(1.04)}
 
-        /* Cards — extremamente limpos, espaço como separador */
-        .grid-benefits, .grid-signs, .grid-steps, .grid-testimonials {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: var(--space-48);
-            margin-top: var(--space-64);
-        }
+.reveal{opacity:0;transform:translateY(40px);filter:blur(10px)}
 
-        .card-premium {
-            background: var(--surface);
-            border-radius: var(--radius-card);
-            padding: var(--space-32);
-            transition: var(--transition-macro);
-            border: 1px solid var(--border-subtle);
-            box-shadow: var(--shadow-sm);
-        }
+.swiper{overflow:hidden}
+.swiper-wrapper{transition-timing-function:linear !important}
+.swiper-slide{width:auto;padding-right:40px;color:var(--text-soft)}
 
-        .card-premium:hover {
-            transform: translateY(-6px);
-            box-shadow: var(--shadow-hover);
-            border-color: rgba(167, 146, 119, 0.2);
-        }
+footer{padding:80px 0;text-align:center;color:var(--text-soft)}
 
-        .icon-symbol {
-            font-size: 2rem;
-            margin-bottom: var(--space-24);
-            opacity: 0.7;
-            letter-spacing: 0;
-        }
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-thumb{background:#00cfff;border-radius:10px}
 
-        /* Depoimentos refinados */
-        .testimonial-card {
-            background: var(--surface);
-            border-radius: var(--radius-card);
-            padding: var(--space-40) var(--space-36);
-            border: 1px solid var(--border-subtle);
-            transition: var(--transition-micro);
-        }
+.particle{
+  position:fixed;width:6px;height:6px;border-radius:50%;
+  background:radial-gradient(circle,#00eaff,#0088ff);
+  opacity:.4;filter:blur(2px);
+  animation:float linear infinite;
+}
 
-        .testimonial-text {
-            font-size: 1.1rem;
-            line-height: 1.5;
-            color: var(--text-primary);
-            font-weight: 450;
-            margin-bottom: var(--space-24);
-        }
+@keyframes float{
+  0%{transform:translateY(100vh) translateX(0)}
+  50%{transform:translateY(40vh) translateX(40px)}
+  100%{transform:translateY(-10vh) translateX(-20px)}
+}
 
-        .testimonial-author {
-            font-weight: 500;
-            color: var(--primary);
-            font-size: 0.9rem;
-        }
-
-        /* Separadores invisíveis — espaço puro */
-        hr {
-            border: none;
-            height: 1px;
-            background: var(--border-subtle);
-            margin: 0;
-        }
-
-        /* Trust bar minimal */
-        .trust-strip {
-            padding: var(--space-48) 0 var(--space-32);
-            border-bottom: 1px solid var(--border-subtle);
-        }
-        .trust-items {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: var(--space-32);
-            opacity: 0.55;
-        }
-        .trust-item {
-            font-size: 0.75rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            color: var(--text-secondary);
-        }
-
-        /* Rodapé ultra minimal */
-        footer {
-            padding: var(--space-64) 0 var(--space-48);
-            border-top: 1px solid var(--border-subtle);
-        }
-        .footer-inner {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: var(--space-48);
-        }
-        .footer-col p {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-bottom: var(--space-8);
-        }
-        .footer-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: color 0.2s;
-        }
-        .footer-link:hover {
-            color: var(--primary);
-        }
-
-        /* Hero com parallax ultra sutil */
-        .hero-section {
-            position: relative;
-            overflow: hidden;
-        }
-        .hero-visual {
-            position: absolute;
-            top: -5%;
-            right: -5%;
-            width: 55%;
-            height: 110%;
-            background-image: url('https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=1200&auto=format');
-            background-size: cover;
-            background-position: center 25%;
-            opacity: 0.07;
-            filter: blur(3px);
-            pointer-events: none;
-            border-radius: 56px;
-        }
-
-        /* Responsividade elegante */
-        @media (max-width: 860px) {
-            h1 { font-size: 3.5rem; }
-            h2 { font-size: 2.3rem; }
-            .text-lead { font-size: 1.1rem; }
-            .grid-benefits, .grid-signs, .grid-steps, .grid-testimonials {
-                gap: var(--space-32);
-            }
-        }
-        @media (max-width: 600px) {
-            h1 { font-size: 2.6rem; }
-            h2 { font-size: 2rem; }
-            .btn-group {
-                flex-direction: column;
-                width: 100%;
-            }
-            .btn-primary, .btn-secondary {
-                text-align: center;
-                width: 100%;
-            }
-            .card-premium {
-                padding: var(--space-24);
-            }
-            .testimonial-card {
-                padding: var(--space-28);
-            }
-            .hero-visual {
-                opacity: 0.04;
-                width: 80%;
-            }
-        }
-
-        /* reveal classes para scroll (performance pura) */
-        .fade-up {
-            opacity: 0;
-            transform: translateY(24px);
-            will-change: transform, opacity;
-        }
-    </style>
+@media(max-width:768px){
+  h1{font-size:42px}
+}
+</style>
 </head>
+
 <body>
+<header>
+  <div class="container">
+    <nav>
+      <div>LOGO</div>
+      <div>Contato</div>
+    </nav>
+  </div>
+</header>
 
-<main>
-    <!-- Hero Section — Cinematográfico premium -->
-    <section class="hero-section" style="padding-bottom: var(--space-80); padding-top: 100px;">
-        <div class="hero-visual"></div>
-        <div class="container">
-            <div class="hero-content">
-                <h1 id="hero-title">Você não precisa enfrentar seus desafios sozinha.</h1>
-                <div class="text-lead" id="hero-sub" style="margin-bottom: 12px;">Acolhimento psicológico para mulheres que buscam se reconectar com seu bem-estar emocional.</div>
-                <div class="text-body" id="hero-desc" style="color: var(--text-tertiary); margin-top: 8px;">Atendimento online e presencial com sigilo, empatia e embasamento científico.</div>
-                <div class="btn-group" id="hero-cta">
-                    <button class="btn-primary" onclick="handleWhatsApp()">Conversa gratuita</button>
-                    <button class="btn-secondary" onclick="handleWhatsApp()">WhatsApp</button>
-                </div>
-            </div>
-        </div>
-    </section>
+<section class="hero container">
+  <div>
+    <h1 class="reveal">Você não precisa enfrentar seus desafios sozinha.</h1>
+    <h2 class="reveal">Atendimento online e presencial com sigilo, empatia e embasamento científico.</h2>
+    <button class="btn reveal">QUERO ME CONHECER MELHOR</button>
+  </div>
+</section>
 
-    <!-- Trust / credibilidade — sem ruído visual -->
-    <div class="container trust-strip">
-        <div class="trust-items">
-            <span class="trust-item">CRP 00.000</span>
-            <span class="trust-item">+8 anos experiência</span>
-            <span class="trust-item">TCC especializada</span>
-            <span class="trust-item">Sigilo absoluto</span>
-            <span class="trust-item">Atendimento humanizado</span>
-        </div>
+<section class="section">
+  <div class="container">
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">Confiança</div>
+        <div class="swiper-slide">Empatia</div>
+        <div class="swiper-slide">Sigilo</div>
+        <div class="swiper-slide">Ciência</div>
+      </div>
     </div>
+  </div>
+</section>
 
-    <!-- Quem sou eu — tom íntimo e elegante -->
-    <section>
-        <div class="container">
-            <div class="fade-up" style="max-width: 780px;">
-                <h2>Dra. Ana Beatriz</h2>
-                <div class="text-lead" style="margin-bottom: var(--space-24); font-weight: 450;">Psicóloga clínica, especialista em saúde da mulher, ansiedade e autoestima.</div>
-                <div class="text-body" style="border-left: 2px solid var(--primary); padding-left: var(--space-24); font-style: normal; margin-bottom: var(--space-32);">
-                    “Acredito que cada mulher tem dentro de si uma força imensa, mas às vezes precisamos de ajuda para enxergá-la. Meu papel é caminhar ao seu lado, com ferramentas reais para transformar sua relação com você mesma.”
-                </div>
-                <div style="display: flex; flex-wrap: wrap; gap: var(--space-32);">
-                    <div><span style="font-weight: 500;">—</span> Terapia Cognitivo-Comportamental</div>
-                    <div><span style="font-weight: 500;">—</span> Atendimento personalizado</div>
-                    <div><span style="font-weight: 500;">—</span> Abordagem sem julgamentos</div>
-                </div>
-            </div>
-        </div>
-    </section>
+<section class="section container">
+  <div class="grid grid-3 cards">
+    <div class="card reveal">Autoconhecimento</div>
+    <div class="card reveal">Ansiedade</div>
+    <div class="card reveal">Relacionamentos</div>
+  </div>
+</section>
 
-    <!-- Para quem é essa terapia (sinais) -->
-    <section style="background: rgba(167, 146, 119, 0.02);">
-        <div class="container">
-            <div class="fade-up" style="text-align: center; max-width: 680px; margin: 0 auto var(--space-48);">
-                <h2>Isso soa como você?</h2>
-                <div class="text-body" style="color: var(--text-secondary);">Se identificou com ao menos dois pontos, a terapia pode transformar seu momento.</div>
-            </div>
-            <div class="grid-signs">
-                <div class="card-premium fade-up">Sente-se sobrecarregada com a rotina e cobranças diárias</div>
-                <div class="card-premium fade-up">Dificuldade para lidar com ansiedade ou crises de pânico</div>
-                <div class="card-premium fade-up">Repete padrões que machucam em relacionamentos</div>
-                <div class="card-premium fade-up">Autoestima abalada e dificuldade de reconstrução</div>
-                <div class="card-premium fade-up">Choro frequente sem entender o motivo</div>
-                <div class="card-premium fade-up">Desejo de se conhecer melhor, mas sem saber por onde</div>
-            </div>
-        </div>
-    </section>
+<footer>
+  © Dra. Ana Beatriz
+</footer>
 
-    <!-- Benefícios (cards clean) -->
-    <section>
-        <div class="container">
-            <div class="fade-up" style="text-align: center; margin-bottom: var(--space-48);">
-                <h2>Benefícios da terapia</h2>
-                <div class="text-body">Transformação real com consistência e acolhimento</div>
-            </div>
-            <div class="grid-benefits">
-                <div class="card-premium fade-up"><div class="icon-symbol">✧</div><h3>Compreensão de si</h3><div class="text-body">Entender o que te leva a sentir e agir como você age</div></div>
-                <div class="card-premium fade-up"><div class="icon-symbol">✧</div><h3>Redução da ansiedade</h3><div class="text-body">Técnicas práticas para o dia a dia</div></div>
-                <div class="card-premium fade-up"><div class="icon-symbol">✧</div><h3>Relacionamentos saudáveis</h3><div class="text-body">Limites e comunicação clara</div></div>
-                <div class="card-premium fade-up"><div class="icon-symbol">✧</div><h3>Equilíbrio emocional</h3><div class="text-body">Menos sofrimento, mais presença</div></div>
-                <div class="card-premium fade-up"><div class="icon-symbol">✧</div><h3>Autoconfiança real</h3><div class="text-body">Deixar a autossabotagem</div></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Como funciona (passos fluidos) -->
-    <section style="background: var(--background);">
-        <div class="container">
-            <div class="fade-up" style="text-align: center; margin-bottom: var(--space-48);">
-                <h2>Como funciona</h2>
-                <div class="text-body">Estrutura leve, sem burocracia</div>
-            </div>
-            <div class="grid-steps">
-                <div class="card-premium fade-up"><div class="icon-symbol">01</div><h3>Primeiro contato</h3><div class="text-body">15 minutos gratuitos para alinharmos expectativas</div></div>
-                <div class="card-premium fade-up"><div class="icon-symbol">02</div><h3>Avaliação inicial</h3><div class="text-body">Entendemos seus objetivos e plano terapêutico</div></div>
-                <div class="card-premium fade-up"><div class="icon-symbol">03</div><h3>Acompanhamento</h3><div class="text-body">Sessões semanais ou quinzenais, online ou presencial</div></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Depoimentos (prova social premium) -->
-    <section>
-        <div class="container">
-            <div class="fade-up" style="text-align: center; margin-bottom: var(--space-64);">
-                <h2>Vozes reais</h2>
-                <div class="text-body">Quem já viveu a experiência</div>
-            </div>
-            <div class="grid-testimonials">
-                <div class="testimonial-card fade-up">
-                    <div class="testimonial-text">“Nunca imaginei que falar com uma psicóloga pudesse ser tão leve. A Ana me ajudou a sair de uma crise severa. Hoje me sinto outra pessoa.”</div>
-                    <div class="testimonial-author">— Mariana, 32</div>
-                </div>
-                <div class="testimonial-card fade-up">
-                    <div class="testimonial-text">“Tinha medo de julgamento. Com a Ana me senti acolhida pela primeira vez. Terapia mudou minha vida.”</div>
-                    <div class="testimonial-author">— Carla, 28</div>
-                </div>
-                <div class="testimonial-card fade-up">
-                    <div class="testimonial-text">“Profissional incrível, abordagem ética e calorosa. Meu equilíbrio emocional nunca esteve tão bem.”</div>
-                    <div class="testimonial-author">— Juliana, 35</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA final forte, minimal e direto -->
-    <section style="padding: var(--space-80) 0; background: var(--surface); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
-        <div class="container" style="text-align: center;">
-            <div class="fade-up">
-                <h2 style="max-width: 700px; margin: 0 auto var(--space-16);">Você merece se sentir bem consigo mesma.</h2>
-                <div class="text-body" style="margin-bottom: var(--space-32);">Agende sua conversa gratuita de 15 minutos. Sem compromisso e 100% sigiloso.</div>
-                <div class="btn-group" style="justify-content: center;">
-                    <button class="btn-primary" onclick="handleWhatsApp()">Quero me conhecer melhor</button>
-                    <button class="btn-secondary" onclick="handleWhatsApp()">Falar via WhatsApp</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer refinado -->
-    <footer>
-        <div class="container">
-            <div class="footer-inner">
-                <div class="footer-col">
-                    <p style="font-weight: 500; color: var(--text-primary); margin-bottom: 12px;">Ana Beatriz · Psicóloga</p>
-                    <p>Atendimento presencial em São Paulo e online para todo o Brasil</p>
-                    <p>📞 (11) 91234-5678</p>
-                    <p>✉️ contato@psicologaana.com.br</p>
-                    <p class="text-small" style="margin-top: 8px;">CRP 00.000</p>
-                </div>
-                <div class="footer-col">
-                    <p style="font-weight: 500; margin-bottom: 12px;">Acompanhe</p>
-                    <a href="#" class="footer-link">Instagram @psicologaana</a>
-                    <p style="margin-top: 12px;" class="text-small">Conteúdo gratuito sobre saúde mental</p>
-                </div>
-                <div class="footer-col">
-                    <p class="text-small">© 2025 · Acolhimento e ciência</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-</main>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.6/bundled/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <script>
-    // Função CTA WhatsApp
-    function handleWhatsApp() {
-        const phone = "5511912345678";
-        const msg = "Olá, Dra. Ana! Gostaria de agendar minha conversa gratuita de 15 minutos.";
-        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
-    }
+const lenis=new Lenis({smooth:true});
+function raf(t){lenis.raf(t);requestAnimationFrame(raf)}requestAnimationFrame(raf);
 
-    // Inicialização GSAP e ScrollTrigger com timings cinematográficos
-    gsap.registerPlugin(ScrollTrigger);
-    
-    window.addEventListener("DOMContentLoaded", () => {
-        // --- HERO CINEMATOGRÁFICO refinado: fade + translate Y + blur suave, easing natural
-        const heroTitle = document.querySelector("#hero-title");
-        const heroSub = document.querySelector("#hero-sub");
-        const heroDesc = document.querySelector("#hero-desc");
-        const heroCta = document.querySelector("#hero-cta");
-        
-        gsap.set([heroTitle, heroSub, heroDesc, heroCta], { opacity: 0, y: 28, filter: "blur(5px)" });
-        
-        const tlHero = gsap.timeline({ defaults: { ease: "power3.out", duration: 1.1 } });
-        tlHero.to(heroTitle, { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.2, delay: 0.1 })
-              .to(heroSub, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.9 }, "-=0.7")
-              .to(heroDesc, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8 }, "-=0.5")
-              .to(heroCta, { opacity: 1, y: 0, filter: "blur(0px)", scale: 1, duration: 0.8, ease: "back.out(0.2)" }, "-=0.3");
-        
-        // --- STAGGER SYSTEM: cards com delay progressivo natural (não linear)
-        const allCards = document.querySelectorAll(".card-premium, .testimonial-card, .grid-signs .card-premium");
-        gsap.fromTo(allCards,
-            { opacity: 0, y: 28, filter: "blur(3px)" },
-            {
-                opacity: 1,
-                y: 0,
-                filter: "blur(0px)",
-                duration: 0.9,
-                stagger: { amount: 0.5, from: "start", ease: "power1.out" },
-                ease: "expo.out",
-                scrollTrigger: {
-                    trigger: "body",
-                    start: "top 88%",
-                    toggleActions: "play none none reset"
-                }
-            }
-        );
-        
-        // --- REVEAL SECTIONS (fade-up elegante, cada bloco de texto)
-        const fadeElements = document.querySelectorAll(".fade-up");
-        fadeElements.forEach((el, index) => {
-            gsap.fromTo(el,
-                { opacity: 0, y: 24 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.85,
-                    delay: index * 0.02,
-                    ease: "power2.out",
-                    scrollTrigger: {
-                        trigger: el,
-                        start: "top 90%",
-                        toggleActions: "play none none reverse"
-                    }
-                }
-            );
-        });
-        
-        // --- Parallax ultra sutil: hero visual com movimento lentíssimo e cinematográfico
-        const heroVisual = document.querySelector(".hero-visual");
-        if (heroVisual) {
-            gsap.to(heroVisual, {
-                y: 70,
-                scale: 1.02,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: ".hero-section",
-                    start: "top top",
-                    end: "bottom top",
-                    scrub: 0.7,
-                }
-            });
-        }
-        
-        // --- Trust strip micro-animação
-        const trustItems = document.querySelectorAll(".trust-item");
-        gsap.fromTo(trustItems,
-            { opacity: 0, x: -12 },
-            {
-                opacity: 0.55,
-                x: 0,
-                duration: 0.7,
-                stagger: 0.06,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: ".trust-strip",
-                    start: "top 85%",
-                }
-            }
-        );
-        
-        // --- Micro interações suaves adicionais via CSS já estão aplicadas, garantindo que haja fluidez
-        // Prevenir qualquer repaint pesado
-        gsap.config({ nullTargetWarn: false });
-        
-        // Ajuste de responsividade para performance
-        window.addEventListener("resize", () => {
-            ScrollTrigger.refresh();
-        });
-    });
+// HERO TIMELINE
+const tl=gsap.timeline();
+tl.to('.hero h1',{opacity:1,y:0,filter:'blur(0)',duration:1,ease:'expo.out'})
+  .to('.hero h2',{opacity:1,y:0,filter:'blur(0)',duration:1},'-=0.6')
+  .to('.hero .btn',{opacity:1,y:0,scale:1,duration:.8},'-=0.6');
+
+// REVEAL
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){
+      gsap.to(e.target,{opacity:1,y:0,filter:'blur(0)',duration:1,delay:i*0.08,ease:'power3.out'})
+    }
+  })
+},{threshold:0.2});
+
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// SWIPER MARQUEE
+new Swiper('.swiper',{
+  slidesPerView:'auto',
+  loop:true,
+  speed:4000,
+  allowTouchMove:false,
+  autoplay:{delay:0,disableOnInteraction:false}
+});
+
+// PARTICLES
+for(let i=0;i<40;i++){
+  const p=document.createElement('div');
+  p.className='particle';
+  p.style.left=Math.random()*100+'%';
+  p.style.animationDuration=8+Math.random()*10+'s';
+  document.body.appendChild(p);
+}
 </script>
+
 </body>
 </html>
