@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
-    <title>Ana Beatriz · Psicologia Clínica | Experiência WebGL</title>
+    <title>Ana Beatriz · Psicologia Clínica | Experiência WebGL Premium</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Libs via CDN (sem import map) -->
+    <!-- Core Libraries (ordem correta de carregamento) -->
     <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.9/dist/lenis.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/CustomEase.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/SplitText.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     
     <style>
         * {
@@ -31,14 +31,22 @@
             overflow-x: hidden;
         }
 
-        /* FALLBACK: conteúdo visível mesmo sem JS */
-        .no-js .reveal-item {
-            opacity: 1 !important;
-            transform: none !important;
-            filter: none !important;
+        /* FALLBACK: conteúdo visível mesmo com problemas de JS */
+        .reveal-item {
+            opacity: 0;
+            transform: translateY(40px);
+            filter: blur(10px);
+            transition: opacity 0.8s cubic-bezier(0.15, 0.85, 0.35, 1.02),
+                        transform 0.8s cubic-bezier(0.15, 0.85, 0.35, 1.02),
+                        filter 0.8s cubic-bezier(0.15, 0.85, 0.35, 1.02);
+        }
+        .reveal-item.revealed {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
         }
 
-        /* ===== CURSOR (opcional, não quebra layout) ===== */
+        /* ===== CURSOR ===== */
         .cursor-dot {
             width: 8px;
             height: 8px;
@@ -270,19 +278,6 @@
             border: 1px solid rgba(167,146,119,0.25);
         }
 
-        /* ===== REVEAL (FALLBACK GARANTIDO) ===== */
-        .reveal-item {
-            opacity: 0;
-            transform: translateY(40px);
-            filter: blur(10px);
-            transition: opacity 0.6s ease, transform 0.6s ease, filter 0.6s ease;
-        }
-        .reveal-item.revealed {
-            opacity: 1;
-            transform: translateY(0);
-            filter: blur(0);
-        }
-
         .stat-badge {
             background: rgba(167,146,119,0.12);
             border-radius: 40px;
@@ -362,14 +357,60 @@
 
 <script>
     (function() {
-        // DETECTAR SE JS ESTÁ ATIVO (fallback)
-        document.body.classList.remove('no-js');
+        "use strict";
         
         // ============================================
-        // 1. WEBGL COM THREE.JS (CDN tradicional)
+        // DIAGNÓSTICO: Garantir que tudo seja executado após DOM pronto
         // ============================================
-        if (typeof THREE !== 'undefined') {
+        
+        let lenisInstance = null;
+        let swiperInstance = null;
+        
+        // Função para inicializar tudo após carregamento completo
+        function initAll() {
+            // 1. THREE.JS - WebGL Canvas (sistema de partículas interativo)
+            initThreeJS();
+            
+            // 2. LENIS + GSAP ScrollTrigger (configuração correta e sincronizada)
+            initLenisAndScroll();
+            
+            // 3. SPLITTEXT + HERO ANIMATION (com verificação de existência)
+            initHeroAnimation();
+            
+            // 4. STAGGER CARDS (ScrollTrigger)
+            initCardAnimations();
+            
+            // 5. PARALLAX SECTIONS
+            initParallaxSections();
+            
+            // 6. SWIPER CAROUSEL
+            initSwiper();
+            
+            // 7. INTERSECTION OBSERVER (reveal items - fallback garantido)
+            initIntersectionObserver();
+            
+            // 8. CURSOR PERSONALIZADO
+            initCustomCursor();
+            
+            // 9. BOTÕES CTA
+            initCtaButtons();
+            
+            // 10. HEADER DINÂMICO
+            initDynamicHeader();
+        }
+        
+        // ============================================
+        // THREE.JS: Sistema de partículas interativo
+        // ============================================
+        function initThreeJS() {
+            if (typeof THREE === 'undefined') {
+                console.warn('Three.js não carregado');
+                return;
+            }
+            
             const canvas = document.getElementById('webgl-canvas');
+            if (!canvas) return;
+            
             const scene = new THREE.Scene();
             const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
             const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
@@ -380,16 +421,16 @@
             renderer.setSize(width, height);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             
-            // Partículas
+            // Partículas flutuantes
             const particleCount = window.innerWidth < 768 ? 800 : 1800;
             const geometry = new THREE.BufferGeometry();
             const positions = new Float32Array(particleCount * 3);
             const colors = new Float32Array(particleCount * 3);
             
             for (let i = 0; i < particleCount; i++) {
-                positions[i*3] = (Math.random() - 0.5) * 35;
-                positions[i*3+1] = (Math.random() - 0.5) * 22;
-                positions[i*3+2] = (Math.random() - 0.5) * 25 - 15;
+                positions[i*3] = (Math.random() - 0.5) * 40;
+                positions[i*3+1] = (Math.random() - 0.5) * 25;
+                positions[i*3+2] = (Math.random() - 0.5) * 30 - 15;
                 
                 const color = new THREE.Color().setHSL(0.09, 0.6, 0.55 + Math.random() * 0.25);
                 colors[i*3] = color.r;
@@ -419,8 +460,8 @@
                 particles.rotation.z += 0.0005;
                 
                 // Reação sutil ao mouse
-                particles.rotation.y += mouseX * 0.01;
-                particles.rotation.x += mouseY * 0.008;
+                particles.rotation.y += mouseX * 0.008;
+                particles.rotation.x += mouseY * 0.006;
                 
                 renderer.render(scene, camera);
             }
@@ -437,68 +478,160 @@
         }
         
         // ============================================
-        // 2. GSAP + SCROLLTRIGGER (aguardar DOM)
+        // LENIS + GSAP SCROLLTRIGGER (sincronização crítica)
         // ============================================
-        document.addEventListener('DOMContentLoaded', function() {
-            if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && typeof SplitText !== 'undefined') {
-                gsap.registerPlugin(ScrollTrigger, SplitText);
-                
-                // Hero animation
-                const heroHeading = document.getElementById("heroHeading");
-                if (heroHeading) {
-                    const split = new SplitText(heroHeading, { type: "words,chars" });
-                    
-                    const masterTL = gsap.timeline({ defaults: { ease: "power3.out", duration: 1 } });
-                    masterTL.fromTo(".hero-content", { scale: 0.96, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.1 })
-                        .fromTo(split.chars, { y: 80, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.018, duration: 0.8 }, "-=0.8")
-                        .fromTo("#heroSubhead", { y: 45, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, "-=0.4")
-                        .fromTo("#heroDesc", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, "-=0.3")
-                        .fromTo("#heroCta", { scale: 0.92, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6 }, "-=0.2");
-                }
-                
-                // Stagger cards
-                const cards = gsap.utils.toArray(".benefit-card");
-                cards.forEach((card, i) => {
-                    gsap.fromTo(card, { y: 60, opacity: 0 }, {
-                        y: 0, opacity: 1, duration: 0.75, delay: 0.1 + (i * 0.07),
-                        scrollTrigger: { trigger: "#benefitsGrid", start: "top 85%", toggleActions: "play none none none" }
-                    });
-                });
-                
-                // Parallax sections
-                gsap.utils.toArray("section").forEach((section, idx) => {
-                    gsap.fromTo(section, { y: 0 }, {
-                        y: idx % 2 === 0 ? -25 : -15,
-                        scrollTrigger: { trigger: section, start: "top bottom", end: "bottom top", scrub: 1.3 }
-                    });
-                });
+        function initLenisAndScroll() {
+            if (typeof Lenis === 'undefined' || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+                console.warn('Lenis/GSAP não disponível');
+                return;
             }
             
-            // ============================================
-            // 3. LENIS (scroll suave com fallback)
-            // ============================================
-            if (typeof Lenis !== 'undefined') {
-                const lenis = new Lenis({ duration: 1.2, smoothWheel: true });
-                
-                function raf(time) {
-                    lenis.raf(time);
-                    requestAnimationFrame(raf);
-                }
+            // Configurar Lenis
+            lenisInstance = new Lenis({
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                smoothWheel: true,
+                smoothTouch: false
+            });
+            
+            // Sincronizar ScrollTrigger com Lenis (CRÍTICO)
+            lenisInstance.on('scroll', () => {
+                ScrollTrigger.update();
+            });
+            
+            // Configurar scroller proxy para ScrollTrigger
+            ScrollTrigger.scrollerProxy(document.body, {
+                scrollTop(value) {
+                    if (arguments.length) {
+                        lenisInstance.scrollTo(value);
+                    }
+                    return lenisInstance ? lenisInstance.scroll : window.scrollY;
+                },
+                getBoundingClientRect() {
+                    return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
+                },
+                fixedMarkers: true
+            });
+            
+            // Atualizar ScrollTrigger no frame da animação
+            function raf(time) {
+                lenisInstance.raf(time);
+                ScrollTrigger.update();
                 requestAnimationFrame(raf);
-                
-                // Sincronizar ScrollTrigger com Lenis
-                if (typeof ScrollTrigger !== 'undefined') {
-                    lenis.on('scroll', ScrollTrigger.update);
-                    ScrollTrigger.scrollerProxy(document.body, {
-                        scrollTop(value) { return lenis ? lenis.scroll : value; },
-                        getBoundingClientRect() { return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight }; }
-                    });
-                }
+            }
+            requestAnimationFrame(raf);
+            
+            // Refresh após carregamento
+            setTimeout(() => {
+                ScrollTrigger.refresh();
+            }, 100);
+        }
+        
+        // ============================================
+        // HERO ANIMATION COM SPLITTEXT
+        // ============================================
+        function initHeroAnimation() {
+            if (typeof gsap === 'undefined' || typeof SplitText === 'undefined') {
+                console.warn('GSAP/SplitText não disponível');
+                return;
             }
             
-            // ============================================
-            // 4. INTERSECTION OBSERVER (REVEAL)
-            // ============================================
+            const heroHeading = document.getElementById("heroHeading");
+            if (!heroHeading) return;
+            
+            try {
+                const split = new SplitText(heroHeading, { type: "words,chars" });
+                
+                const masterTL = gsap.timeline({ defaults: { ease: "power3.out", duration: 1 } });
+                masterTL.fromTo(".hero-content", { scale: 0.96, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.1 })
+                    .fromTo(split.chars, { y: 80, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.018, duration: 0.8 }, "-=0.8")
+                    .fromTo("#heroSubhead", { y: 45, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, "-=0.4")
+                    .fromTo("#heroDesc", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, "-=0.3")
+                    .fromTo("#heroCta", { scale: 0.92, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6 }, "-=0.2");
+            } catch(e) {
+                console.warn('Erro no SplitText:', e);
+                // Fallback: mostrar conteúdo mesmo sem animação
+                document.querySelectorAll(".hero-content").forEach(el => el.style.opacity = "1");
+            }
+        }
+        
+        // ============================================
+        // STAGGER CARDS (ScrollTrigger)
+        // ============================================
+        function initCardAnimations() {
+            if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+            
+            const cards = document.querySelectorAll(".benefit-card");
+            if (!cards.length) return;
+            
+            cards.forEach((card, i) => {
+                gsap.fromTo(card, { y: 60, opacity: 0 }, {
+                    y: 0, opacity: 1, duration: 0.75, delay: 0.1 + (i * 0.07),
+                    scrollTrigger: {
+                        trigger: "#benefitsGrid",
+                        start: "top 85%",
+                        toggleActions: "play none none none"
+                    }
+                });
+            });
+        }
+        
+        // ============================================
+        // PARALLAX SECTIONS
+        // ============================================
+        function initParallaxSections() {
+            if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+            
+            const sections = document.querySelectorAll("section");
+            if (!sections.length) return;
+            
+            sections.forEach((section, idx) => {
+                gsap.fromTo(section, { y: 0 }, {
+                    y: idx % 2 === 0 ? -25 : -15,
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: 1.3
+                    }
+                });
+            });
+        }
+        
+        // ============================================
+        // SWIPER CAROUSEL
+        // ============================================
+        function initSwiper() {
+            if (typeof Swiper === 'undefined') return;
+            
+            const swiperEl = document.querySelector(".mySwiper");
+            if (!swiperEl) return;
+            
+            swiperInstance = new Swiper(".mySwiper", {
+                slidesPerView: "auto",
+                spaceBetween: 24,
+                loop: true,
+                speed: 4800,
+                autoplay: { delay: 0, disableOnInteraction: false, pauseOnMouseEnter: false },
+                breakpoints: {
+                    320: { slidesPerView: 1.2, spaceBetween: 14 },
+                    768: { slidesPerView: 2.2, spaceBetween: 20 },
+                    1024: { slidesPerView: 3.2, spaceBetween: 24 }
+                }
+            });
+            
+            if (swiperInstance && swiperInstance.autoplay) {
+                swiperInstance.autoplay.start();
+            }
+        }
+        
+        // ============================================
+        // INTERSECTION OBSERVER (REVEAL)
+        // ============================================
+        function initIntersectionObserver() {
+            const revealItems = document.querySelectorAll(".reveal-item");
+            if (!revealItems.length) return;
+            
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -508,50 +641,45 @@
                 });
             }, { threshold: 0.2, rootMargin: "0px 0px -30px 0px" });
             
-            document.querySelectorAll(".reveal-item").forEach(el => observer.observe(el));
-            
-            // ============================================
-            // 5. SWIPER
-            // ============================================
-            if (typeof Swiper !== 'undefined') {
-                new Swiper(".mySwiper", {
-                    slidesPerView: "auto",
-                    spaceBetween: 24,
-                    loop: true,
-                    speed: 4800,
-                    autoplay: { delay: 0, disableOnInteraction: false, pauseOnMouseEnter: false },
-                    breakpoints: { 320: { slidesPerView: 1.2, spaceBetween: 14 }, 768: { slidesPerView: 2.2 }, 1024: { slidesPerView: 3.2 } }
-                });
-            }
-            
-            // ============================================
-            // 6. CURSOR PERSONALIZADO
-            // ============================================
+            revealItems.forEach(el => observer.observe(el));
+        }
+        
+        // ============================================
+        // CURSOR PERSONALIZADO
+        // ============================================
+        function initCustomCursor() {
             const cursorDot = document.getElementById("cursorDot");
             const cursorRing = document.getElementById("cursorRing");
             
-            if (cursorDot && cursorRing) {
-                document.addEventListener("mousemove", (e) => {
+            if (!cursorDot || !cursorRing) return;
+            
+            document.addEventListener("mousemove", (e) => {
+                if (typeof gsap !== 'undefined') {
                     gsap.to(cursorDot, { x: e.clientX - 4, y: e.clientY - 4, duration: 0.05 });
                     gsap.to(cursorRing, { x: e.clientX - 24, y: e.clientY - 24, duration: 0.18 });
-                });
-                
-                const interactive = document.querySelectorAll(".btn-shine, .btn-outline, .benefit-card, .cta-btn");
-                interactive.forEach(el => {
-                    el.addEventListener("mouseenter", () => {
-                        cursorDot.classList.add("hover-active");
-                        cursorRing.classList.add("hover-active");
-                    });
-                    el.addEventListener("mouseleave", () => {
-                        cursorDot.classList.remove("hover-active");
-                        cursorRing.classList.remove("hover-active");
-                    });
-                });
-            }
+                } else {
+                    cursorDot.style.transform = `translate(${e.clientX - 4}px, ${e.clientY - 4}px)`;
+                    cursorRing.style.transform = `translate(${e.clientX - 24}px, ${e.clientY - 24}px)`;
+                }
+            });
             
-            // ============================================
-            // 7. BOTÕES CTA
-            // ============================================
+            const interactive = document.querySelectorAll(".btn-shine, .btn-outline, .benefit-card, .cta-btn");
+            interactive.forEach(el => {
+                el.addEventListener("mouseenter", () => {
+                    cursorDot.classList.add("hover-active");
+                    cursorRing.classList.add("hover-active");
+                });
+                el.addEventListener("mouseleave", () => {
+                    cursorDot.classList.remove("hover-active");
+                    cursorRing.classList.remove("hover-active");
+                });
+            });
+        }
+        
+        // ============================================
+        // BOTÕES CTA
+        // ============================================
+        function initCtaButtons() {
             document.querySelectorAll(".cta-btn").forEach(btn => {
                 btn.addEventListener("click", (e) => {
                     e.preventDefault();
@@ -561,21 +689,32 @@
                     alert("✨ Agende sua conversa gratuita: (11) 91234-5678 ou WhatsApp");
                 });
             });
+        }
+        
+        // ============================================
+        // HEADER DINÂMICO
+        // ============================================
+        function initDynamicHeader() {
+            const header = document.querySelector(".glass-header");
+            if (!header) return;
             
-            // Header dinâmico
             window.addEventListener("scroll", () => {
-                const header = document.querySelector(".glass-header");
-                if (header) {
-                    if (window.scrollY > 30) {
-                        header.style.backdropFilter = "blur(32px)";
-                        header.style.background = "rgba(11,10,10,0.6)";
-                    } else {
-                        header.style.backdropFilter = "blur(24px)";
-                        header.style.background = "rgba(11,10,10,0.35)";
-                    }
+                if (window.scrollY > 30) {
+                    header.style.backdropFilter = "blur(32px)";
+                    header.style.background = "rgba(11,10,10,0.6)";
+                } else {
+                    header.style.backdropFilter = "blur(24px)";
+                    header.style.background = "rgba(11,10,10,0.35)";
                 }
             });
-        });
+        }
+        
+        // Inicializar tudo após DOM pronto
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initAll);
+        } else {
+            initAll();
+        }
     })();
 </script>
 </body>
