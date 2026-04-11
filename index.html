@@ -1,197 +1,616 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Dra. Ana Beatriz</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Ana Beatriz · Psicologia Clínica</title>
+    
+    <!-- Google Fonts (Sora + Inter System) -->
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Bibliotecas: Lenis, Swiper, GSAP -->
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.9/dist/lenis.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<style>
-:root{
-  --bg:#FFF2E1;
-  --primary:#A79277;
-  --text:#1a1a1a;
-  --text-soft:#6a6a6a;
-  --surface:rgba(255,255,255,0.5);
-}
+        body {
+            background-color: #0B0A0A;  /* fundo dark premium */
+            font-family: 'Sora', 'Inter', system-ui, -apple-system, sans-serif;
+            color: #FFF2E1;
+            overflow-x: hidden;
+            scroll-behavior: auto;
+        }
 
-*{margin:0;padding:0;box-sizing:border-box}
-body{
-  font-family:'Inter',sans-serif;
-  background:var(--bg);
-  color:var(--text);
-}
+        /* ----- CUSTOM SCROLLBAR (escuro + thumb azul ciano) ----- */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #151212;
+            border-radius: 12px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d8f8f;
+            border-radius: 12px;
+            transition: background 0.2s;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3ccfcf;
+        }
 
-.container{max-width:1120px;margin:auto;padding:0 24px}
+        /* ----- CSS PARTICLES: trajetórias complexas + glow pulsante (azul/ciano) ----- */
+        .particles-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(0, 200, 255, 0.5) 0%, rgba(0, 150, 200, 0) 80%);
+            border-radius: 50%;
+            filter: blur(2px);
+            animation: floatParticle linear infinite, glowPulse 3s ease-in-out infinite alternate;
+            opacity: 0.5;
+        }
+        @keyframes floatParticle {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(var(--dx, 200px), var(--dy, -150px)) rotate(360deg); }
+        }
+        @keyframes glowPulse {
+            0% { box-shadow: 0 0 2px rgba(0,210,255,0.2), 0 0 5px rgba(0,210,255,0.3); opacity: 0.4; }
+            100% { box-shadow: 0 0 15px rgba(0,230,255,0.7), 0 0 25px rgba(0,200,255,0.5); opacity: 0.9; }
+        }
 
-header{
-  position:fixed;width:100%;z-index:20;
-  backdrop-filter:blur(16px);
-  background:rgba(255,255,255,0.4);
-}
+        /* layout base */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+            position: relative;
+            z-index: 2;
+        }
 
-nav{display:flex;justify-content:space-between;padding:16px 0}
+        /* glassmorphism header */
+        .glass-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(11, 10, 10, 0.55);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(167, 146, 119, 0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 32px;
+            padding-right: 32px;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.8rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #FFF2E1 0%, #C0B7A8 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+        .nav-links a {
+            color: #FFF2E1;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: 0.2s;
+            opacity: 0.8;
+        }
+        .nav-links a:hover { opacity: 1; color: #A79277; }
 
-.hero{min-height:100vh;display:flex;align-items:center}
+        /* botão shine infinito (primário) */
+        .btn-shine {
+            background: linear-gradient(90deg, #A79277, #C7B294, #A79277);
+            background-size: 200% auto;
+            color: #0B0A0A;
+            font-weight: 700;
+            padding: 14px 28px;
+            border-radius: 48px;
+            border: none;
+            font-family: 'Sora', sans-serif;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            animation: shineMove 3s linear infinite;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        @keyframes shineMove {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+        .btn-shine:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 28px rgba(167,146,119,0.3);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid #A79277;
+            color: #FFF2E1;
+            padding: 12px 26px;
+            border-radius: 48px;
+            font-weight: 600;
+            transition: 0.2s;
+            backdrop-filter: blur(4px);
+        }
+        .btn-outline:hover {
+            background: rgba(167,146,119,0.15);
+            transform: scale(1.02);
+        }
 
-h1{
-  font-size:64px;
-  line-height:1.05;
-  letter-spacing:-1px;
-  background:linear-gradient(to bottom,#fff,#aaa);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
+        /* seções */
+        section {
+            padding: 110px 0 100px;
+            position: relative;
+        }
+        .hero-section {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            padding-top: 140px;
+        }
+        h1 {
+            font-size: clamp(3.2rem, 7vw, 5.2rem);
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #FFFFFF 0%, #D9D2C5 80%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1.5rem;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #FFF2E1, #B3A187);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        h2 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            margin-bottom: 2rem;
+            background: linear-gradient(145deg, #FFF2E1, #C5B7A6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .subhead {
+            font-size: 1.2rem;
+            color: #CCC4B8;
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
 
-h2{font-weight:400;margin-top:16px;color:var(--text-soft);max-width:520px}
+        /* Cards grid com efeito hover: card alvo expande, irmãos desfocados */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .benefit-card {
+            background: rgba(25, 23, 23, 0.6);
+            backdrop-filter: blur(2px);
+            border-radius: 24px;
+            padding: 2rem 1.5rem;
+            transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            border: 1px solid rgba(167,146,119,0.2);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        .cards-grid:hover .benefit-card:not(:hover) {
+            filter: blur(4px);
+            opacity: 0.6;
+            transform: scale(0.96);
+        }
+        .benefit-card:hover {
+            transform: scale(1.04);
+            background: rgba(40, 35, 32, 0.8);
+            border-color: rgba(167,146,119,0.6);
+            box-shadow: 0 25px 35px -12px rgba(0,0,0,0.5);
+        }
+        .benefit-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        .benefit-card p {
+            color: #D1C9BD;
+            line-height: 1.5;
+        }
 
-.btn{
-  margin-top:32px;padding:16px 32px;border-radius:14px;border:none;
-  background:var(--primary);color:white;cursor:pointer;position:relative;overflow:hidden;
-  transition:all .3s ease;
-}
+        /* swiper marquee infinito (carrossel contínuo) */
+        .swiper-marquee {
+            width: 100%;
+            overflow: hidden;
+            padding: 30px 0;
+            margin: 40px 0;
+        }
+        .swiper-slide {
+            background: rgba(20, 18, 18, 0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 28px;
+            padding: 28px 20px;
+            text-align: center;
+            font-weight: 500;
+            width: auto;
+            border: 1px solid rgba(167,146,119,0.3);
+            color: #FFF2E1;
+        }
 
-.btn:hover{transform:scale(1.03)}
+        /* Intersection Observer reveals (fade-in + slide-up + blur removal) */
+        .reveal-item {
+            opacity: 0;
+            transform: translateY(32px);
+            filter: blur(8px);
+            transition: none;
+        }
+        .reveal-item.revealed {
+            animation: premiumReveal 0.9s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+        }
+        @keyframes premiumReveal {
+            0% { opacity: 0; transform: translateY(32px); filter: blur(8px); }
+            100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
 
-.btn::after{
-  content:'';position:absolute;width:200%;height:100%;top:0;left:-100%;
-  background:linear-gradient(120deg,transparent,rgba(255,255,255,.6),transparent);
-  animation:shine 4s infinite;
-}
+        /* depoimentos */
+        .testimonial-card {
+            background: rgba(30, 27, 25, 0.7);
+            border-radius: 28px;
+            padding: 2rem;
+            border-left: 5px solid #A79277;
+        }
 
-@keyframes shine{to{left:100%}}
+        /* footer minimalista */
+        .footer {
+            border-top: 1px solid rgba(167,146,119,0.2);
+            padding: 50px 0;
+            text-align: center;
+            color: #AFA79E;
+        }
 
-.section{padding:120px 0}
+        /* responsividade premium */
+        @media (max-width: 1024px) {
+            .container { padding: 0 24px; }
+            h2 { font-size: 1.9rem; }
+        }
+        @media (max-width: 768px) {
+            .glass-header .header-inner {
+                flex-direction: column;
+                gap: 12px;
+                padding: 16px 20px;
+            }
+            .nav-links { gap: 1.5rem; flex-wrap: wrap; justify-content: center; }
+            section { padding: 70px 0; }
+            .hero-section { padding-top: 180px; }
+            .cards-grid { gap: 1.2rem; }
+            .btn-shine, .btn-outline { padding: 10px 20px; font-size: 0.9rem; }
+        }
 
-.grid{display:grid;gap:24px}
-.grid-3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
-
-.card{
-  padding:32px;border-radius:16px;background:white;
-  transition:all .35s cubic-bezier(.22,1,.36,1);
-}
-
-.cards:hover .card{filter:blur(3px);opacity:.7}
-.cards .card:hover{filter:none;opacity:1;transform:scale(1.04)}
-
-.reveal{opacity:0;transform:translateY(40px);filter:blur(10px)}
-
-.swiper{overflow:hidden}
-.swiper-wrapper{transition-timing-function:linear !important}
-.swiper-slide{width:auto;padding-right:40px;color:var(--text-soft)}
-
-footer{padding:80px 0;text-align:center;color:var(--text-soft)}
-
-::-webkit-scrollbar{width:8px}
-::-webkit-scrollbar-thumb{background:#00cfff;border-radius:10px}
-
-.particle{
-  position:fixed;width:6px;height:6px;border-radius:50%;
-  background:radial-gradient(circle,#00eaff,#0088ff);
-  opacity:.4;filter:blur(2px);
-  animation:float linear infinite;
-}
-
-@keyframes float{
-  0%{transform:translateY(100vh) translateX(0)}
-  50%{transform:translateY(40vh) translateX(40px)}
-  100%{transform:translateY(-10vh) translateX(-20px)}
-}
-
-@media(max-width:768px){
-  h1{font-size:42px}
-}
-</style>
+        /* utilidades extras */
+        .flex-cta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        .text-secondary {
+            color: #C8BFAF;
+        }
+        .stat-badge {
+            background: rgba(167,146,119,0.2);
+            border-radius: 40px;
+            padding: 8px 16px;
+            font-size: 0.8rem;
+        }
+    </style>
 </head>
-
 <body>
-<header>
-  <div class="container">
-    <nav>
-      <div>LOGO</div>
-      <div>Contato</div>
-    </nav>
-  </div>
+
+<div class="particles-bg" id="particlesContainer"></div>
+
+<header class="glass-header">
+    <div class="header-inner">
+        <div class="logo">Ana Beatriz · Psicologia</div>
+        <div class="nav-links">
+            <a href="#">Início</a>
+            <a href="#">Sobre</a>
+            <a href="#">Benefícios</a>
+            <a href="#">Depoimentos</a>
+            <a href="#">Contato</a>
+        </div>
+    </div>
 </header>
 
-<section class="hero container">
-  <div>
-    <h1 class="reveal">Você não precisa enfrentar seus desafios sozinha.</h1>
-    <h2 class="reveal">Atendimento online e presencial com sigilo, empatia e embasamento científico.</h2>
-    <button class="btn reveal">QUERO ME CONHECER MELHOR</button>
-  </div>
-</section>
+<main>
+    <!-- Hero cinematográfico -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="reveal-item" id="heroTitle">
+                <h1>Você não precisa enfrentar<br> seus desafios sozinha.</h1>
+                <p class="subhead">Acolhimento psicológico para mulheres que buscam se reconectar com seu bem-estar emocional.</p>
+            </div>
+            <div class="reveal-item" id="heroSub" style="transition-delay: 0.1s;">
+                <p style="font-size: 1.1rem; margin-bottom: 2rem; color: #CFC6B8;">Atendimento online e presencial com sigilo, empatia e embasamento científico.</p>
+                <div class="flex-cta">
+                    <button class="btn-shine" id="ctaMain">QUERO ME CONHECER MELHOR</button>
+                    <button class="btn-outline" id="whatsBtn">FALAR PELO WHATSAPP</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<section class="section">
-  <div class="container">
-    <div class="swiper">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide">Confiança</div>
-        <div class="swiper-slide">Empatia</div>
-        <div class="swiper-slide">Sigilo</div>
-        <div class="swiper-slide">Ciência</div>
-      </div>
-    </div>
-  </div>
-</section>
+    <!-- Seção: Quem sou eu -->
+    <section>
+        <div class="container">
+            <div class="reveal-item">
+                <h2>Olá, eu sou a Dra. Ana Beatriz <span style="font-size:1rem;">(CRP 00.000)</span></h2>
+                <div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: start;">
+                    <div style="flex:1.5">
+                        <p style="font-size:1.1rem; line-height:1.5; margin-bottom: 2rem;">Psicóloga clínica especializada em terapia para mulheres, ansiedade, autoestima e relacionamentos.</p>
+                        <p class="text-secondary" style="font-style: italic; border-left: 3px solid #A79277; padding-left: 20px;">“Acredito que cada mulher tem dentro de si uma força imensa, mas às vezes precisamos de ajuda para enxergá-la. Meu papel é caminhar ao seu lado, sem julgamentos, com ferramentas reais para transformar sua relação com você mesma e com o mundo.”</p>
+                        <div style="margin-top: 30px; display: flex; gap: 20px; flex-wrap: wrap;">
+                            <div class="stat-badge">✅ Mais de 8 anos de experiência</div>
+                            <div class="stat-badge">📚 Terapia Cognitivo-Comportamental (TCC)</div>
+                            <div class="stat-badge">❤️ Atendimento humanizado</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<section class="section container">
-  <div class="grid grid-3 cards">
-    <div class="card reveal">Autoconhecimento</div>
-    <div class="card reveal">Ansiedade</div>
-    <div class="card reveal">Relacionamentos</div>
-  </div>
-</section>
+    <!-- Para quem é essa terapia (lista elegante) -->
+    <section>
+        <div class="container">
+            <div class="reveal-item">
+                <h2>Isso soa como você?</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 1rem;">
+                    <div class="stat-badge" style="background: rgba(0,0,0,0.3);">🌀 Sente-se sobrecarregada com a rotina</div>
+                    <div class="stat-badge" style="background: rgba(0,0,0,0.3);">🌪️ Dificuldade com ansiedade ou pânico</div>
+                    <div class="stat-badge" style="background: rgba(0,0,0,0.3);">💔 Repete padrões que machucam em relacionamentos</div>
+                    <div class="stat-badge" style="background: rgba(0,0,0,0.3);">🌱 Autoestima no chão</div>
+                    <div class="stat-badge" style="background: rgba(0,0,0,0.3);">😢 Chora sem entender o motivo</div>
+                    <div class="stat-badge" style="background: rgba(0,0,0,0.3);">🔍 Quer se conhecer melhor</div>
+                </div>
+                <p style="margin-top: 40px; font-weight: 500;">Se respondeu “sim” a pelo menos dois itens, a terapia pode ser o primeiro passo.</p>
+            </div>
+        </div>
+    </section>
 
-<footer>
-  © Dra. Ana Beatriz
-</footer>
+    <!-- Benefícios da terapia (CARDS com blur em irmãos + hover expand) -->
+    <section>
+        <div class="container">
+            <div class="reveal-item">
+                <h2>Benefícios da terapia</h2>
+            </div>
+            <div class="cards-grid" id="benefitsGrid">
+                <div class="benefit-card reveal-item"><h3>🧠 Compreensão de si mesma</h3><p>entender o que te leva a sentir e agir</p></div>
+                <div class="benefit-card reveal-item"><h3>🌿 Redução da ansiedade</h3><p>técnicas práticas para o dia a dia</p></div>
+                <div class="benefit-card reveal-item"><h3>💞 Relacionamentos saudáveis</h3><p>impor limites e comunicação clara</p></div>
+                <div class="benefit-card reveal-item"><h3>⚖️ Equilíbrio emocional</h3><p>menos sofrimento, mais presença</p></div>
+                <div class="benefit-card reveal-item"><h3>✨ Autoconfiança real</h3><p>deixar de se sabotar e se priorizar</p></div>
+            </div>
+        </div>
+    </section>
 
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.6/bundled/lenis.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- Como funciona (passos elegantes) -->
+    <section>
+        <div class="container">
+            <div class="reveal-item">
+                <h2>Como funciona</h2>
+                <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between;">
+                    <div style="flex:1; background: rgba(30,28,26,0.5); border-radius: 28px; padding: 2rem;"><span style="font-size:2rem;">1️⃣</span><h3 style="margin: 12px 0">Primeiro contato (gratuito)</h3><p>15 minutos para sentir se minha abordagem faz sentido para você.</p></div>
+                    <div style="flex:1; background: rgba(30,28,26,0.5); border-radius: 28px; padding: 2rem;"><span style="font-size:2rem;">2️⃣</span><h3 style="margin: 12px 0">Avaliação inicial</h3><p>Primeira sessão para entender objetivos e montar um plano terapêutico.</p></div>
+                    <div style="flex:1; background: rgba(30,28,26,0.5); border-radius: 28px; padding: 2rem;"><span style="font-size:2rem;">3️⃣</span><h3 style="margin: 12px 0">Acompanhamento contínuo</h3><p>Sessões semanais/quinzenais, online ou presencial, horários flexíveis.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Carrossel Swiper (marquee infinito contínuo) -->
+    <section style="padding: 40px 0;">
+        <div class="container">
+            <div class="reveal-item"><h2 style="text-align:center">Experiências reais</h2></div>
+        </div>
+        <div class="swiper-marquee">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">“A Ana me ajudou a sair da ansiedade severa. Hoje me sinto outra pessoa.” – Mariana, 32</div>
+                    <div class="swiper-slide">“Me senti acolhida pela primeira vez. Terapia mudou minha vida.” – Carla, 28</div>
+                    <div class="swiper-slide">“Profissional incrível, acolhimento e embasamento científico.” – Juliana, 35</div>
+                    <div class="swiper-slide">“Aprendi a me priorizar e colocar limites. Sou grata demais.” – Rafaela, 41</div>
+                    <div class="swiper-slide">“Recomendo de olhos fechados. Ambiente seguro e transformador.” – Lívia, 29</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA final forte -->
+    <section style="padding: 60px 0 80px;">
+        <div class="container">
+            <div class="reveal-item" style="text-align: center; background: linear-gradient(135deg, rgba(25,22,20,0.8), rgba(10,9,9,0.9)); border-radius: 48px; padding: 70px 20px; backdrop-filter: blur(6px);">
+                <h2 style="font-size: 2.5rem;">Você merece se sentir bem consigo mesma.</h2>
+                <p style="font-size: 1.2rem; margin: 20px 0;">Agende sua conversa gratuita de 15 minutos<br>Sem compromisso. Atendimento 100% sigiloso.</p>
+                <div class="flex-cta" style="justify-content: center;">
+                    <button class="btn-shine" id="ctaFinal">QUERO ME CONHECER MELHOR</button>
+                    <button class="btn-outline" id="whatsFinal">FALAR PELO WHATSAPP</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer minimalista -->
+    <footer class="footer">
+        <div class="container">
+            <p>Atendimento presencial em São Paulo e online para todo o Brasil</p>
+            <p style="margin: 10px 0;">📞 (11) 91234-5678  |  ✉️ contato@psicologaana.com.br  |  CRP 00.000</p>
+            <p>📸 Instagram: @psicologaana · conteúdo gratuito sobre saúde mental</p>
+            <p style="margin-top: 30px; font-size: 0.8rem;">© 2025 · Ana Beatriz Psicologia · Cuidado que transforma</p>
+        </div>
+    </footer>
+</main>
 
 <script>
-const lenis=new Lenis({smooth:true});
-function raf(t){lenis.raf(t);requestAnimationFrame(raf)}requestAnimationFrame(raf);
-
-// HERO TIMELINE
-const tl=gsap.timeline();
-tl.to('.hero h1',{opacity:1,y:0,filter:'blur(0)',duration:1,ease:'expo.out'})
-  .to('.hero h2',{opacity:1,y:0,filter:'blur(0)',duration:1},'-=0.6')
-  .to('.hero .btn',{opacity:1,y:0,scale:1,duration:.8},'-=0.6');
-
-// REVEAL
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach((e,i)=>{
-    if(e.isIntersecting){
-      gsap.to(e.target,{opacity:1,y:0,filter:'blur(0)',duration:1,delay:i*0.08,ease:'power3.out'})
+    // 1. Configuração Lenis Scroll suave inércia
+    const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+        wheelMultiplier: 0.9,
+    });
+    function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
     }
-  })
-},{threshold:0.2});
+    requestAnimationFrame(raf);
 
-document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+    // 2. Partículas CSS (trajetórias complexas e glow)
+    const particlesContainer = document.getElementById('particlesContainer');
+    for (let i = 0; i < 65; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        const size = Math.random() * 10 + 3;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        const duration = Math.random() * 20 + 15;
+        const dx = (Math.random() - 0.5) * 400;
+        const dy = (Math.random() - 0.5) * 300;
+        particle.style.setProperty('--dx', `${dx}px`);
+        particle.style.setProperty('--dy', `${dy}px`);
+        particle.style.animationDuration = `${duration}s`;
+        particle.style.animationDelay = `${Math.random() * 5}s`;
+        particlesContainer.appendChild(particle);
+    }
 
-// SWIPER MARQUEE
-new Swiper('.swiper',{
-  slidesPerView:'auto',
-  loop:true,
-  speed:4000,
-  allowTouchMove:false,
-  autoplay:{delay:0,disableOnInteraction:false}
-});
+    // 3. Intersection Observer (fade-in + slide-up + blur removal)
+    const revealElements = document.querySelectorAll('.reveal-item');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2, rootMargin: "0px 0px -80px 0px" });
+    revealElements.forEach(el => observer.observe(el));
 
-// PARTICLES
-for(let i=0;i<40;i++){
-  const p=document.createElement('div');
-  p.className='particle';
-  p.style.left=Math.random()*100+'%';
-  p.style.animationDuration=8+Math.random()*10+'s';
-  document.body.appendChild(p);
-}
+    // 4. GSAP animações cinematográficas + stagger cards + parallax scrolltrigger
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // Hero cinematic (entrada suave com GSAP sobrepondo observer para maior refinamento)
+    gsap.fromTo("#heroTitle", 
+        { y: 60, opacity: 0, filter: "blur(10px)" },
+        { y: 0, opacity: 1, filter: "blur(0px)", duration: 1.1, ease: "power3.out", delay: 0.2 }
+    );
+    gsap.fromTo("#heroSub", 
+        { y: 40, opacity: 0, filter: "blur(6px)" },
+        { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.9, ease: "power3.out", delay: 0.5 }
+    );
+    // micro scale no CTA após hero
+    gsap.fromTo(".btn-shine", { scale: 0.96 }, { scale: 1, duration: 0.6, delay: 0.9, ease: "back.out(0.6)" });
+
+    // stagger dos cards (benefícios)
+    gsap.fromTo(".benefit-card", 
+        { y: 50, opacity: 0, filter: "blur(6px)" },
+        { y: 0, opacity: 1, filter: "blur(0px)", stagger: 0.08, duration: 0.7, ease: "expo.out", scrollTrigger: {
+            trigger: "#benefitsGrid",
+            start: "top 80%",
+            toggleActions: "play none none none"
+        }}
+    );
+
+    // parallax sutil para algumas seções
+    gsap.utils.toArray("section").forEach(section => {
+        gsap.fromTo(section, { y: 0 }, {
+            y: -12,
+            scrollTrigger: {
+                trigger: section,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 0.8,
+            }
+        });
+    });
+
+    // 5. Swiper marquee infinito contínuo (loop, autoplay seamless)
+    const swiper = new Swiper('.mySwiper', {
+        slidesPerView: 'auto',
+        spaceBetween: 24,
+        loop: true,
+        speed: 4000,
+        autoplay: {
+            delay: 0,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: false,
+            stopOnLastSlide: false,
+        },
+        freeMode: false,
+        allowTouchMove: true,
+        centeredSlides: false,
+        breakpoints: {
+            320: { slidesPerView: 1.2, spaceBetween: 16 },
+            768: { slidesPerView: 2.2, spaceBetween: 24 },
+            1024: { slidesPerView: 3.2, spaceBetween: 28 }
+        }
+    });
+    // garantir velocidade contínua ajustada
+    swiper.params.autoplay.delay = 0;
+    swiper.autoplay.start();
+
+    // Botões interativos shine com clique suave + interação
+    const btns = document.querySelectorAll('.btn-shine, .btn-outline');
+    btns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('✨ (Simulação) Agende sua conversa gratuita: (11) 91234-5678 ou WhatsApp. Cuidado começa aqui.');
+        });
+    });
+    document.getElementById('whatsBtn')?.addEventListener('click', () => alert('📱 Fale conosco pelo WhatsApp: (11) 91234-5678'));
+    document.getElementById('whatsFinal')?.addEventListener('click', () => alert('📱 Fale conosco pelo WhatsApp: (11) 91234-5678'));
+    
+    // garantir que todos reveal items não revelem duplicados
+    // Efeito de blur em cards irmãos já feito no CSS (hover)
+    
+    // pequena otimização para GPU
+    document.querySelectorAll('.benefit-card').forEach(card => {
+        card.style.willChange = 'transform, filter';
+    });
+    
+    // Scroll custom manual da scrollbar é puramente CSS.
+    console.log('Landing premium — motion design refinado');
 </script>
-
 </body>
 </html>
