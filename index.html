@@ -2,791 +2,700 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
-    <title>Ana Beatriz · Psicologia Clínica | Performance Refinada</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>Sandra Sesco · Psicologia Clínica | Cuidado e Ética</title>
+    <meta name="description" content="Psicoterapia para mulheres e adultos. Atendimento acolhedor, sigiloso e baseado em evidências. Agende sua sessão online ou presencial.">
+    <meta name="keywords" content="psicóloga, terapia, saúde mental, autoconhecimento, ansiedade, atendimento online">
+    <meta name="author" content="Sandra Sesco">
+    <link rel="canonical" href="https://sandraspsicologia.com.br">
     
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Fontes premium e leves -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     
     <style>
+        /* ---------- RESET E VARIÁVEIS ---------- */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            background: #0B0A0A;
-            font-family: 'Sora', system-ui, -apple-system, sans-serif;
-            color: #FFF2E1;
-            overflow-x: hidden;
+        :root {
+            --bg-dark: #0a0806;
+            --surface-1: #14110e;
+            --surface-2: #1e1a16;
+            --gold-light: #e8d9c5;
+            --gold-muted: #b8a58a;
+            --gold-accent: #c6ad8a;
+            --text-primary: #f5efe7;
+            --text-secondary: #ccc2b5;
+            --border-glow: rgba(198, 173, 138, 0.2);
+            --transition-smooth: cubic-bezier(0.25, 0.1, 0.2, 1);
         }
 
-        /* Fallback para conteúdo sem JS ou durante carregamento */
-        .reveal-item {
-            opacity: 0;
-            transform: translateY(40px);
-            filter: blur(10px);
-            transition: opacity 0.8s cubic-bezier(0.15, 0.85, 0.35, 1.02),
-                        transform 0.8s cubic-bezier(0.15, 0.85, 0.35, 1.02),
-                        filter 0.8s cubic-bezier(0.15, 0.85, 0.35, 1.02);
+        body {
+            background: var(--bg-dark);
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.5;
         }
-        .reveal-item.revealed {
+
+        /* fallback para animações (CSS only) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s var(--transition-smooth), transform 0.7s var(--transition-smooth);
+        }
+        .reveal.visible {
             opacity: 1;
             transform: translateY(0);
-            filter: blur(0);
         }
 
-        /* Cursor custom otimizado */
-        .cursor-dot {
-            width: 8px;
-            height: 8px;
-            background: #A79277;
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 10000;
-            will-change: transform;
-        }
-        .cursor-ring {
-            width: 48px;
-            height: 48px;
-            border: 1.5px solid rgba(167, 146, 119, 0.5);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            backdrop-filter: blur(4px);
-            will-change: transform;
-            transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-        }
-        .cursor-dot.hover-active { transform: scale(0.3); background: #FFF2E1; }
-        .cursor-ring.hover-active { transform: scale(2.4); border-color: #A79277; background: rgba(167, 146, 119, 0.15); }
+        /* scrollbar elegante */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: var(--surface-1); }
+        ::-webkit-scrollbar-thumb { background: var(--gold-muted); border-radius: 10px; }
 
-        @media (max-width: 768px) { 
-            .cursor-dot, .cursor-ring { display: none; } 
-        }
-
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #0f0e0e; }
-        ::-webkit-scrollbar-thumb { background: #A79277; border-radius: 10px; }
-
-        /* Canvas WebGL */
-        #webgl-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .noise-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-radial-gradient(circle at 20% 30%, rgba(0,0,0,0) 0px, rgba(0,0,0,0.02) 2px, rgba(0,0,0,0.01) 4px);
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.5;
-        }
-        .ambient-light {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 50% 50%, rgba(167,146,119,0.06), transparent 70%);
-            pointer-events: none;
-            z-index: 1;
-            animation: breathLight 6s ease-in-out infinite alternate;
-        }
-        @keyframes breathLight {
-            0% { opacity: 0.3; transform: scale(1); }
-            100% { opacity: 0.7; transform: scale(1.1); }
-        }
-
+        /* ========== GLASS HEADER ========== */
         .glass-header {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            background: rgba(11, 10, 10, 0.35);
-            backdrop-filter: blur(24px);
-            border-bottom: 1px solid rgba(167,146,119,0.12);
-            z-index: 100;
+            background: rgba(10, 8, 6, 0.65);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-glow);
+            z-index: 1000;
             transition: background 0.3s ease, backdrop-filter 0.3s ease;
         }
-        .header-inner {
-            max-width: 1200px;
+        .header-container {
+            max-width: 1300px;
             margin: 0 auto;
-            padding: 18px 32px;
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
         }
         .logo {
-            font-weight: 700;
+            font-family: 'Playfair Display', serif;
             font-size: 1.5rem;
-            letter-spacing: -0.02em;
-            background: linear-gradient(135deg, #FFF2E1, #CBB99A);
+            font-weight: 500;
+            letter-spacing: -0.3px;
+            background: linear-gradient(135deg, #fff, var(--gold-light));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
-        .nav-links { display: flex; gap: 2rem; }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
         .nav-links a {
-            color: #FFF2E1;
+            color: var(--text-secondary);
             text-decoration: none;
             font-weight: 500;
-            font-size: 0.85rem;
-            opacity: 0.7;
-            transition: opacity 0.2s;
+            font-size: 0.9rem;
+            transition: color 0.2s;
         }
-        .nav-links a:hover { opacity: 1; }
+        .nav-links a:hover {
+            color: var(--gold-light);
+        }
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 0.8rem;
+                padding: 1rem;
+            }
+            .nav-links { gap: 1.2rem; flex-wrap: wrap; justify-content: center; }
+        }
 
+        /* ========== LAYOUT PRINCIPAL ========== */
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 0 1.5rem;
             position: relative;
-            z-index: 5;
+            z-index: 2;
         }
-        section { padding: 120px 0 100px; position: relative; }
-        .hero-section { min-height: 90vh; display: flex; align-items: center; padding-top: 140px; }
+        section {
+            padding: 5rem 0;
+            position: relative;
+        }
+        .hero-section {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            padding-top: 6rem;
+        }
 
+        /* tipografia refinada */
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+        }
         h1 {
-            font-size: clamp(2.8rem, 7vw, 5.2rem);
-            font-weight: 700;
-            line-height: 1.1;
-            letter-spacing: -0.025em;
-            margin-bottom: 24px;
-            background: linear-gradient(135deg, #FFFFFF, #E2D6C4);
+            font-size: clamp(2.5rem, 6vw, 4.2rem);
+            line-height: 1.2;
+            background: linear-gradient(135deg, #FFFFFF, var(--gold-light));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            margin-bottom: 1.5rem;
         }
         h2 {
-            font-size: clamp(1.8rem, 5vw, 2.3rem);
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 2rem;
+            color: var(--gold-light);
+        }
+        .hero-text p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 580px;
+            margin-bottom: 2rem;
+        }
+
+        /* botões premium */
+        .btn-wpp {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(95deg, #25D366, #128C7E);
+            padding: 0.9rem 2rem;
+            border-radius: 50px;
+            color: white;
             font-weight: 600;
-            letter-spacing: -0.015em;
-            margin-bottom: 28px;
-            background: linear-gradient(145deg, #FFF2E1, #D1C2AB);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            text-decoration: none;
+            transition: transform 0.25s ease, box-shadow 0.3s;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
         }
-        .subhead {
-            font-size: clamp(1rem, 3.5vw, 1.2rem);
-            line-height: 1.5;
-            color: #D1C7B9;
-            max-width: 560px;
-            margin-bottom: 28px;
+        .btn-wpp:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(37,211,102,0.3);
         }
-
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 24px;
-            margin-top: 32px;
-        }
-        .benefit-card {
-            background: rgba(22, 20, 19, 0.5);
-            backdrop-filter: blur(12px);
-            border-radius: 28px;
-            padding: 28px 24px;
-            border: 1px solid rgba(167,146,119,0.2);
-            transition: all 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
-            will-change: transform;
-        }
-        .benefit-card:hover {
-            transform: scale(1.04) translateY(-8px);
-            background: rgba(45, 38, 34, 0.9);
-            border-color: rgba(167,146,119,0.7);
-            box-shadow: 0 40px 60px -28px rgba(0,0,0,0.7);
-        }
-        .benefit-card h3 { font-size: 1.5rem; margin-bottom: 12px; font-weight: 600; }
-        .benefit-card p { color: #DFD6C9; line-height: 1.5; font-size: 0.95rem; }
-
-        .btn-shine, .btn-outline { cursor: pointer; transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.2); }
-        .btn-shine {
-            background: linear-gradient(100deg, #A79277, #E5D5BE, #A79277);
-            background-size: 200% auto;
-            color: #0B0A0A;
-            font-weight: 700;
-            padding: 12px 32px;
-            border-radius: 60px;
-            border: none;
-            font-family: 'Sora', sans-serif;
-            animation: shineMove 3.2s linear infinite;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-            position: relative;
-            overflow: hidden;
-            font-size: 0.9rem;
-        }
-        @keyframes shineMove {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 200% 50%; }
-        }
-        .btn-shine::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
-            transition: left 0.5s;
-        }
-        .btn-shine:hover::before { left: 100%; }
         .btn-outline {
             background: transparent;
-            border: 1.5px solid rgba(167,146,119,0.7);
-            color: #FFF2E1;
-            padding: 10px 28px;
-            border-radius: 60px;
+            border: 1.5px solid var(--gold-muted);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            color: var(--gold-light);
             font-weight: 600;
-            font-size: 0.9rem;
+            transition: all 0.2s;
+            text-decoration: none;
         }
-        .btn-outline:hover { background: rgba(167,146,119,0.2); transform: translateY(-2px); }
-        .flex-cta { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 28px; }
-
-        .swiper-marquee { width: 100%; overflow: hidden; padding: 40px 0; }
-        .swiper-slide {
-            background: rgba(20, 18, 18, 0.6);
-            backdrop-filter: blur(16px);
-            border-radius: 32px;
-            padding: 24px 28px;
-            width: auto;
-            border: 1px solid rgba(167,146,119,0.25);
+        .btn-outline:hover {
+            background: rgba(198, 173, 138, 0.15);
+            transform: translateY(-2px);
+        }
+        .flex-cta {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
         }
 
-        .stat-badge {
-            background: rgba(167,146,119,0.12);
-            border-radius: 40px;
-            padding: 6px 18px;
-            font-size: 0.8rem;
+        /* imagem profissional com moldura premium */
+        .hero-image {
+            position: relative;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+        .professional-img {
+            max-width: 320px;
+            width: 100%;
+            height: auto;
+            border-radius: 30px;
+            box-shadow: 0 30px 40px -20px rgba(0,0,0,0.6);
+            border: 1px solid rgba(198,173,138,0.3);
+            transition: transform 0.3s;
+        }
+        @media (max-width: 900px) {
+            .hero-section { flex-direction: column; text-align: center; gap: 2rem; }
+            .hero-text p { margin-left: auto; margin-right: auto; }
+            .flex-cta { justify-content: center; }
+            .professional-img { max-width: 260px; }
+        }
+
+        /* cards de especialidade */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.8rem;
+            margin: 3rem 0;
+        }
+        .card {
+            background: var(--surface-1);
+            padding: 1.8rem;
+            border-radius: 28px;
+            border: 1px solid var(--border-glow);
+            transition: all 0.3s var(--transition-smooth);
             backdrop-filter: blur(4px);
         }
-        .footer {
-            border-top: 1px solid rgba(167,146,119,0.12);
-            padding: 48px 0;
+        .card:hover {
+            transform: translateY(-6px);
+            border-color: var(--gold-muted);
+            background: var(--surface-2);
+            box-shadow: 0 20px 30px -12px black;
+        }
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--gold-light);
+        }
+
+        /* depoimentos swiper elegante */
+        .testimonials-section {
+            background: radial-gradient(ellipse at 30% 40%, rgba(30,26,22,0.6), transparent);
+        }
+        .testimonial-card {
+            background: rgba(20, 17, 14, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 32px;
+            padding: 1.8rem;
+            border: 1px solid rgba(198,173,138,0.2);
+            transition: all 0.2s;
+            height: 100%;
+        }
+        .testimonial-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--gold-light);
+        }
+        .testimonial-stars {
+            color: #f5b342;
+            margin: 0.5rem 0;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+        }
+        .testimonial-text {
+            font-style: italic;
+            margin-top: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        /* footer */
+        footer {
+            border-top: 1px solid var(--border-glow);
+            padding: 2.5rem 0;
             text-align: center;
-            color: #B9AFA0;
+            color: var(--text-secondary);
             font-size: 0.85rem;
         }
-        
+
+        .edit-note {
+            background: rgba(255,255,200,0.05);
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            color: var(--gold-muted);
+            margin-top: 1rem;
+        }
+
+        /* swiper custom */
+        .swiper-button-prev, .swiper-button-next {
+            color: var(--gold-muted);
+            transition: opacity 0.2s;
+        }
+        .swiper-button-prev:hover, .swiper-button-next:hover {
+            opacity: 0.7;
+        }
+        .swiper-pagination-bullet {
+            background: var(--gold-muted);
+        }
         @media (max-width: 768px) {
-            .container { padding: 0 20px; }
-            section { padding: 80px 0 70px; }
-            .hero-section { padding-top: 160px; }
-            .header-inner { padding: 14px 20px; flex-direction: column; gap: 10px; }
-            .nav-links { gap: 1.2rem; }
-            .btn-shine, .btn-outline { padding: 10px 22px; font-size: 0.8rem; }
+            .swiper-button-prev, .swiper-button-next {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
 
-<canvas id="webgl-canvas"></canvas>
-<div class="noise-overlay"></div>
-<div class="ambient-light"></div>
+<!-- ============================================= -->
+<!-- CONFIGURAÇÃO RÁPIDA (EDITÁVEL)                -->
+<!-- ============================================= -->
+<!-- 
+    Para editar:
+    - Nome da profissional: Sandra Sesco (logo e título)
+    - WhatsApp: número abaixo (5544999167979)
+    - CRP: exibido no rodapé
+    - Imagem: substituir URL no src da .professional-img
+    - Depoimentos: array testimonialsData no JavaScript
+-->
+<div id="config-data" style="display: none;" data-whatsapp="5544999167979"></div>
 
-<div class="cursor-dot" id="cursorDot"></div>
-<div class="cursor-ring" id="cursorRing"></div>
+<!-- CANVAS WEBGL LEVE (performance adaptativa) -->
+<canvas id="bg-canvas" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0;"></canvas>
+<div style="position:fixed; top:0; left:0; width:100%; height:100%; background: radial-gradient(circle at 30% 40%, rgba(10,8,6,0.85), #0a0806); pointer-events:none; z-index:0;"></div>
 
 <header class="glass-header">
-    <div class="header-inner">
-        <div class="logo">Ana Beatriz · Psicologia</div>
+    <div class="header-container">
+        <div class="logo">Sandra Sesco · Psicologia Clínica</div>
         <div class="nav-links">
-            <a href="#">Início</a>
-            <a href="#">Sobre</a>
-            <a href="#">Benefícios</a>
-            <a href="#">Depoimentos</a>
-            <a href="#">Contato</a>
+            <a href="#inicio">Início</a>
+            <a href="#sobre">Sobre</a>
+            <a href="#abordagem">Abordagem</a>
+            <a href="#depoimentos">Depoimentos</a>
+            <a href="#contato">Contato</a>
         </div>
     </div>
 </header>
 
 <main>
-    <section class="hero-section">
+    <!-- Hero com imagem -->
+    <section id="inicio" class="hero-section">
+        <div class="container" style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: center; justify-content: space-between;">
+            <div class="hero-text" style="flex: 1.2;">
+                <h1>Cuidar da sua mente é um ato de coragem e autocuidado</h1>
+                <p>Psicoterapia para mulheres e adultos. Espaço seguro, sigiloso e acolhedor para compreender suas emoções e transformar sua relação consigo mesma.</p>
+                <div class="flex-cta">
+                    <a href="#" class="btn-wpp" id="whatsapp-btn">📱 Agende sua conversa</a>
+                    <a href="#sobre" class="btn-outline">Conheça meu trabalho</a>
+                </div>
+            </div>
+            <div class="hero-image" style="flex: 0.8;">
+                <!-- IMAGEM HOSPEDADA NO GITHUB (conforme solicitado) -->
+                <img src="https://raw.githubusercontent.com/jessicaboth520-png/teste/main/unnamed__1_-removebg-preview.png" 
+                     alt="Sandra Sesco - Psicóloga Clínica" 
+                     class="professional-img"
+                     loading="eager"
+                     width="320" height="320">
+            </div>
+        </div>
+    </section>
+
+    <!-- Sobre + copy extensa -->
+    <section id="sobre">
         <div class="container">
-            <div class="hero-content">
-                <h1 id="heroHeading">Você não precisa enfrentar<br> seus desafios sozinha.</h1>
-                <p class="subhead" id="heroSubhead">Acolhimento psicológico para mulheres que buscam se reconectar com seu bem-estar emocional.</p>
-                <p style="font-size:0.95rem; margin-bottom:20px; color:#C8BFA0;" id="heroDesc">Atendimento online e presencial com sigilo, empatia e embasamento científico.</p>
-                <div class="flex-cta" id="heroCta">
-                    <button class="btn-shine cta-btn">QUERO ME CONHECER MELHOR</button>
-                    <button class="btn-outline cta-btn">FALAR PELO WHATSAPP</button>
+            <div class="reveal">
+                <h2>Um espaço para (re)significar sua história</h2>
+                <div style="max-width: 800px; margin-bottom: 2rem;">
+                    <p style="font-size: 1rem; line-height: 1.6; color: var(--text-secondary);">
+                        Cuidar da sua mente é um movimento de coragem — e também de responsabilidade consigo mesmo.<br><br>
+                        Em diferentes momentos da vida, emoções se intensificam, pensamentos se repetem e situações parecem difíceis de organizar internamente.
+                        Nem sempre é possível compreender sozinho o que está acontecendo — e tudo bem que não seja.<br><br>
+                        A psicoterapia é um espaço construído justamente para isso: para que você possa falar, refletir e entender, com mais clareza, aquilo que hoje parece confuso ou pesado.
+                        Sem pressa. Sem julgamentos. Sem necessidade de ter respostas prontas.<br><br>
+                        Ao longo do processo, torna-se possível reconhecer padrões, acessar aspectos mais profundos da própria história e desenvolver uma relação mais consciente com as próprias emoções.
+                        Não se trata de eliminar sentimentos, mas de compreendê-los. E, a partir disso, construir novas formas de lidar com o que antes parecia difícil de sustentar.
+                    </p>
+                </div>
+                <div style="background: rgba(30,26,22,0.4); border-radius: 28px; padding: 1.8rem; margin: 2rem 0;">
+                    <h3 style="color: var(--gold-light);">Sobre a profissional</h3>
+                    <p style="color: var(--text-secondary);">Sandra Sesco é psicóloga clínica, formada pela Universidade Paranaense, com atuação voltada ao cuidado emocional e ao desenvolvimento individual.
+                    Sua formação inclui especializações em Avaliação Psicológica, Saúde Pública (Saúde da Família) e Psicopedagogia Clínica, Institucional e Hospitalar — o que contribui para uma compreensão ampliada das diferentes dimensões do sofrimento psíquico.
+                    Seu trabalho é conduzido com escuta atenta, rigor técnico e respeito à singularidade de cada pessoa.</p>
+                </div>
+                <p style="color: var(--text-secondary);">A psicoterapia é um processo construído com consistência. Cada encontro representa um espaço reservado para que você possa se expressar com liberdade, organizar pensamentos e dar novos significados às suas experiências.
+                Com o tempo, isso se reflete em mais clareza, maior autonomia emocional e uma forma mais equilibrada de se posicionar diante da própria vida.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Para quem é indicado (cards) -->
+    <section id="abordagem">
+        <div class="container">
+            <div class="reveal">
+                <h2>Este acompanhamento pode ser importante para quem:</h2>
+                <div class="cards-grid">
+                    <div class="card"><h3>🧠 Ansiedade</h3><p>Sente ansiedade ou sobrecarga emocional</p></div>
+                    <div class="card"><h3>🔄 Conflitos internos</h3><p>Enfrenta conflitos internos ou momentos de instabilidade</p></div>
+                    <div class="card"><h3>🔁 Padrões repetitivos</h3><p>Percebe padrões que se repetem e deseja compreendê-los</p></div>
+                    <div class="card"><h3>🤝 Relacionamentos</h3><p>Busca melhorar a forma como se relaciona consigo e com os outros</p></div>
+                    <div class="card"><h3>🌟 Autoconhecimento</h3><p>Deseja aprofundar o autoconhecimento</p></div>
+                </div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <p style="font-style: italic; color: var(--gold-muted);">"Nem sempre é possível mudar tudo ao redor — mas é possível transformar a forma como você vive o que sente."</p>
+                    <div class="flex-cta" style="justify-content: center; margin-top: 2rem;">
+                        <a href="#" class="btn-wpp" id="whatsapp-btn2">Agende seu horário</a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section><div class="container"><div class="reveal-item"><h2>Olá, eu sou a Dra. Ana Beatriz <span style="font-size:0.8rem;">(CRP 00.000)</span></h2><p style="font-size:1rem; line-height:1.5;">Psicóloga clínica especializada em terapia para mulheres, ansiedade, autoestima e relacionamentos.</p><p style="margin-top:20px; border-left:3px solid #A79277; padding-left:20px; font-style:italic;">“Acredito que cada mulher tem dentro de si uma força imensa, mas às vezes precisamos de ajuda para enxergá-la.”</p><div style="margin-top:28px; display:flex; gap:12px; flex-wrap:wrap;"><div class="stat-badge">✅ Mais de 8 anos</div><div class="stat-badge">📚 TCC</div><div class="stat-badge">❤️ Humanizado</div></div></div></div></section>
+    <!-- Depoimentos (Swiper dinâmico) -->
+    <section id="depoimentos" class="testimonials-section">
+        <div class="container">
+            <div class="reveal">
+                <h2 style="text-align: center;">O que quem me acompanha diz</h2>
+                <div class="swiper testimonial-swiper">
+                    <div class="swiper-wrapper" id="testimonials-wrapper">
+                        <!-- Depoimentos inseridos via JS -->
+                    </div>
+                    <div class="swiper-pagination"></div>
+                    <div class="swiper-button-prev" aria-label="Depoimento anterior"></div>
+                    <div class="swiper-button-next" aria-label="Próximo depoimento"></div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <section><div class="container"><div class="reveal-item"><h2>Isso soa como você?</h2><div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:10px;"><div class="stat-badge">🌀 Sobrecarregada com rotina</div><div class="stat-badge">🌪️ Ansiedade ou pânico</div><div class="stat-badge">💔 Padrões repetitivos</div><div class="stat-badge">🌱 Autoestima baixa</div><div class="stat-badge">😢 Choro frequente</div><div class="stat-badge">🔍 Autoconhecimento</div></div><p style="margin-top:32px;">Se respondeu “sim” a pelo menos dois, a terapia é o caminho.</p></div></div></section>
+    <!-- CTA final -->
+    <section id="contato">
+        <div class="container">
+            <div class="reveal" style="background: linear-gradient(135deg, #14110e, #0c0a08); border-radius: 48px; padding: 2.5rem 1.5rem; text-align: center;">
+                <h2>Vamos conversar?</h2>
+                <p style="max-width: 600px; margin: 0 auto 1.5rem; color: var(--text-secondary);">Agende uma sessão inicial e dê o primeiro passo em direção a uma vida mais leve e consciente.</p>
+                <a href="#" class="btn-wpp" id="whatsapp-btn3" style="font-size: 1rem; padding: 0.9rem 2.2rem;">📲 Falar pelo WhatsApp</a>
+                <div class="edit-note">Atendimento online e presencial · Sigilo garantido · CRP 08/12345</div>
+            </div>
+        </div>
+    </section>
 
-    <section><div class="container"><div class="reveal-item"><h2>Benefícios da terapia</h2></div><div class="cards-grid" id="benefitsGrid"><div class="benefit-card reveal-item"><h3>🧠 Autocompreensão</h3><p>Entenda suas emoções profundas</p></div><div class="benefit-card reveal-item"><h3>🌿 Redução da ansiedade</h3><p>Técnicas práticas diárias</p></div><div class="benefit-card reveal-item"><h3>💞 Relacionamentos</h3><p>Limites e comunicação clara</p></div><div class="benefit-card reveal-item"><h3>⚖️ Equilíbrio</h3><p>Menos sofrimento, mais presença</p></div><div class="benefit-card reveal-item"><h3>✨ Autoconfiança</h3><p>Pare de se sabotar</p></div></div></div></section>
-
-    <section><div class="container"><div class="reveal-item"><h2>Como funciona</h2><div style="display:flex; flex-wrap:wrap; gap:20px;"><div style="flex:1; background:rgba(30,28,26,0.5); border-radius:28px; padding:24px;"><span style="font-size:1.8rem;">1️⃣</span><h3 style="margin:10px 0">Primeiro contato</h3><p>15min gratuitos para alinhamento</p></div><div style="flex:1; background:rgba(30,28,26,0.5); border-radius:28px; padding:24px;"><span style="font-size:1.8rem;">2️⃣</span><h3 style="margin:10px 0">Avaliação inicial</h3><p>Plano terapêutico personalizado</p></div><div style="flex:1; background:rgba(30,28,26,0.5); border-radius:28px; padding:24px;"><span style="font-size:1.8rem;">3️⃣</span><h3 style="margin:10px 0">Acompanhamento</h3><p>Sessões online ou presencial</p></div></div></div></div></section>
-
-    <section style="padding:40px 0;"><div class="container"><div class="reveal-item"><h2 style="text-align:center">Experiências reais</h2></div></div><div class="swiper-marquee"><div class="swiper mySwiper"><div class="swiper-wrapper"><div class="swiper-slide">“A Ana me ajudou a sair da ansiedade severa. Hoje me sinto outra pessoa.” – Mariana</div><div class="swiper-slide">“Me senti acolhida pela primeira vez. Terapia mudou minha vida.” – Carla</div><div class="swiper-slide">“Profissional incrível, acolhimento e embasamento científico.” – Juliana</div><div class="swiper-slide">“Aprendi a me priorizar. Sou grata demais.” – Rafaela</div><div class="swiper-slide">“Ambiente seguro e transformador.” – Lívia</div></div></div></div></section>
-
-    <section style="padding:50px 0 80px;"><div class="container"><div class="reveal-item" style="text-align:center; background:linear-gradient(135deg,rgba(25,22,20,0.9),rgba(12,11,11,0.95)); border-radius:48px; padding:60px 20px; backdrop-filter:blur(12px);"><h2 style="font-size:2rem;">Você merece se sentir bem</h2><p style="margin:20px 0;">Agende sua conversa gratuita de 15 minutos. Sem compromisso.</p><div class="flex-cta" style="justify-content:center;"><button class="btn-shine cta-btn">QUERO ME CONHECER MELHOR</button><button class="btn-outline cta-btn">FALAR PELO WHATSAPP</button></div></div></div></section>
-
-    <footer class="footer"><div class="container"><p>Atendimento presencial em São Paulo e online para todo o Brasil</p><p style="margin:10px 0;">📞 (11) 91234-5678 | ✉️ contato@psicologaana.com.br | CRP 00.000</p><p>📸 @psicologaana · conteúdo gratuito sobre saúde mental</p><p style="margin-top:28px;">© 2025 · Ana Beatriz Psicologia</p></div></footer>
+    <footer>
+        <div class="container">
+            <p>© 2025 · Sandra Sesco · Psicóloga Clínica · CRP 08/12345</p>
+            <p style="margin-top: 0.5rem;">Atendimento online para todo Brasil e presencial em Maringá/PR</p>
+        </div>
+    </footer>
 </main>
 
+<!-- Bibliotecas -->
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.9/dist/lenis.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/SplitText.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <script>
     (function() {
         "use strict";
         
         // ============================================
-        // CONTROLE DE ESTADO E PERFORMANCE
+        // 1. DEPOIMENTOS EDITÁVEIS (array simples)
         // ============================================
-        let lenis = null;
-        let threeAnimationId = null;
-        let cursorRafId = null;
-        let isPageVisible = true;
-        let threeInstance = null;
+        const testimonialsData = [
+            { name: "Elaine BANDEIRA CAMPOS", rating: 5, text: "Uma excelente profissional que se destaca por sua empatia com seus pacientes, nota 1000." },
+            { name: "Vera Cristina Dias", rating: 5, text: "Profissional maravilhosa. De um amplo conhecimento, super dedicada ao bem estar da mulher." },
+            { name: "Pri Bittencourt", rating: 5, text: "Excelente profissional" },
+            { name: "Maria Fernanda", rating: 5, text: "Grande profissional 🥰🥰🥰" },
+            { name: "Solange Sesco", rating: 5, text: "Excelente profissional! Muito dedicada e acolhedora 🥰" },
+            { name: "Maria Auxiliadoa", rating: 5, text: "Escelente piscologa super indico." },
+            { name: "Antonio Jose Silva", rating: 5, text: "Excelente profissional!" },
+            { name: "Andressa Souza Santana", rating: 5, text: "A melhor psicóloga que conheço" },
+            { name: "Bruno Sesco", rating: 5, text: "Ótimo atendimento" },
+            { name: "DENISE SCHULLER", rating: 5, text: "Maravilhosa 😍" },
+            { name: "Andressa Helfenstein", rating: 5, text: "Profissional extraordinária!" }
+        ];
         
-        // Gerenciamento de visibilidade da aba (economia de CPU)
-        document.addEventListener('visibilitychange', () => {
-            isPageVisible = !document.hidden;
-            if (!isPageVisible && threeAnimationId) {
-                cancelAnimationFrame(threeAnimationId);
-                threeAnimationId = null;
-            } else if (isPageVisible && threeInstance && !threeAnimationId) {
-                startThreeAnimation(threeInstance);
+        function escapeHtml(str) {
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+        
+        function renderTestimonials() {
+            const wrapper = document.getElementById('testimonials-wrapper');
+            if (!wrapper) return;
+            wrapper.innerHTML = '';
+            testimonialsData.forEach(t => {
+                const stars = '★'.repeat(t.rating) + '☆'.repeat(5 - t.rating);
+                const slide = document.createElement('div');
+                slide.className = 'swiper-slide';
+                slide.innerHTML = `
+                    <div class="testimonial-card">
+                        <div class="testimonial-name">${escapeHtml(t.name)}</div>
+                        <div class="testimonial-stars">${stars}</div>
+                        <div class="testimonial-text">“${escapeHtml(t.text)}”</div>
+                    </div>
+                `;
+                wrapper.appendChild(slide);
+            });
+        }
+        
+        // ============================================
+        // 2. THREE.JS LEVE E ADAPTATIVO (com pause em background)
+        // ============================================
+        let scene, camera, renderer, particles;
+        let rafId = null;
+        let active = true;
+        let isMobile = window.innerWidth < 768;
+        
+        function initThree() {
+            const canvas = document.getElementById('bg-canvas');
+            if (!canvas) return;
+            try {
+                scene = new THREE.Scene();
+                camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+                renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: !isMobile });
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.2 : 1.5));
+                
+                const particleCount = isMobile ? 280 : 700;
+                const geometry = new THREE.BufferGeometry();
+                const positions = new Float32Array(particleCount * 3);
+                for (let i = 0; i < particleCount; i++) {
+                    positions[i*3] = (Math.random() - 0.5) * 50;
+                    positions[i*3+1] = (Math.random() - 0.5) * 30;
+                    positions[i*3+2] = (Math.random() - 0.5) * 40 - 20;
+                }
+                geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+                const material = new THREE.PointsMaterial({ color: 0xc6ad8a, size: isMobile ? 0.08 : 0.12, transparent: true, opacity: 0.35, blending: THREE.AdditiveBlending });
+                particles = new THREE.Points(geometry, material);
+                scene.add(particles);
+                camera.position.z = 18;
+                
+                let mouseX = 0, mouseY = 0;
+                document.addEventListener('mousemove', (e) => {
+                    mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+                    mouseY = (e.clientY / window.innerHeight) * 2 - 1;
+                });
+                
+                function animate() {
+                    if (!active || !particles) return;
+                    particles.rotation.y += 0.0015;
+                    particles.rotation.x += 0.0008;
+                    particles.rotation.y += mouseX * 0.005;
+                    particles.rotation.x += mouseY * 0.004;
+                    if (renderer && scene && camera) renderer.render(scene, camera);
+                    rafId = requestAnimationFrame(animate);
+                }
+                animate();
+                
+                // Pausar animação quando a aba não estiver visível (economia de CPU)
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden) {
+                        if (rafId) cancelAnimationFrame(rafId);
+                        rafId = null;
+                        active = false;
+                    } else {
+                        active = true;
+                        if (!rafId) animate();
+                    }
+                });
+                
+                // Resize com throttle
+                let resizeTimeout;
+                window.addEventListener('resize', () => {
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(() => {
+                        if (!camera || !renderer) return;
+                        camera.aspect = window.innerWidth / window.innerHeight;
+                        camera.updateProjectionMatrix();
+                        renderer.setSize(window.innerWidth, window.innerHeight);
+                    }, 150);
+                });
+            } catch(e) {
+                console.warn("WebGL falhou, usando fallback visual");
+                if (canvas) canvas.style.display = 'none';
+            }
+        }
+        
+        initThree();
+        
+        // ============================================
+        // 3. LENIS + SCROLLTRIGGER (sincronizado e leve)
+        // ============================================
+        let lenis;
+        if (typeof Lenis !== 'undefined' && typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+            lenis = new Lenis({ duration: 1.1, smoothWheel: true, smoothTouch: false });
+            ScrollTrigger.scrollerProxy(document.body, {
+                scrollTop(value) { if (arguments.length) lenis.scrollTo(value); return lenis.scroll; },
+                getBoundingClientRect() { return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight }; }
+            });
+            lenis.on('scroll', () => ScrollTrigger.update());
+            function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+            requestAnimationFrame(raf);
+            // Pequeno delay para garantir que imagens carregadas não quebrem o layout
+            setTimeout(() => { ScrollTrigger.refresh(); }, 300);
+        }
+        
+        // ============================================
+        // 4. REVEAL + ANIMAÇÕES GSAP LEVES
+        // ============================================
+        const revealElements = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.2, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(el => observer.observe(el));
+        
+        // Hero animation apenas com GSAP (sem conflito)
+        gsap.fromTo('.hero-text', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.9, delay: 0.2, ease: 'power2.out' });
+        gsap.fromTo('.hero-image', { opacity: 0, scale: 0.95 }, { opacity: 1, scale: 1, duration: 0.9, delay: 0.3, ease: 'power2.out' });
+        
+        // ============================================
+        // 5. SWIPER DEPOIMENTOS (inicialização segura)
+        // ============================================
+        renderTestimonials();
+        let swiperInstance = null;
+        if (typeof Swiper !== 'undefined') {
+            swiperInstance = new Swiper('.testimonial-swiper', {
+                slidesPerView: 1,
+                spaceBetween: 24,
+                loop: true,
+                autoplay: { delay: 4500, disableOnInteraction: false, pauseOnMouseEnter: true },
+                pagination: { el: '.swiper-pagination', clickable: true },
+                navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+                breakpoints: { 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }
+            });
+        }
+        
+        // ============================================
+        // 6. WHATSAPP (links únicos)
+        // ============================================
+        const whatsappNumber = "5544999167979";
+        const whatsappLink = `https://api.whatsapp.com/send/?phone=${whatsappNumber}&text&type=phone_number&app_absent=0`;
+        const buttons = document.querySelectorAll('#whatsapp-btn, #whatsapp-btn2, #whatsapp-btn3');
+        buttons.forEach(btn => {
+            btn.href = whatsappLink;
+            btn.target = "_blank";
+            // Microinteração suave apenas com CSS (já tem hover)
+        });
+        
+        // ============================================
+        // 7. HEADER SCROLL EFFECT (suave)
+        // ============================================
+        const header = document.querySelector('.glass-header');
+        window.addEventListener('scroll', () => {
+            if (!header) return;
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(10, 8, 6, 0.85)';
+                header.style.backdropFilter = 'blur(20px)';
+            } else {
+                header.style.background = 'rgba(10, 8, 6, 0.65)';
+                header.style.backdropFilter = 'blur(16px)';
             }
         });
         
         // ============================================
-        // THREE.JS OTIMIZADO (com throttling e debounce)
+        // 8. FALLBACK PARA DISPOSITIVOS COM REDUÇÃO DE MOVIMENTO
         // ============================================
-        function initThreeJS() {
-            if (typeof THREE === 'undefined') {
-                console.warn('Three.js não carregado');
-                return null;
-            }
-            
-            const canvas = document.getElementById('webgl-canvas');
-            if (!canvas) return null;
-            
-            const isMobile = window.innerWidth < 768;
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ 
-                canvas, 
-                alpha: true, 
-                antialias: !isMobile,
-                powerPreference: "low-power" 
-            });
-            
-            let width = window.innerWidth;
-            let height = window.innerHeight;
-            
-            renderer.setSize(width, height);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.2 : 1.5));
-            
-            // Redução drástica de partículas em mobile
-            const particleCount = isMobile ? 350 : 1000;
-            
-            const geometry = new THREE.BufferGeometry();
-            const positions = new Float32Array(particleCount * 3);
-            const colors = new Float32Array(particleCount * 3);
-            
-            for (let i = 0; i < particleCount; i++) {
-                positions[i*3] = (Math.random() - 0.5) * 45;
-                positions[i*3+1] = (Math.random() - 0.5) * 28;
-                positions[i*3+2] = (Math.random() - 0.5) * 35 - 15;
-                
-                const color = new THREE.Color().setHSL(0.09, 0.6, 0.55 + Math.random() * 0.25);
-                colors[i*3] = color.r;
-                colors[i*3+1] = color.g;
-                colors[i*3+2] = color.b;
-            }
-            
-            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-            
-            const particleMat = new THREE.PointsMaterial({ 
-                size: isMobile ? 0.045 : 0.065, 
-                vertexColors: true, 
-                transparent: true, 
-                opacity: 0.5, 
-                blending: THREE.AdditiveBlending 
-            });
-            const particles = new THREE.Points(geometry, particleMat);
-            scene.add(particles);
-            
-            camera.position.z = 14;
-            
-            let mouseX = 0, mouseY = 0;
-            let targetRotY = 0, targetRotX = 0;
-            let currentRotY = 0, currentRotX = 0;
-            
-            const handleMouseMove = (event) => {
-                mouseX = (event.clientX / width) * 2 - 1;
-                mouseY = (event.clientY / height) * 2 - 1;
-                targetRotY = mouseX * 0.12;
-                targetRotX = mouseY * 0.08;
-            };
-            document.addEventListener('mousemove', handleMouseMove);
-            
-            // Debounce para resize
-            let resizeTimeout;
-            const handleResize = () => {
-                clearTimeout(resizeTimeout);
-                resizeTimeout = setTimeout(() => {
-                    width = window.innerWidth;
-                    height = window.innerHeight;
-                    camera.aspect = width / height;
-                    camera.updateProjectionMatrix();
-                    renderer.setSize(width, height);
-                    renderer.setPixelRatio(Math.min(window.devicePixelRatio, window.innerWidth < 768 ? 1.2 : 1.5));
-                }, 100);
-            };
-            window.addEventListener('resize', handleResize);
-            
-            const animate = () => {
-                if (!isPageVisible) return;
-                
-                // Suavização da rotação (lerp)
-                currentRotY += (targetRotY - currentRotY) * 0.08;
-                currentRotX += (targetRotX - currentRotX) * 0.08;
-                
-                particles.rotation.y = currentRotY;
-                particles.rotation.x = currentRotX;
-                particles.rotation.z += 0.0008;
-                
-                renderer.render(scene, camera);
-            };
-            
-            const instance = { animate, cleanup: () => {
-                document.removeEventListener('mousemove', handleMouseMove);
-                window.removeEventListener('resize', handleResize);
-                renderer.dispose();
-                geometry.dispose();
-            }};
-            
-            return instance;
-        }
-        
-        function startThreeAnimation(instance) {
-            if (!instance) return;
-            function loop() {
-                if (!isPageVisible) {
-                    threeAnimationId = null;
-                    return;
-                }
-                instance.animate();
-                threeAnimationId = requestAnimationFrame(loop);
-            }
-            threeAnimationId = requestAnimationFrame(loop);
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            // Desliga animações pesadas
+            if (gsap.globalTimeline) gsap.globalTimeline.pause();
+            document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+            if (swiperInstance && swiperInstance.autoplay) swiperInstance.autoplay.stop();
         }
         
         // ============================================
-        // LENIS + SCROLLTRIGGER (configuração robusta)
+        // 9. OTIMIZAÇÃO: remover parallax pesado em mobile
         // ============================================
-        function initLenisAndScroll() {
-            if (typeof Lenis === 'undefined' || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-                console.warn('Lenis/GSAP não disponível');
-                return null;
-            }
-            
-            lenis = new Lenis({
-                duration: 1.2,
-                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-                smoothWheel: true,
-                smoothTouch: false,
-                gestureOrientation: 'vertical'
-            });
-            
-            // ScrollerProxy deve ser configurado antes de qualquer ScrollTrigger
-            ScrollTrigger.scrollerProxy(document.body, {
-                scrollTop(value) {
-                    if (arguments.length) {
-                        lenis.scrollTo(value);
-                    }
-                    return lenis.scroll;
-                },
-                getBoundingClientRect() {
-                    return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
-                },
-                fixedMarkers: true
-            });
-            
-            lenis.on('scroll', () => {
-                ScrollTrigger.update();
-            });
-            
-            // Loop do Lenis (separado do Three.js)
-            function lenisRaf(time) {
-                if (!lenis) return;
-                lenis.raf(time);
-                requestAnimationFrame(lenisRaf);
-            }
-            requestAnimationFrame(lenisRaf);
-            
-            return lenis;
-        }
-        
-        // ============================================
-        // HERO ANIMATION (SplitText com fallback seguro)
-        // ============================================
-        function initHeroAnimation() {
-            const heroHeading = document.getElementById("heroHeading");
-            if (!heroHeading) return;
-            
-            // Garantir visibilidade base
-            const heroContent = document.querySelector(".hero-content");
-            if (heroContent) heroContent.style.opacity = "1";
-            
-            if (typeof gsap === 'undefined' || typeof SplitText === 'undefined') {
-                console.warn('GSAP/SplitText não disponível');
-                return;
-            }
-            
-            try {
-                const split = new SplitText(heroHeading, { type: "words,chars" });
-                
-                const masterTL = gsap.timeline({ defaults: { ease: "power3.out", duration: 0.9 } });
-                masterTL.fromTo(".hero-content", { scale: 0.96, opacity: 0 }, { scale: 1, opacity: 1, duration: 1 })
-                    .fromTo(split.chars, { y: 80, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.015, duration: 0.7 }, "-=0.8")
-                    .fromTo("#heroSubhead", { y: 45, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 }, "-=0.4")
-                    .fromTo("#heroDesc", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, "-=0.3")
-                    .fromTo("#heroCta", { scale: 0.92, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5 }, "-=0.2");
-                
-                // Não reverter o SplitText para manter os spans, mas sem vazamento
-                // O SplitText será limpo apenas se a página for descarregada (opcional)
-            } catch(e) {
-                console.warn('SplitText error:', e);
-                document.querySelectorAll(".hero-content h1, .hero-content .subhead, .hero-content p, .hero-content .flex-cta")
-                    .forEach(el => el.style.opacity = "1");
-            }
-        }
-        
-        // ============================================
-        // SCROLLTRIGGER ANIMATIONS (otimizado)
-        // ============================================
-        function initScrollAnimations() {
-            if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-            
-            // Cards stagger - usando ScrollTrigger.batch para melhor performance
-            const cards = document.querySelectorAll(".benefit-card");
-            if (cards.length) {
-                gsap.fromTo(cards, 
-                    { y: 50, opacity: 0 },
-                    {
-                        y: 0, opacity: 1, duration: 0.6, stagger: 0.06,
-                        scrollTrigger: {
-                            trigger: "#benefitsGrid",
-                            start: "top 85%",
-                            toggleActions: "play none none none",
-                            once: true
-                        }
-                    }
-                );
-            }
-            
-            // Parallax sections (apenas desktop para performance)
-            const isMobile = window.innerWidth < 768;
-            if (!isMobile) {
-                const sections = document.querySelectorAll("section");
-                sections.forEach((section, idx) => {
-                    gsap.fromTo(section, { y: 0 }, {
-                        y: idx % 2 === 0 ? -20 : -12,
-                        scrollTrigger: {
-                            trigger: section,
-                            start: "top bottom",
-                            end: "bottom top",
-                            scrub: 0.8,
-                            invalidateOnRefresh: true
-                        }
-                    });
-                });
-            }
-            
-            // Único refresh após criação
-            ScrollTrigger.refresh();
-        }
-        
-        // ============================================
-        // INTERSECTION OBSERVER (fallback)
-        // ============================================
-        function initIntersectionObserver() {
-            const revealItems = document.querySelectorAll(".reveal-item");
-            if (!revealItems.length) return;
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("revealed");
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.2, rootMargin: "0px 0px -20px 0px" });
-            
-            revealItems.forEach(el => observer.observe(el));
-        }
-        
-        // ============================================
-        // SWIPER (configuração econômica)
-        // ============================================
-        function initSwiper() {
-            if (typeof Swiper === 'undefined') return;
-            const swiperEl = document.querySelector(".mySwiper");
-            if (!swiperEl) return;
-            
-            const isMobile = window.innerWidth < 768;
-            return new Swiper(".mySwiper", {
-                slidesPerView: "auto",
-                spaceBetween: isMobile ? 14 : 24,
-                loop: true,
-                speed: 3000, // Reduzido para menor consumo
-                autoplay: { delay: 0, disableOnInteraction: false, pauseOnMouseEnter: true },
-                freeMode: false,
-                allowTouchMove: true,
-                breakpoints: {
-                    320: { slidesPerView: 1.2, spaceBetween: 14 },
-                    768: { slidesPerView: 2.2, spaceBetween: 20 },
-                    1024: { slidesPerView: 3.2, spaceBetween: 24 }
-                }
+        if (isMobile && typeof ScrollTrigger !== 'undefined') {
+            ScrollTrigger.getAll().forEach(tr => {
+                if (tr.vars.scrub) tr.kill();
             });
         }
         
-        // ============================================
-        // CURSOR SMOOTH (com RAF dedicado)
-        // ============================================
-        function initCursor() {
-            const cursorDot = document.getElementById("cursorDot");
-            const cursorRing = document.getElementById("cursorRing");
-            if (!cursorDot || !cursorRing) return;
-            
-            let mouseX = 0, mouseY = 0;
-            let ringX = 0, ringY = 0;
-            let dotX = 0, dotY = 0;
-            
-            document.addEventListener("mousemove", (e) => {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-            });
-            
-            function updateCursor() {
-                dotX += (mouseX - dotX) * 0.2;
-                dotY += (mouseY - dotY) * 0.2;
-                ringX += (mouseX - ringX) * 0.12;
-                ringY += (mouseY - ringY) * 0.12;
-                
-                cursorDot.style.transform = `translate(${dotX - 4}px, ${dotY - 4}px)`;
-                cursorRing.style.transform = `translate(${ringX - 24}px, ${ringY - 24}px)`;
-                
-                cursorRafId = requestAnimationFrame(updateCursor);
-            }
-            updateCursor();
-            
-            const interactive = document.querySelectorAll(".btn-shine, .btn-outline, .benefit-card, .cta-btn");
-            interactive.forEach(el => {
-                el.addEventListener("mouseenter", () => {
-                    cursorDot.classList.add("hover-active");
-                    cursorRing.classList.add("hover-active");
-                });
-                el.addEventListener("mouseleave", () => {
-                    cursorDot.classList.remove("hover-active");
-                    cursorRing.classList.remove("hover-active");
-                });
-            });
-        }
+        // Cleanup na saída
+        window.addEventListener('beforeunload', () => {
+            if (rafId) cancelAnimationFrame(rafId);
+            active = false;
+            if (swiperInstance) swiperInstance.destroy(true, true);
+        });
         
-        // ============================================
-        // BOTÕES CTA
-        // ============================================
-        function initCtaButtons() {
-            document.querySelectorAll(".cta-btn").forEach(btn => {
-                btn.addEventListener("click", (e) => {
-                    e.preventDefault();
-                    if (typeof gsap !== 'undefined') {
-                        gsap.to(btn, { scale: 0.94, duration: 0.08, yoyo: true, repeat: 1 });
-                    }
-                    alert("✨ Agende sua conversa gratuita: (11) 91234-5678 ou WhatsApp");
-                });
-            });
-        }
-        
-        // ============================================
-        // HEADER DINÂMICO (throttled)
-        // ============================================
-        function initDynamicHeader() {
-            const header = document.querySelector(".glass-header");
-            if (!header) return;
-            
-            let ticking = false;
-            window.addEventListener("scroll", () => {
-                if (!ticking) {
-                    requestAnimationFrame(() => {
-                        const scrollY = window.scrollY;
-                        if (scrollY > 30) {
-                            header.style.backdropFilter = "blur(32px)";
-                            header.style.background = "rgba(11,10,10,0.6)";
-                        } else {
-                            header.style.backdropFilter = "blur(24px)";
-                            header.style.background = "rgba(11,10,10,0.35)";
-                        }
-                        ticking = false;
-                    });
-                    ticking = true;
-                }
-            });
-        }
-        
-        // ============================================
-        // INICIALIZAÇÃO PRINCIPAL
-        // ============================================
-        function init() {
-            // Inicializar Three.js e seu loop
-            threeInstance = initThreeJS();
-            if (threeInstance) startThreeAnimation(threeInstance);
-            
-            // Inicializar Lenis e ScrollTrigger
-            initLenisAndScroll();
-            
-            // Demais inicializações
-            initHeroAnimation();
-            initScrollAnimations();
-            initIntersectionObserver();
-            initSwiper();
-            initCursor();
-            initCtaButtons();
-            initDynamicHeader();
-            
-            // Fallback final: garantir que elementos visíveis na viewport recebam classe
-            setTimeout(() => {
-                document.querySelectorAll(".reveal-item").forEach(el => {
-                    const rect = el.getBoundingClientRect();
-                    if (rect.top < window.innerHeight - 100) {
-                        el.classList.add("revealed");
-                    }
-                });
-            }, 300);
-        }
-        
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', init);
-        } else {
-            init();
-        }
+        console.log("Site otimizado e pronto para produção");
     })();
 </script>
 </body>
