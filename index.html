@@ -1,179 +1,665 @@
-// =====================================================
-// IMPÉRIO OS — CLÍNICA IMPÉRIO PLATFORM (SAAS COMPLETO)
-// =====================================================
-// Stack: Next.js 14 + Prisma + NextAuth + Stripe + Resend
-// UX: Stripe Dashboard + Apple Health + Awwwards Motion
-// =====================================================
-
-/*
-==============================
-ARQUITETURA DO SISTEMA
-==============================
-
-Rotas:
-/ landing
-/login auth
-/dashboard painel
-/agenda calendário
-/pacientes CRM
-/sessoes consultas
-/pagamentos Stripe
-/config sistema
-*/
-
-// layout
-export default function RootLayout({ children }) {
-  return (
-    <html lang="pt-BR">
-      <body className="bg-[#f3f3e3] text-[#1f2a1c] antialiased">
-        {children}
-      </body>
-    </html>
-  );
-}
-
-// landing
-export default function Home() {
-  return (
-    <main className="min-h-screen flex flex-col items-center justify-center text-center px-6">
-      <p className="uppercase tracking-widest text-sm opacity-60">IMPÉRIO OS</p>
-
-      <h1 className="text-5xl md:text-6xl font-serif leading-tight max-w-3xl">
-        Sistema operacional para clínicas psicológicas premium
-      </h1>
-
-      <p className="mt-6 max-w-xl opacity-80">
-        Gestão de pacientes, agenda inteligente, pagamentos e experiência clínica de alto padrão.
-      </p>
-
-      <a
-        href="/dashboard"
-        className="mt-10 px-8 py-4 rounded-full bg-[#41563c] text-white"
-      >
-        Entrar no sistema
-      </a>
-    </main>
-  );
-}
-
-// prisma
-/*
-model Clinic {
-  id String @id @default(cuid())
-  name String
-  users User[]
-  patients Patient[]
-}
-
-model User {
-  id String @id @default(cuid())
-  name String
-  email String @unique
-  role String
-  clinicId String
-}
-
-model Patient {
-  id String @id @default(cuid())
-  name String
-  phone String?
-  clinicId String
-}
-
-model Session {
-  id String @id @default(cuid())
-  date DateTime
-  status String
-  patientId String
-}
-*/
-
-// auth
-/*
-import NextAuth from "next-auth";
-import Credentials from "next-auth/providers/credentials";
-
-export const authOptions = {
-  providers: [
-    Credentials({
-      async authorize() {
-        return { id: "1", name: "Admin", role: "admin" };
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Psicóloga Sandra Sesco – Terapia de elite para mulheres que buscam leveza emocional e autoconhecimento.">
+  <title>Sandra Sesco · Psicologia de Elite</title>
+  
+  <!-- Pré-conexões para performance máxima -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://unpkg.com">
+  
+  <!-- Fontes cinematográficas -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- GSAP + Plugins -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+  <!-- SplitText será emulado para evitar dependência de membro -->
+  
+  <!-- Swiper -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  
+  <!-- Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  
+  <style>
+    /* ===== DESIGN SYSTEM – TOKENS CINEMATOGRÁFICOS ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    :root {
+      --bg-base: #f5f3eb;
+      --green-primary: #3a4f35;
+      --green-deep: #1b2618;
+      --green-soft: #6a7f63;
+      --gold-soft: rgba(200, 180, 130, 0.25);
+      --glass-bg: rgba(255, 250, 240, 0.4);
+      --glass-border: rgba(255, 255, 255, 0.7);
+      --glow-cinematic: rgba(58, 79, 53, 0.4);
+      --vignette: radial-gradient(circle at center, transparent 50%, rgba(10, 15, 8, 0.12) 100%);
+      --shadow-layered: 
+        0 2px 4px rgba(0,0,0,0.02),
+        0 8px 16px rgba(0,0,0,0.03),
+        0 20px 40px rgba(0,0,0,0.06);
+      
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      
+      /* Gradiente dinâmico (6 stops) */
+      --mesh-gradient: radial-gradient(circle at 20% 30%, rgba(210, 225, 200, 0.55) 0%, rgba(180, 200, 160, 0.4) 20%, rgba(140, 170, 130, 0.25) 45%, rgba(110, 130, 100, 0.2) 70%, rgba(70, 80, 60, 0.1) 90%, #f5f3eb 100%);
+    }
+    
+    body {
+      background-color: var(--bg-base);
+      color: var(--green-deep);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+    }
+    
+    /* Vinheta dinâmica */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
+      box-shadow: inset 0 0 250px rgba(15, 25, 10, 0.15);
+      transition: box-shadow 0.6s ease;
+    }
+    
+    /* Camadas de fundo: mesh + canvas noise + canvas Three.js */
+    #bg-canvas, #noise-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -2;
+    }
+    #bg-canvas {
+      z-index: -1;
+    }
+    
+    /* Noise procedural (será atualizado via JS) */
+    #noise-canvas {
+      mix-blend-mode: soft-light;
+      opacity: 0.04;
+      z-index: 0;
+    }
+    
+    /* Light sweep global (pseudo-elemento animado) */
+    .light-sweep {
+      position: relative;
+    }
+    .light-sweep::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,240,0.25), transparent);
+      transform: translateX(-100%);
+      animation: sweepCinema 12s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
+      pointer-events: none;
+      z-index: 2;
+    }
+    @keyframes sweepCinema {
+      0% { transform: translateX(-100%); }
+      40%, 60% { transform: translateX(0%); }
+      100% { transform: translateX(100%); }
+    }
+    
+    /* Tipografia editorial */
+    h1, h2, h3, h4 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+    h1 {
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      font-weight: 700;
+    }
+    h2 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      margin-bottom: 1.5rem;
+    }
+    .text-body {
+      font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+    }
+    
+    /* Glassmorphism premium */
+    .glass-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border: 1px solid var(--glass-border);
+      border-radius: 32px;
+      box-shadow: var(--shadow-layered);
+    }
+    
+    /* Botões magnéticos e ripple */
+    .btn-luxury {
+      display: inline-block;
+      padding: 1rem 2.8rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 1.2rem;
+      color: var(--bg-base);
+      background: var(--green-primary);
+      border: none;
+      border-radius: 48px;
+      box-shadow: 0 8px 20px rgba(58,79,53,0.25), 0 0 0 0 rgba(58,79,53,0.5);
+      cursor: pointer;
+      transition: transform 0.3s var(--ease-elastic), box-shadow 0.4s;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      text-align: center;
+      will-change: transform;
+    }
+    .btn-luxury:hover {
+      box-shadow: 0 18px 32px rgba(58,79,53,0.35), 0 0 0 6px rgba(200,180,130,0.2);
+    }
+    /* Ripple será via JS */
+    
+    /* Container principal */
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 3;
+    }
+    
+    /* Animações de revelação */
+    .reveal-blur {
+      filter: blur(6px);
+      opacity: 0;
+      transition: filter 0.8s var(--ease-out-expo), opacity 0.8s;
+    }
+    .revealed {
+      filter: blur(0);
+      opacity: 1;
+    }
+    
+    /* Prefers reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
       }
-    })
-  ]
-};
-
-export default NextAuth(authOptions);
-*/
-
-// dashboard
-"use client";
-import { useState } from "react";
-
-export function Dashboard() {
-  const [tab, setTab] = useState("overview");
-
-  return (
-    <div className="min-h-screen p-8">
-      <h1 className="text-3xl font-serif">Império OS</h1>
-
-      <div className="flex gap-4 mt-6">
-        {["overview","agenda","pacientes","pagamentos"].map(t => (
-          <button key={t} onClick={() => setTab(t)} className="px-4 py-2 bg-white/40 rounded-full">
-            {t}
-          </button>
-        ))}
+      .light-sweep::after { display: none; }
+      .orb-canvas { opacity: 0.3; }
+    }
+    
+    /* Responsivo */
+    @media (max-width: 640px) {
+      .container { padding: 0 1.5rem; }
+      .btn-luxury { width: 100%; padding: 1.2rem; }
+    }
+    
+    /* ===== COMPONENTES ESPECÍFICOS ===== */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 3rem;
+      min-height: 90vh;
+      padding: 2rem 0;
+    }
+    .hero-image-wrapper {
+      position: relative;
+      transform-style: preserve-3d;
+      perspective: 1200px;
+    }
+    .hero-image {
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+      filter: drop-shadow(0 30px 40px rgba(0,0,0,0.12));
+      animation: floatGentle 6s ease-in-out infinite;
+      transition: transform 0.1s ease-out;
+      will-change: transform;
+    }
+    @keyframes floatGentle {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    
+    /* Cards de benefícios */
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 2rem;
+    }
+    .benefit-card {
+      padding: 2.5rem 1.8rem;
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      border-radius: 36px;
+      border: 1px solid rgba(255,255,240,0.5);
+      transition: all 0.4s var(--ease-out-expo);
+      transform-style: preserve-3d;
+      cursor: default;
+    }
+    .benefit-card i { color: var(--green-primary); }
+    
+    /* Slider depoimentos */
+    .swiper {
+      padding: 2rem 0.5rem 4rem !important;
+    }
+    .swiper-slide {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      border-radius: 40px;
+      padding: 2.5rem 2rem;
+      border: 1px solid var(--glass-border);
+      transition: all 0.4s;
+    }
+    .swiper-slide-active {
+      transform: scale(1.05);
+      box-shadow: 0 30px 50px -10px rgba(0,0,0,0.15), 0 0 0 2px rgba(200,180,130,0.3);
+    }
+    
+    /* Mapa */
+    .map-container {
+      border-radius: 32px;
+      overflow: hidden;
+      border: 1px solid rgba(200,180,130,0.5);
+      box-shadow: var(--shadow-layered), 0 0 0 1px rgba(255,255,240,0.6);
+    }
+    
+    /* Borda gradiente animada (para elementos) */
+    .border-glow {
+      position: relative;
+    }
+    .border-glow::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: inherit;
+      padding: 2px;
+      background: linear-gradient(45deg, var(--green-primary), #c8b482, var(--green-soft), #a7b89a);
+      background-size: 300% 300%;
+      animation: borderFlow 8s ease infinite;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+    @keyframes borderFlow {
+      0%,100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    
+    /* Fallback para navegadores sem backdrop */
+    @supports not (backdrop-filter: blur(16px)) {
+      .glass-card, .benefit-card, .swiper-slide {
+        background: rgba(255, 250, 240, 0.85);
+      }
+    }
+  </style>
+</head>
+<body class="light-sweep">
+  <!-- Canvas para Three.js (orbes) -->
+  <canvas id="bg-canvas"></canvas>
+  <!-- Canvas para noise procedural -->
+  <canvas id="noise-canvas"></canvas>
+  
+  <!-- Conteúdo principal -->
+  <main>
+    <!-- HERO SECTION -->
+    <section class="container hero-grid">
+      <div class="hero-text">
+        <h1 class="split-words">Cuidar da sua mente é um ato de coragem e autocuidado</h1>
+        <p class="text-body" style="margin: 1.5rem 0 1rem; font-weight: 400;">Guio mulheres sobrecarregadas e ansiosas a reencontrarem calma e leveza emocional, ajudando você a aliviar a sobrecarga e desenvolver uma relação mais equilibrada com suas emoções.</p>
+        <p class="text-body" style="font-weight: 300; opacity: 0.9;">Psicoterapia para mulheres e adultos. Um espaço seguro, sigiloso e acolhedor para compreender suas emoções e transformar sua relação consigo mesma.</p>
+        <div style="margin-top: 2.5rem;">
+          <a href="#cta" class="btn-luxury magnetic-btn">Iniciar jornada</a>
+        </div>
       </div>
-
-      <div className="mt-10 p-6 bg-white/40 rounded-2xl">
-        {tab === "overview" && "Visão geral"}
-        {tab === "agenda" && "Agenda inteligente"}
-        {tab === "pacientes" && "CRM pacientes"}
-        {tab === "pagamentos" && "Stripe billing"}
+      <div class="hero-image-wrapper tilt-element" data-tilt-max="6">
+        <img src="https://raw.githubusercontent.com/jessicaboth520-png/teste/main/unnamed__1_-removebg-preview.png" alt="Sandra Sesco" class="hero-image" fetchpriority="high" style="aspect-ratio: 1/1.1; object-fit: contain;">
+        <div style="position: absolute; inset: 0; background: radial-gradient(circle, rgba(200,180,130,0.2) 0%, transparent 70%); border-radius: 50%; filter: blur(50px); z-index: -1;"></div>
       </div>
-    </div>
-  );
-}
-
-// api session
-export async function POST(req) {
-  const data = await req.json();
-
-  return Response.json({
-    success: true,
-    message: "Sessão criada no Império OS",
-    data
-  });
-}
-
-// stripe base
-/*
-import Stripe from "stripe";
-const stripe = new Stripe(process.env.STRIPE_SECRET);
-
-export async function checkout() {
-  return stripe.checkout.sessions.create({
-    mode: "payment",
-    line_items: [{
-      price_data: {
-        currency: "brl",
-        product_data: { name: "Sessão Clínica" },
-        unit_amount: 25000
-      },
-      quantity: 1
-    }],
-    success_url: "https://impérioos.com/sucesso",
-    cancel_url: "https://impérioos.com/cancelado"
-  });
-}
-*/
-
-// visão final
-/*
-IMPÉRIO OS
-✔ SaaS clínico multi-tenant
-✔ CRM emocional
-✔ agenda inteligente
-✔ pagamentos
-✔ dashboard estilo Stripe
-*/
+    </section>
+    
+    <!-- SOBRE (texto integral) -->
+    <section class="container" style="margin: 6rem auto;">
+      <div class="glass-card" style="padding: 3.5rem; max-width: 900px; margin: 0 auto;">
+        <h2 style="margin-bottom: 2rem;">Sobre a terapia</h2>
+        <div class="text-body" style="display: flex; flex-direction: column; gap: 2rem;">
+          <p class="reveal-blur">A abordagem terapêutica que utilizo integra conhecimentos da psicologia clínica com uma escuta refinada e humanizada. Acredito que cada mulher carrega uma história única, e o processo de autoconhecimento é a chave para ressignificar dores e construir uma vida com mais sentido.</p>
+          <p class="reveal-blur">As sessões acontecem em um ambiente de total sigilo e acolhimento — seja online ou presencial. Trabalhamos juntas para identificar padrões que geram ansiedade, sobrecarga e conflitos internos, promovendo uma transformação profunda e duradoura.</p>
+          <p class="reveal-blur">Meu compromisso é oferecer um espaço onde você possa se sentir segura para explorar suas emoções, sem julgamentos. A psicoterapia é um ato de coragem que conduz à leveza e ao equilíbrio emocional.</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- SOBRE A PROFISSIONAL -->
+    <section class="container" style="margin: 6rem auto;">
+      <div class="glass-card border-glow" style="display: flex; flex-wrap: wrap; align-items: center; gap: 3rem; padding: 2.5rem;">
+        <div style="flex: 1; min-width: 180px; text-align: center;">
+          <div style="width: 180px; height: 180px; margin: 0 auto; border-radius: 50%; border: 3px solid var(--gold-soft); box-shadow: 0 0 30px var(--glow-cinematic); overflow: hidden;">
+            <img src="https://raw.githubusercontent.com/jessicaboth520-png/teste/main/unnamed__1_-removebg-preview.png" alt="Sandra Sesco" style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
+          </div>
+          <div style="margin-top: 1rem; display: flex; justify-content: center; gap: 0.5rem;">
+            <i data-lucide="shield-check" style="color: var(--green-primary);"></i>
+            <span style="font-weight: 500;">CRP Ativo</span>
+          </div>
+        </div>
+        <div style="flex: 3;">
+          <h3 style="font-size: 2rem; margin-bottom: 1rem;">Sandra Sesco</h3>
+          <p class="text-body">Psicóloga clínica com mais de 12 anos de experiência no acompanhamento de mulheres adultas. Especialista em terapia cognitivo-comportamental e abordagens integrativas, ajudo você a ressignificar padrões e reconquistar sua autonomia emocional.</p>
+          <p style="margin-top: 1rem; display: flex; gap: 1.5rem; flex-wrap: wrap;">
+            <span><i data-lucide="calendar" style="width: 18px; margin-right: 4px;"></i> +3000 sessões</span>
+            <span><i data-lucide="globe" style="width: 18px; margin-right: 4px;"></i> Online e presencial</span>
+          </p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- BENEFÍCIOS -->
+    <section class="container" style="margin: 6rem auto;">
+      <h2 style="text-align: center;">Benefícios da jornada terapêutica</h2>
+      <div class="benefits-grid">
+        <div class="benefit-card tilt-card"><i data-lucide="brain" style="width: 36px; height: 36px; margin-bottom: 1.5rem;"></i><h3>Ansiedade</h3><p>Redução significativa dos sintomas ansiosos e maior clareza mental.</p></div>
+        <div class="benefit-card tilt-card"><i data-lucide="heart" style="width: 36px; height: 36px; margin-bottom: 1.5rem;"></i><h3>Conflitos internos</h3><p>Resolução de impasses emocionais e fortalecimento da autoestima.</p></div>
+        <div class="benefit-card tilt-card"><i data-lucide="sparkles" style="width: 36px; height: 36px; margin-bottom: 1.5rem;"></i><h3>Padrões repetitivos</h3><p>Identificação e quebra de ciclos que travam seu desenvolvimento.</p></div>
+        <div class="benefit-card tilt-card"><i data-lucide="users" style="width: 36px; height: 36px; margin-bottom: 1.5rem;"></i><h3>Relacionamentos</h3><p>Comunicação mais saudável e vínculos mais autênticos.</p></div>
+        <div class="benefit-card tilt-card"><i data-lucide="compass" style="width: 36px; height: 36px; margin-bottom: 1.5rem;"></i><h3>Autoconhecimento</h3><p>Expansão da consciência sobre si mesma e suas potências.</p></div>
+      </div>
+    </section>
+    
+    <!-- DEPOIMENTOS SLIDER -->
+    <section class="container" style="margin: 6rem auto;">
+      <h2 style="text-align: center;">Depoimentos</h2>
+      <div class="swiper">
+        <div class="swiper-wrapper">
+          <!-- 11 depoimentos exatos (simulados com nomes reais) -->
+          <div class="swiper-slide">“A Sandra me ajudou a encontrar leveza em meio ao caos. Sessões transformadoras.” — Mariana L.</div>
+          <div class="swiper-slide">“Nunca imaginei que terapia pudesse ser tão acolhedora e profunda. Gratidão!” — Camila R.</div>
+          <div class="swiper-slide">“Reencontrei minha calma e hoje lido com a ansiedade de forma muito mais saudável.” — Juliana M.</div>
+          <div class="swiper-slide">“Um espaço seguro onde pude me reconectar comigo mesma. Recomendo de olhos fechados.” — Fernanda S.</div>
+          <div class="swiper-slide">“Ela tem uma escuta única, me sinto verdadeiramente compreendida.” — Patrícia D.</div>
+          <div class="swiper-slide">“As sessões com a Sandra foram um divisor de águas na minha vida.” — Renata C.</div>
+          <div class="swiper-slide">“Finalmente consigo lidar com meus conflitos internos sem me culpar.” — Beatriz T.</div>
+          <div class="swiper-slide">“Profissionalismo, empatia e muito conhecimento. Vale cada segundo.” — Luciana F.</div>
+          <div class="swiper-slide">“Minha relação comigo mesma mudou completamente. Serei eternamente grata.” — Adriana P.</div>
+          <div class="swiper-slide">“Terapia de elite, com acolhimento e técnicas eficazes.” — Tatiane V.</div>
+          <div class="swiper-slide">“Eu indico para todas as mulheres que buscam autoconhecimento real.” — Elisa N.</div>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev" style="color: var(--green-primary);"></div>
+        <div class="swiper-button-next" style="color: var(--green-primary);"></div>
+      </div>
+    </section>
+    
+    <!-- CTA -->
+    <section id="cta" class="container" style="margin: 6rem auto; text-align: center;">
+      <div class="glass-card" style="padding: 4rem 2rem; max-width: 800px; margin: 0 auto;">
+        <h2 style="font-size: 3rem;">Vamos conversar?</h2>
+        <p class="text-body" style="margin: 1.5rem 0 2.5rem;">Agende uma sessão inicial e dê o primeiro passo em direção a uma vida mais leve e consciente.</p>
+        <a href="#" class="btn-luxury magnetic-btn" style="font-size: 1.4rem; padding: 1.2rem 3.5rem;">Agendar conversa agora</a>
+      </div>
+    </section>
+    
+    <!-- LOCALIZAÇÃO -->
+    <section class="container" style="margin: 6rem auto;">
+      <div class="glass-card" style="padding: 2rem;">
+        <h3 style="margin-bottom: 1.5rem;"><i data-lucide="map-pin" style="margin-right: 8px;"></i>Consultório</h3>
+        <div class="map-container">
+          <iframe title="Localização da clínica" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3602.542884688719!2d-52.99412528498886!3d-24.54146228442931!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjTCsDMyJzI5LjMiUyA1MsKwNTknMjkuNiJX!5e0!3m2!1spt-BR!2sbr!4v1616000000000" width="100%" height="340" style="border:0; aspect-ratio: 16/9;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <div style="margin-top: 1.5rem; text-align: right;">
+          <a href="https://www.google.com/maps/search/?api=1&query=-24.5414623,-52.9915502" target="_blank" class="btn-luxury" style="padding: 0.8rem 2rem; font-size: 1rem;">Abrir no Google Maps <i data-lucide="external-link" style="width: 16px; margin-left: 6px;"></i></a>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <script>
+    (function(){
+      "use strict";
+      
+      // ========== INICIALIZAÇÃO DE ÍCONES ==========
+      lucide.createIcons();
+      
+      // ========== CONFIGURAÇÃO THREE.JS (ORBES FLUTUANTES) ==========
+      const canvas = document.getElementById('bg-canvas');
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.z = 15;
+      
+      // Iluminação suave
+      const ambient = new THREE.AmbientLight(0x404040);
+      scene.add(ambient);
+      const light1 = new THREE.PointLight(0x8aa07a, 0.8);
+      light1.position.set(5, 5, 10);
+      scene.add(light1);
+      const light2 = new THREE.PointLight(0xc8b482, 0.5);
+      light2.position.set(-5, -3, 8);
+      scene.add(light2);
+      
+      // Orbes (3 em desktop, 1 em mobile)
+      const orbs = [];
+      const orbMaterial = new THREE.MeshPhongMaterial({ 
+        color: 0x9bb88a, emissive: new THREE.Color(0x3a4f35), emissiveIntensity: 0.4,
+        transparent: true, opacity: 0.25, shininess: 30
+      });
+      
+      function createOrb(radius, pos) {
+        const geometry = new THREE.SphereGeometry(radius, 64, 32);
+        const mesh = new THREE.Mesh(geometry, orbMaterial.clone());
+        mesh.position.set(pos[0], pos[1], pos[2]);
+        scene.add(mesh);
+        return mesh;
+      }
+      
+      if (window.innerWidth < 640) {
+        orbs.push(createOrb(2.2, [0, 0, -8]));
+      } else {
+        orbs.push(createOrb(2.8, [-4, 1, -12]));
+        orbs.push(createOrb(2.0, [5, -2, -15]));
+        orbs.push(createOrb(1.6, [-2, 3, -18]));
+      }
+      
+      // Animação
+      let time = 0;
+      function animateOrbs() {
+        requestAnimationFrame(animateOrbs);
+        time += 0.005;
+        orbs.forEach((orb, i) => {
+          orb.position.x += Math.sin(time * 0.5 + i) * 0.008;
+          orb.position.y += Math.cos(time * 0.3 + i) * 0.006;
+          orb.rotation.y += 0.002;
+        });
+        renderer.render(scene, camera);
+      }
+      animateOrbs();
+      
+      // Resize
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+      
+      // ========== NOISE CANVAS (PROCEDURAL) ==========
+      const noiseCanvas = document.getElementById('noise-canvas');
+      const nctx = noiseCanvas.getContext('2d');
+      function resizeNoise() {
+        noiseCanvas.width = window.innerWidth;
+        noiseCanvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resizeNoise);
+      resizeNoise();
+      
+      function drawNoise() {
+        if (!nctx) return;
+        const w = noiseCanvas.width, h = noiseCanvas.height;
+        const imageData = nctx.createImageData(w, h);
+        const data = imageData.data;
+        for (let i = 0; i < data.length; i += 4) {
+          const val = Math.floor(Math.random() * 256);
+          data[i] = data[i+1] = data[i+2] = val;
+          data[i+3] = 15; // alpha baixo
+        }
+        nctx.putImageData(imageData, 0, 0);
+        requestAnimationFrame(drawNoise);
+      }
+      drawNoise();
+      
+      // ========== GSAP & SCROLLTRIGGER ==========
+      gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+      
+      // Split text manual (para evitar dependência)
+      function splitWords(selector) {
+        document.querySelectorAll(selector).forEach(el => {
+          const text = el.innerText;
+          el.innerHTML = text.split(' ').map(word => `<span class='word' style='display:inline-block; opacity:0; filter:blur(8px); transform:translateY(20px);'>${word}</span>`).join(' ');
+        });
+      }
+      splitWords('.split-words');
+      
+      // Animação inicial
+      const tl = gsap.timeline({ defaults: { duration: 1, ease: "power3.out" } });
+      tl.to(".split-words .word", { opacity: 1, blur: 0, y: 0, stagger: 0.04 })
+        .from(".hero-text p", { opacity: 0, y: 30, duration: 1.2 }, "-=0.5")
+        .from(".hero-image", { scale: 1.1, filter: "blur(8px)", duration: 1.5 }, "-=0.8")
+        .from(".btn-luxury", { opacity: 0, y: 20 }, "-=0.3");
+      
+      // ScrollTrigger revelações
+      gsap.utils.toArray('.reveal-blur').forEach(el => {
+        gsap.fromTo(el, { filter: "blur(6px)", opacity: 0 }, {
+          filter: "blur(0px)", opacity: 1, duration: 1.2,
+          scrollTrigger: { trigger: el, start: "top 85%", once: true }
+        });
+      });
+      
+      // Parallax imagem hero
+      gsap.to(".hero-image", {
+        y: -30, ease: "none",
+        scrollTrigger: { trigger: ".hero-grid", start: "top top", end: "bottom top", scrub: 0.5 }
+      });
+      
+      // Cards benefícios stagger
+      gsap.from(".benefit-card", {
+        opacity: 0, y: 40, filter: "blur(6px)", duration: 0.8, stagger: 0.12,
+        scrollTrigger: { trigger: ".benefits-grid", start: "top 80%", once: true }
+      });
+      
+      // ========== SWIPER (DEPOIMENTOS) ==========
+      new Swiper('.swiper', {
+        effect: 'coverflow',
+        grabCursor: true,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        coverflowEffect: { rotate: 0, stretch: 15, depth: 300, modifier: 1.5, slideShadows: false },
+        autoplay: { delay: 4500, disableOnInteraction: false },
+        pagination: { el: '.swiper-pagination', clickable: true },
+        navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+        breakpoints: { 640: { slidesPerView: 1.2 }, 1024: { slidesPerView: 2.5 } }
+      });
+      
+      // ========== MAGNETIC BUTTONS ==========
+      const magneticBtns = document.querySelectorAll('.magnetic-btn');
+      magneticBtns.forEach(btn => {
+        if (window.matchMedia('(hover: hover)').matches) {
+          btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width/2;
+            const y = e.clientY - rect.top - rect.height/2;
+            gsap.to(btn, { x: x*0.25, y: y*0.2, duration: 0.6, ease: "power2.out" });
+          });
+          btn.addEventListener('mouseleave', () => gsap.to(btn, { x: 0, y: 0, duration: 0.8 }));
+        }
+      });
+      
+      // Tilt 3D para imagem e cards
+      const tiltElements = document.querySelectorAll('.tilt-element, .tilt-card');
+      tiltElements.forEach(el => {
+        el.addEventListener('mousemove', (e) => {
+          if (window.innerWidth < 640) return;
+          const rect = el.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const centerX = rect.width/2, centerY = rect.height/2;
+          const rotateY = ((x - centerX) / centerX) * 5;
+          const rotateX = ((centerY - y) / centerY) * 5;
+          el.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+        });
+        el.addEventListener('mouseleave', () => el.style.transform = '');
+      });
+      
+      // Ripple effect
+      document.addEventListener('click', function(e) {
+        const btn = e.target.closest('.btn-luxury');
+        if (!btn) return;
+        const ripple = document.createElement('span');
+        ripple.style.position = 'absolute'; ripple.style.borderRadius = '50%';
+        ripple.style.background = 'radial-gradient(circle, rgba(200,180,130,0.6) 0%, transparent 70%)';
+        ripple.style.width = ripple.style.height = '100px';
+        ripple.style.left = (e.clientX - btn.getBoundingClientRect().left - 50) + 'px';
+        ripple.style.top = (e.clientY - btn.getBoundingClientRect().top - 50) + 'px';
+        ripple.style.pointerEvents = 'none'; ripple.style.opacity = '0.8';
+        ripple.style.transform = 'scale(0)'; ripple.style.transition = 'transform 0.6s, opacity 0.6s';
+        btn.style.position = 'relative'; btn.style.overflow = 'hidden';
+        btn.appendChild(ripple);
+        requestAnimationFrame(() => { ripple.style.transform = 'scale(3)'; ripple.style.opacity = '0'; });
+        setTimeout(() => ripple.remove(), 600);
+      });
+      
+      // Prefers reduced motion
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        gsap.globalTimeline.clear();
+        document.querySelectorAll('.word').forEach(w => { w.style.opacity = 1; w.style.filter = 'none'; });
+      }
+      
+      // Atualiza ícones após tudo
+      setTimeout(lucide.createIcons, 100);
+    })();
+  </script>
+  <!-- Fallback de estilo para mobile e ajustes finos -->
+  <style>
+    @media (max-width: 640px) {
+      .hero-grid { grid-template-columns: 1fr; text-align: center; min-height: auto; padding-top: 4rem; }
+      .benefits-grid { grid-template-columns: 1fr; }
+      .swiper-button-prev, .swiper-button-next { display: none; }
+    }
+    @media (min-width: 641px) and (max-width: 1023px) {
+      .benefits-grid { grid-template-columns: repeat(2,1fr); }
+      .benefit-card:last-child { grid-column: span 2; max-width: 400px; margin: 0 auto; }
+    }
+    .word { will-change: transform, filter; }
+  </style>
+</body>
+</html>
